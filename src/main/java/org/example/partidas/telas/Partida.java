@@ -1,3 +1,4 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -8,14 +9,14 @@ package org.example.partidas.telas;
  *
  * @author babu
  */
-public class telas_partida extends javax.swing.JFrame {
+public class Partida extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(telas_partida.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Partida.class.getName());
 
     /**
      * Creates new form ContactEditorUI
      */
-    public telas_partida() {
+    public Partida() {
         initComponents();
     }
 
@@ -372,7 +373,7 @@ public class telas_partida extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new telas_partida().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new Partida().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

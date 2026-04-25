@@ -1,4 +1,4 @@
-package ClassesSelecaoJogador;
+package org.example.selecaoJogador.ClassesSelecaoJogador;
 
 import java.util.LinkedList;
 

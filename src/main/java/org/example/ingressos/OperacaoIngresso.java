@@ -6,3 +6,4 @@ public class OperacaoIngresso {
         ingresso.comprar(qtd);
     }
 }
+//t

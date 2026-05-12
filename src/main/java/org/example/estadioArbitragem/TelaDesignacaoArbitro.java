@@ -32,8 +32,8 @@ public class TelaDesignacaoArbitro extends javax.swing.JFrame {
         jLabelFuncaoDesArb = new javax.swing.JLabel();
         jComboBoxArbitroDesArb = new javax.swing.JComboBox<>();
         jComboBoxFuncaoDesArb = new javax.swing.JComboBox<>();
-        jButtonSalvarDesArb = new javax.swing.JButton();
-        jButtonFecharDesArb = new javax.swing.JButton();
+        btnSalvarDesArb = new javax.swing.JButton();
+        btnFecharDesArb = new javax.swing.JButton();
         jLabelFuncaoDesArb1 = new javax.swing.JLabel();
         jComboBoxPartidaDesArb = new javax.swing.JComboBox<>();
 
@@ -51,11 +51,11 @@ public class TelaDesignacaoArbitro extends javax.swing.JFrame {
 
         jComboBoxFuncaoDesArb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione", "Principal", "Assistente", "VAR", "Quarto Árbitro" }));
 
-        jButtonSalvarDesArb.setText("Salvar");
-        jButtonSalvarDesArb.addActionListener(this::jButtonSalvarDesArbActionPerformed);
+        btnSalvarDesArb.setText("Salvar");
+        btnSalvarDesArb.addActionListener(this::btnSalvarDesArbActionPerformed);
 
-        jButtonFecharDesArb.setText("Fechar");
-        jButtonFecharDesArb.addActionListener(this::jButtonFecharDesArbActionPerformed);
+        btnFecharDesArb.setText("Fechar");
+        btnFecharDesArb.addActionListener(this::btnFecharDesArbActionPerformed);
 
         jLabelFuncaoDesArb1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabelFuncaoDesArb1.setText("Partida:");
@@ -84,9 +84,9 @@ public class TelaDesignacaoArbitro extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanelDesignacaoArbLayout.createSequentialGroup()
                 .addGap(73, 73, 73)
-                .addComponent(jButtonSalvarDesArb, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSalvarDesArb, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
-                .addComponent(jButtonFecharDesArb, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnFecharDesArb, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(64, 64, 64))
         );
         jPanelDesignacaoArbLayout.setVerticalGroup(
@@ -106,8 +106,8 @@ public class TelaDesignacaoArbitro extends javax.swing.JFrame {
                     .addComponent(jComboBoxPartidaDesArb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(39, 39, 39)
                 .addGroup(jPanelDesignacaoArbLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonSalvarDesArb, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonFecharDesArb, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnSalvarDesArb, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnFecharDesArb, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
 
@@ -131,14 +131,14 @@ public class TelaDesignacaoArbitro extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonSalvarDesArbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarDesArbActionPerformed
+    private void btnSalvarDesArbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarDesArbActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonSalvarDesArbActionPerformed
+    }//GEN-LAST:event_btnSalvarDesArbActionPerformed
 
-    private void jButtonFecharDesArbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFecharDesArbActionPerformed
+    private void btnFecharDesArbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharDesArbActionPerformed
         // TODO add your handling code here:
         this.dispose();
-    }//GEN-LAST:event_jButtonFecharDesArbActionPerformed
+    }//GEN-LAST:event_btnFecharDesArbActionPerformed
 
     /**
      * @param args the command line arguments
@@ -166,8 +166,8 @@ public class TelaDesignacaoArbitro extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonFecharDesArb;
-    private javax.swing.JButton jButtonSalvarDesArb;
+    private javax.swing.JButton btnFecharDesArb;
+    private javax.swing.JButton btnSalvarDesArb;
     private javax.swing.JComboBox<String> jComboBoxArbitroDesArb;
     private javax.swing.JComboBox<String> jComboBoxFuncaoDesArb;
     private javax.swing.JComboBox<String> jComboBoxPartidaDesArb;

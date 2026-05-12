@@ -60,32 +60,37 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                          <Component id="jLabelLocalizacaoEst" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabelCapacidadeEst" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Component id="jLabelNomeEst" alignment="0" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jTextFieldNomeEst" min="-2" pref="358" max="-2" attributes="0"/>
-                          <Component id="jTextFieldCapacidadeEst" max="32767" attributes="0"/>
-                          <Component id="jTextFieldLocalizacaoEst" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                                  <Component id="jLabelLocalizacaoEst" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabelCapacidadeEst" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="jLabelNomeEst" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="txtNomeEst" min="-2" pref="358" max="-2" attributes="0"/>
+                              <Component id="txtCapacidadeEst" max="32767" attributes="0"/>
+                              <Component id="txtLocalizacaoEst" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="jButtonSalvarCadEst" min="-2" pref="94" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                          <Component id="btnNovoCadEst" min="-2" pref="94" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jButtonEditarCadEst" min="-2" pref="94" max="-2" attributes="0"/>
+                          <Component id="btnSalvarCadEst" min="-2" pref="94" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jButtonExcluirCadEst" min="-2" pref="94" max="-2" attributes="0"/>
+                          <Component id="btnEditarCadEst" min="-2" pref="94" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jButtonFecharCadEst" min="-2" pref="94" max="-2" attributes="0"/>
+                          <Component id="btnExcluirCadEst" min="-2" pref="94" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="btnFecharCadEst" min="-2" pref="94" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="210" max="32767" attributes="0"/>
+                  <EmptySpace pref="185" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -99,27 +104,28 @@
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jTextFieldNomeEst" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtNomeEst" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabelLocalizacaoEst" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextFieldLocalizacaoEst" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtLocalizacaoEst" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jTextFieldCapacidadeEst" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtCapacidadeEst" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabelCapacidadeEst" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jButtonSalvarCadEst" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
-                      <Component id="jButtonEditarCadEst" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
-                      <Component id="jButtonExcluirCadEst" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
-                      <Component id="jButtonFecharCadEst" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                      <Component id="btnSalvarCadEst" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                      <Component id="btnEditarCadEst" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                      <Component id="btnExcluirCadEst" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                      <Component id="btnFecharCadEst" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                      <Component id="btnNovoCadEst" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="36" max="32767" attributes="0"/>
+                  <EmptySpace pref="125" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -149,45 +155,53 @@
             <Property name="text" type="java.lang.String" value="Capacidade:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextFieldNomeEst">
+        <Component class="javax.swing.JTextField" name="txtNomeEst">
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextFieldLocalizacaoEst">
+        <Component class="javax.swing.JTextField" name="txtLocalizacaoEst">
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldLocalizacaoEstActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtLocalizacaoEstActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextFieldCapacidadeEst">
+        <Component class="javax.swing.JTextField" name="txtCapacidadeEst">
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonSalvarCadEst">
+        <Component class="javax.swing.JButton" name="btnSalvarCadEst">
           <Properties>
             <Property name="text" type="java.lang.String" value="Salvar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSalvarCadEstActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalvarCadEstActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonEditarCadEst">
+        <Component class="javax.swing.JButton" name="btnEditarCadEst">
           <Properties>
             <Property name="text" type="java.lang.String" value="Editar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonEditarCadEstActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditarCadEstActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonExcluirCadEst">
+        <Component class="javax.swing.JButton" name="btnExcluirCadEst">
           <Properties>
             <Property name="text" type="java.lang.String" value="Excluir"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonExcluirCadEstActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExcluirCadEstActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonFecharCadEst">
+        <Component class="javax.swing.JButton" name="btnFecharCadEst">
           <Properties>
             <Property name="text" type="java.lang.String" value="Fechar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonFecharCadEstActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFecharCadEstActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnNovoCadEst">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Novo"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNovoCadEstActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
@@ -199,10 +213,10 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="jTableListaEst">
+        <Component class="javax.swing.JTable" name="tabelaEstadios">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="3" rowCount="4">
+              <Table columnCount="3" rowCount="0">
                 <Column editable="false" title="Nome" type="java.lang.Object"/>
                 <Column editable="false" title="Localiza&#xe7;&#xe3;o" type="java.lang.Object"/>
                 <Column editable="false" title="Capacidade" type="java.lang.Object"/>
@@ -231,6 +245,9 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tabelaEstadiosMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

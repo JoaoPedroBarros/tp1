@@ -3,12 +3,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package org.example.estadioArbitragem;
+
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+
 /**
  *
  * @author helto
  */
 public class TelaCadastroEstadio extends javax.swing.JFrame {
     
+    public boolean editar = false;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaCadastroEstadio.class.getName());
 
     /**
@@ -16,6 +23,9 @@ public class TelaCadastroEstadio extends javax.swing.JFrame {
      */
     public TelaCadastroEstadio() {
         initComponents();
+        habilitarBtnNovo();
+        DefaultTableModel modelo = (DefaultTableModel) tabelaEstadios.getModel();
+        tabelaEstadios.setRowSorter(new TableRowSorter(modelo));
     }
 
     /**
@@ -31,15 +41,16 @@ public class TelaCadastroEstadio extends javax.swing.JFrame {
         jLabelNomeEst = new javax.swing.JLabel();
         jLabelLocalizacaoEst = new javax.swing.JLabel();
         jLabelCapacidadeEst = new javax.swing.JLabel();
-        jTextFieldNomeEst = new javax.swing.JTextField();
-        jTextFieldLocalizacaoEst = new javax.swing.JTextField();
-        jTextFieldCapacidadeEst = new javax.swing.JTextField();
-        jButtonSalvarCadEst = new javax.swing.JButton();
-        jButtonEditarCadEst = new javax.swing.JButton();
-        jButtonExcluirCadEst = new javax.swing.JButton();
-        jButtonFecharCadEst = new javax.swing.JButton();
+        txtNomeEst = new javax.swing.JTextField();
+        txtLocalizacaoEst = new javax.swing.JTextField();
+        txtCapacidadeEst = new javax.swing.JTextField();
+        btnSalvarCadEst = new javax.swing.JButton();
+        btnEditarCadEst = new javax.swing.JButton();
+        btnExcluirCadEst = new javax.swing.JButton();
+        btnFecharCadEst = new javax.swing.JButton();
+        btnNovoCadEst = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableListaEst = new javax.swing.JTable();
+        tabelaEstadios = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -54,46 +65,53 @@ public class TelaCadastroEstadio extends javax.swing.JFrame {
         jLabelCapacidadeEst.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabelCapacidadeEst.setText("Capacidade:");
 
-        jTextFieldLocalizacaoEst.addActionListener(this::jTextFieldLocalizacaoEstActionPerformed);
+        txtLocalizacaoEst.addActionListener(this::txtLocalizacaoEstActionPerformed);
 
-        jButtonSalvarCadEst.setText("Salvar");
-        jButtonSalvarCadEst.addActionListener(this::jButtonSalvarCadEstActionPerformed);
+        btnSalvarCadEst.setText("Salvar");
+        btnSalvarCadEst.addActionListener(this::btnSalvarCadEstActionPerformed);
 
-        jButtonEditarCadEst.setText("Editar");
-        jButtonEditarCadEst.addActionListener(this::jButtonEditarCadEstActionPerformed);
+        btnEditarCadEst.setText("Editar");
+        btnEditarCadEst.addActionListener(this::btnEditarCadEstActionPerformed);
 
-        jButtonExcluirCadEst.setText("Excluir");
-        jButtonExcluirCadEst.addActionListener(this::jButtonExcluirCadEstActionPerformed);
+        btnExcluirCadEst.setText("Excluir");
+        btnExcluirCadEst.addActionListener(this::btnExcluirCadEstActionPerformed);
 
-        jButtonFecharCadEst.setText("Fechar");
-        jButtonFecharCadEst.addActionListener(this::jButtonFecharCadEstActionPerformed);
+        btnFecharCadEst.setText("Fechar");
+        btnFecharCadEst.addActionListener(this::btnFecharCadEstActionPerformed);
+
+        btnNovoCadEst.setText("Novo");
+        btnNovoCadEst.addActionListener(this::btnNovoCadEstActionPerformed);
 
         javax.swing.GroupLayout jPanelCadastroEstLayout = new javax.swing.GroupLayout(jPanelCadastroEst);
         jPanelCadastroEst.setLayout(jPanelCadastroEstLayout);
         jPanelCadastroEstLayout.setHorizontalGroup(
             jPanelCadastroEstLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelCadastroEstLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanelCadastroEstLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelCadastroEstLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabelLocalizacaoEst)
-                        .addComponent(jLabelCapacidadeEst))
-                    .addComponent(jLabelNomeEst))
-                .addGap(18, 18, 18)
-                .addGroup(jPanelCadastroEstLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelCadastroEstLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jTextFieldNomeEst, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTextFieldCapacidadeEst)
-                        .addComponent(jTextFieldLocalizacaoEst))
                     .addGroup(jPanelCadastroEstLayout.createSequentialGroup()
-                        .addComponent(jButtonSalvarCadEst, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap()
+                        .addGroup(jPanelCadastroEstLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelCadastroEstLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabelLocalizacaoEst)
+                                .addComponent(jLabelCapacidadeEst))
+                            .addComponent(jLabelNomeEst))
+                        .addGap(46, 46, 46)
+                        .addGroup(jPanelCadastroEstLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtNomeEst, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCapacidadeEst)
+                            .addComponent(txtLocalizacaoEst)))
+                    .addGroup(jPanelCadastroEstLayout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(btnNovoCadEst, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButtonEditarCadEst, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnSalvarCadEst, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButtonExcluirCadEst, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnEditarCadEst, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButtonFecharCadEst, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(210, Short.MAX_VALUE))
+                        .addComponent(btnExcluirCadEst, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnFecharCadEst, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(185, Short.MAX_VALUE))
         );
         jPanelCadastroEstLayout.setVerticalGroup(
             jPanelCadastroEstLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -104,30 +122,28 @@ public class TelaCadastroEstadio extends javax.swing.JFrame {
                         .addComponent(jLabelNomeEst))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCadastroEstLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jTextFieldNomeEst, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtNomeEst, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(15, 15, 15)
                 .addGroup(jPanelCadastroEstLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelLocalizacaoEst)
-                    .addComponent(jTextFieldLocalizacaoEst, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtLocalizacaoEst, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(15, 15, 15)
                 .addGroup(jPanelCadastroEstLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldCapacidadeEst, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCapacidadeEst, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelCapacidadeEst))
                 .addGap(53, 53, 53)
                 .addGroup(jPanelCadastroEstLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonSalvarCadEst, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonEditarCadEst, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonExcluirCadEst, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonFecharCadEst, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(36, Short.MAX_VALUE))
+                    .addComponent(btnSalvarCadEst, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditarCadEst, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnExcluirCadEst, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnFecharCadEst, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNovoCadEst, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(125, Short.MAX_VALUE))
         );
 
-        jTableListaEst.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaEstadios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "Nome", "Localização", "Capacidade"
@@ -141,7 +157,12 @@ public class TelaCadastroEstadio extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTableListaEst);
+        tabelaEstadios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaEstadiosMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tabelaEstadios);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -166,26 +187,139 @@ public class TelaCadastroEstadio extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextFieldLocalizacaoEstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldLocalizacaoEstActionPerformed
+    private void habilitarBtnNovo(){
+        btnSalvarCadEst.setEnabled(false);
+        btnEditarCadEst.setEnabled(false);
+        btnExcluirCadEst.setEnabled(false);
+        btnNovoCadEst.setEnabled(true);
+        txtNomeEst.setEnabled(false);
+        txtCapacidadeEst.setEnabled(false);
+        txtLocalizacaoEst.setEnabled(false);
+        
+    }
+    
+    private void txtLocalizacaoEstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLocalizacaoEstActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldLocalizacaoEstActionPerformed
+    }//GEN-LAST:event_txtLocalizacaoEstActionPerformed
 
-    private void jButtonSalvarCadEstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarCadEstActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonSalvarCadEstActionPerformed
+    private void btnSalvarCadEstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarCadEstActionPerformed
+        
+        if(txtNomeEst.getText().equals("")
+                || txtLocalizacaoEst.getText().equals("")
+                || txtCapacidadeEst.getText().equals("")){
+            JOptionPane.showMessageDialog(rootPane, "Verifique os campos em branco!");
+            
+        } else{
+            try{
+                String nome = txtNomeEst.getText();
+                String localizacao = txtLocalizacaoEst.getText();
+                int capacidade = Integer.parseInt(txtCapacidadeEst.getText());
 
-    private void jButtonEditarCadEstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarCadEstActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonEditarCadEstActionPerformed
+                if(editar == false){
+                    Estadio estadio = new Estadio(nome, localizacao, capacidade);
 
-    private void jButtonExcluirCadEstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirCadEstActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonExcluirCadEstActionPerformed
+                    JOptionPane.showMessageDialog(rootPane, "Estádio " + estadio.getNome() + " cadastrado com sucesso!");
+                    DefaultTableModel dtmTabela = (DefaultTableModel)tabelaEstadios.getModel();
+                    dtmTabela.addRow(new Object[]{nome, localizacao, capacidade});
+                    limparCampos();
+                } else {
+                    editar = true;
+                    btnEditarCadEst.setEnabled(false);
+                    btnSalvarCadEst.setEnabled(true);
+                    txtNomeEst.setEnabled(true);
+                    txtCapacidadeEst.setEnabled(true);
+                    txtLocalizacaoEst.setEnabled(true);
+                    tabelaEstadios.setValueAt(txtNomeEst.getText(), tabelaEstadios.getSelectedRow(), 0);
+                    tabelaEstadios.setValueAt(txtLocalizacaoEst.getText(), tabelaEstadios.getSelectedRow(), 1);
+                    tabelaEstadios.setValueAt(txtCapacidadeEst.getText(), tabelaEstadios.getSelectedRow(), 2);
+                    limparCampos();
+                }
+                habilitarBtnNovo();
+                
+                
+            } catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(rootPane, "A capacidade deve conter apenas números inteiros!", "Erro de Formatação", JOptionPane.ERROR_MESSAGE);
+            }
+            
+        }
+        
+    }//GEN-LAST:event_btnSalvarCadEstActionPerformed
 
-    private void jButtonFecharCadEstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFecharCadEstActionPerformed
+    private void limparCampos(){
+        txtNomeEst.setText("");
+        txtLocalizacaoEst.setText("");
+        txtCapacidadeEst.setText("");
+    }
+    private void btnEditarCadEstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarCadEstActionPerformed
+        
+        if(tabelaEstadios.getSelectedRow() == -1){
+            JOptionPane.showMessageDialog(rootPane, "Nenhuma linha selecionada!");
+        } else {
+            editar = true;
+            btnEditarCadEst.setEnabled(false);
+            btnSalvarCadEst.setEnabled(true);
+            txtNomeEst.setEnabled(true);
+            txtCapacidadeEst.setEnabled(true);
+            txtLocalizacaoEst.setEnabled(true);
+            tabelaEstadios.setValueAt(txtNomeEst.getText(), tabelaEstadios.getSelectedRow(), 0);
+            tabelaEstadios.setValueAt(txtLocalizacaoEst.getText(), tabelaEstadios.getSelectedRow(), 1);
+            tabelaEstadios.setValueAt(txtCapacidadeEst.getText(), tabelaEstadios.getSelectedRow(), 2);
+        }
+    }//GEN-LAST:event_btnEditarCadEstActionPerformed
+
+    private void btnExcluirCadEstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirCadEstActionPerformed
+        if(tabelaEstadios.getSelectedRow() == -1){
+            JOptionPane.showMessageDialog(rootPane, "Nenhuma linha selecionada!");
+        } else {
+                int op = JOptionPane.showConfirmDialog(rootPane, "Tem certeza que deseja excluir esse estadio?", "ATENÇÃO", JOptionPane.YES_NO_OPTION);
+
+                if(op == JOptionPane.YES_OPTION){
+                    int linhaVisual = tabelaEstadios.getSelectedRow();
+                    int linhaReal = tabelaEstadios.convertRowIndexToModel(linhaVisual);
+                    
+                    DefaultTableModel dtmTabela = (DefaultTableModel) tabelaEstadios.getModel();
+                    dtmTabela.removeRow(linhaReal);
+                    
+                    limparCampos();
+                    
+                }
+                habilitarBtnNovo();
+        }
+        
+    }//GEN-LAST:event_btnExcluirCadEstActionPerformed
+
+    private void btnFecharCadEstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharCadEstActionPerformed
         this.dispose();
-    }//GEN-LAST:event_jButtonFecharCadEstActionPerformed
+    }//GEN-LAST:event_btnFecharCadEstActionPerformed
 
+    private void tabelaEstadiosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaEstadiosMouseClicked
+        btnSalvarCadEst.setEnabled(false);
+        btnEditarCadEst.setEnabled(true);
+        btnExcluirCadEst.setEnabled(true);
+        btnNovoCadEst.setEnabled(false);
+        txtNomeEst.setEnabled(false);
+        txtCapacidadeEst.setEnabled(false);
+        txtLocalizacaoEst.setEnabled(false);
+        
+        txtNomeEst.setText(tabelaEstadios.getValueAt(tabelaEstadios.getSelectedRow(), 0 ).toString());
+        txtLocalizacaoEst.setText(tabelaEstadios.getValueAt(tabelaEstadios.getSelectedRow(), 1 ).toString());
+        txtCapacidadeEst.setText(tabelaEstadios.getValueAt(tabelaEstadios.getSelectedRow(), 2 ).toString());
+    }//GEN-LAST:event_tabelaEstadiosMouseClicked
+
+    private void btnNovoCadEstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoCadEstActionPerformed
+        btnSalvarCadEst.setEnabled(true);
+        btnEditarCadEst.setEnabled(false);
+        btnExcluirCadEst.setEnabled(false);
+        btnNovoCadEst.setEnabled(false);
+        txtNomeEst.setEnabled(true);
+        txtCapacidadeEst.setEnabled(true);
+        txtLocalizacaoEst.setEnabled(true);
+        limparCampos();
+    }//GEN-LAST:event_btnNovoCadEstActionPerformed
+    
+    private void habilitarCampos(){
+        
+    }
     /**
      * @param args the command line arguments
      */
@@ -212,18 +346,19 @@ public class TelaCadastroEstadio extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonEditarCadEst;
-    private javax.swing.JButton jButtonExcluirCadEst;
-    private javax.swing.JButton jButtonFecharCadEst;
-    private javax.swing.JButton jButtonSalvarCadEst;
+    private javax.swing.JButton btnEditarCadEst;
+    private javax.swing.JButton btnExcluirCadEst;
+    private javax.swing.JButton btnFecharCadEst;
+    private javax.swing.JButton btnNovoCadEst;
+    private javax.swing.JButton btnSalvarCadEst;
     private javax.swing.JLabel jLabelCapacidadeEst;
     private javax.swing.JLabel jLabelLocalizacaoEst;
     private javax.swing.JLabel jLabelNomeEst;
     private javax.swing.JPanel jPanelCadastroEst;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableListaEst;
-    private javax.swing.JTextField jTextFieldCapacidadeEst;
-    private javax.swing.JTextField jTextFieldLocalizacaoEst;
-    private javax.swing.JTextField jTextFieldNomeEst;
+    private javax.swing.JTable tabelaEstadios;
+    private javax.swing.JTextField txtCapacidadeEst;
+    private javax.swing.JTextField txtLocalizacaoEst;
+    private javax.swing.JTextField txtNomeEst;
     // End of variables declaration//GEN-END:variables
 }

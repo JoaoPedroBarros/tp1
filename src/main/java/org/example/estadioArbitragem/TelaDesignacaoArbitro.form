@@ -78,9 +78,9 @@
               </Group>
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>
-                  <Component id="jButtonSalvarDesArb" min="-2" pref="117" max="-2" attributes="0"/>
+                  <Component id="btnSalvarDesArb" min="-2" pref="117" max="-2" attributes="0"/>
                   <EmptySpace pref="91" max="32767" attributes="0"/>
-                  <Component id="jButtonFecharDesArb" min="-2" pref="117" max="-2" attributes="0"/>
+                  <Component id="btnFecharDesArb" min="-2" pref="117" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -105,8 +105,8 @@
                   </Group>
                   <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jButtonSalvarDesArb" alignment="3" min="-2" pref="52" max="-2" attributes="0"/>
-                      <Component id="jButtonFecharDesArb" alignment="3" min="-2" pref="52" max="-2" attributes="0"/>
+                      <Component id="btnSalvarDesArb" alignment="3" min="-2" pref="52" max="-2" attributes="0"/>
+                      <Component id="btnFecharDesArb" alignment="3" min="-2" pref="52" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="39" max="32767" attributes="0"/>
               </Group>
@@ -162,20 +162,20 @@
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonSalvarDesArb">
+        <Component class="javax.swing.JButton" name="btnSalvarDesArb">
           <Properties>
             <Property name="text" type="java.lang.String" value="Salvar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSalvarDesArbActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalvarDesArbActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonFecharDesArb">
+        <Component class="javax.swing.JButton" name="btnFecharDesArb">
           <Properties>
             <Property name="text" type="java.lang.String" value="Fechar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonFecharDesArbActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFecharDesArbActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelFuncaoDesArb1">

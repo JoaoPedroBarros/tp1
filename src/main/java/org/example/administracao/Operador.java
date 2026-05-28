@@ -8,9 +8,6 @@ package org.example.administracao;
  *
  * @author arkham
  */
-public class Operador extends Usuario {
-    public Operador(Usuario.StatusUsuario status, Usuario.FuncaoUsuario funcao, String email, String nome, String senha, String pais, String identificacao) {
-        super(status, funcao, email, nome, senha, pais, identificacao);
-    }
+public class Operador {
     
 }

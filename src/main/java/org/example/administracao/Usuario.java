@@ -2,58 +2,35 @@ package org.example.administracao;
 
 
 public class Usuario {
-    private StatusUsuario statusUsuario;
-    protected enum StatusUsuario {
+    public enum StatusUsuario {
         ATIVO, AFASTADO, DESLIGADO
     }
     
-    private FuncaoUsuario funcaoUsuario;
-    protected enum FuncaoUsuario {
+    public enum FuncaoUsuario {
         ADMINISTRADOR, ORGANIZADOR, OPERADOR, ARBITRO
     }
+   
+    protected String nome;
+    protected String identificacao;
+    protected String email;
+    protected String pais;
+    protected String senha;
+    protected StatusUsuario status;
+    protected FuncaoUsuario funcao;
     
-    private String email;
-    private String nome;
-    private String senha;
-    private String pais;
-    private String identificacao;
+    public Usuario() {}
 
     // Constructor padrao da classe
-    public Usuario(StatusUsuario status, FuncaoUsuario funcao, String email, String nome, String senha, String pais, String identificacao) {
-        this.statusUsuario = status;
-        this.funcaoUsuario = funcao;
-        this.email = email;
+    public Usuario(String nome, String identificacao, String email, String pais, String senha, StatusUsuario status, FuncaoUsuario funcao) {
         this.nome = nome;
-        this.senha = senha;
-        this.pais = pais;
         this.identificacao = identificacao;
-    }
-
-    // Getters e Setters
-    public StatusUsuario getStatus() {
-        return statusUsuario;
-    }
-
-    public void setStatus(StatusUsuario status) {
-        this.statusUsuario = status;
-    }
-
-    public FuncaoUsuario getFuncaoUsuario() {
-        return funcaoUsuario;
-    }
-
-    public void setFuncaoUsuario(FuncaoUsuario funcaoUsuario) {
-        this.funcaoUsuario = funcaoUsuario;
-    }
-    
-    
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
         this.email = email;
+        this.pais = pais;
+        this.senha = senha;
+        this.status = status;
+        this.funcao = funcao;
     }
+    // Getters e Setters
 
     public String getNome() {
         return nome;
@@ -63,12 +40,20 @@ public class Usuario {
         this.nome = nome;
     }
 
-    public String getSenha() {
-        return senha;
+    public String getIdentificacao() {
+        return identificacao;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setIdentificacao(String identificacao) {
+        this.identificacao = identificacao;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPais() {
@@ -79,12 +64,28 @@ public class Usuario {
         this.pais = pais;
     }
 
-    public String getIdentificacao() {
-        return identificacao;
+    public String getSenha() {
+        return senha;
     }
 
-    public void setIdentificacao(String identificacao) {
-        this.identificacao = identificacao;
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
-            
+
+    public StatusUsuario getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusUsuario status) {
+        this.status = status;
+    }
+
+    public FuncaoUsuario getFuncao() {
+        return funcao;
+    }
+
+    public void setFuncao(FuncaoUsuario funcao) {
+        this.funcao = funcao;
+    }
+        
 }

@@ -222,15 +222,27 @@ public class TelaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        TelaIngresso.main(null);
+        SwingUtilities.invokeLater(() -> {
+            TelaIngressoGUI janelaIngresso = new TelaIngressoGUI();
+            janelaIngresso.setVisible(true);
+            janelaIngresso.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        });
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
-        TelaControlePublico.main(null);
+        SwingUtilities.invokeLater(() -> {
+            TelaControlePublicoGUI janelaPublico = new TelaControlePublicoGUI();
+            janelaPublico.setVisible(true);
+            janelaPublico.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        });
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
     private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
-        TelaRelatorioFinanceiro.main(null);
+        SwingUtilities.invokeLater(() -> {
+            TelaRelatorioFinanceiroGUI janelaRelatorioFinanceiro = new TelaRelatorioFinanceiroGUI();
+            janelaRelatorioFinanceiro.setVisible(true);
+            janelaRelatorioFinanceiro.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        });
     }//GEN-LAST:event_jMenuItem12ActionPerformed
 
     /**

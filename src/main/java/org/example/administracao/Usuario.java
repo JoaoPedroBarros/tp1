@@ -1,35 +1,34 @@
 package org.example.administracao;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class Usuario {
     public enum StatusUsuario {
         ATIVO, AFASTADO, DESLIGADO
     }
     
-    public enum FuncaoUsuario {
-        ADMINISTRADOR, ORGANIZADOR, OPERADOR, ARBITRO
-    }
-   
     protected String nome;
     protected String identificacao;
     protected String email;
     protected String pais;
     protected String senha;
     protected StatusUsuario status;
-    protected FuncaoUsuario funcao;
+    protected Papel papel;
     
     public Usuario() {}
 
     // Constructor padrao da classe
-    public Usuario(String nome, String identificacao, String email, String pais, String senha, StatusUsuario status, FuncaoUsuario funcao) {
+    public Usuario(String nome, String identificacao, String email, String pais, String senha, StatusUsuario status, Papel papel) {
         this.nome = nome;
         this.identificacao = identificacao;
         this.email = email;
         this.pais = pais;
         this.senha = senha;
         this.status = status;
-        this.funcao = funcao;
+        this.papel = papel;
     }
+    
     // Getters e Setters
 
     public String getNome() {
@@ -80,12 +79,11 @@ public class Usuario {
         this.status = status;
     }
 
-    public FuncaoUsuario getFuncao() {
-        return funcao;
+    public Papel getPapel() {
+        return papel;
     }
 
-    public void setFuncao(FuncaoUsuario funcao) {
-        this.funcao = funcao;
+    public void setPapel(Papel papel) {
+        this.papel = papel;
     }
-        
 }

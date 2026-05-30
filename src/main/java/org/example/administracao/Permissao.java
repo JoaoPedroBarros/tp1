@@ -8,11 +8,6 @@ package org.example.administracao;
  *
  * @author arkham
  */
-public class Operador extends Papel {
-    
-    @Override
-    public String getNomePapel() {
-        return "Operador";
-    }
-    
+public abstract class Permissao {
+    abstract public String getNome();
 }

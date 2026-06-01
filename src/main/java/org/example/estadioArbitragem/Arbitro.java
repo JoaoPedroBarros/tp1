@@ -9,6 +9,15 @@ public class Arbitro {
     private String nacionalidade;
     private int experiencia;
 
+    public Arbitro(String nome, String nacionalidade, int experiencia) {
+        this.nome = nome;
+        this.nacionalidade = nacionalidade;
+        this.experiencia = experiencia;
+    }
+    
+    public Arbitro(){
+        
+    }
     public String getNome() {
         return nome;
     }
@@ -30,12 +39,6 @@ public class Arbitro {
     }
 
     public void setExperiencia(int experiencia) {
-        this.experiencia = experiencia;
-    }
-
-    public Arbitro(String nome, String nacionalidade, int experiencia) {
-        this.nome = nome;
-        this.nacionalidade = nacionalidade;
         this.experiencia = experiencia;
     }
     

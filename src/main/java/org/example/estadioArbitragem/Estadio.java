@@ -9,6 +9,16 @@ public class Estadio {
     private String localizacao;
     private int capacidade;
 
+    public Estadio(String nome, String localizacao, int capacidade) {
+        this.nome = nome;
+        this.localizacao = localizacao;
+        this.capacidade = capacidade;
+    }
+    
+    public Estadio(){
+        
+    }
+    
     public String getNome() {
         return nome;
     }
@@ -33,11 +43,7 @@ public class Estadio {
         this.capacidade = capacidade;
     }
 
-    public Estadio(String nome, String localizacao, int capacidade) {
-        this.nome = nome;
-        this.localizacao = localizacao;
-        this.capacidade = capacidade;
-    }
+
     
     
     

@@ -7,6 +7,7 @@ package org.example.administracao.telas;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import org.example.administracao.UsuarioLogado;
 import org.example.selecaoJogador.GUI.*;
 import org.example.partidas.telas.*;
 import org.example.estadioArbitragem.*;
@@ -20,12 +21,15 @@ import org.example.ingressos.*;
 
 public class TelaInicial extends javax.swing.JFrame {
     
+    UsuarioLogado sessao;
+    
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaInicial.class.getName());
 
     /**
      * Creates new form TelaInicial
      */
-    public TelaInicial() {
+    public TelaInicial(UsuarioLogado sessao) {
+        this.sessao = sessao;
         initComponents();
     }
 
@@ -268,7 +272,7 @@ public class TelaInicial extends javax.swing.JFrame {
 
         /* Create and display the form */
         
-        java.awt.EventQueue.invokeLater(() -> new TelaInicial().setVisible(true));
+        //java.awt.EventQueue.invokeLater(() -> new TelaInicial().setVisible(true));
         
     }
 

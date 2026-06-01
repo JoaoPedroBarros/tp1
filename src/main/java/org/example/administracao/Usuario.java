@@ -1,6 +1,5 @@
 package org.example.administracao;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class Usuario {

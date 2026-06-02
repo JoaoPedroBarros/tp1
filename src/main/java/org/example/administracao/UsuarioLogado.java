@@ -8,11 +8,14 @@ package org.example.administracao;
  *
  * @author arkham
  */
-public class Operador extends Papel {
+public class UsuarioLogado {
+    private final Usuario usuario;
     
-    @Override
-    public String getNomePapel() {
-        return "Operador";
+    public UsuarioLogado(Usuario usuario) {
+        this.usuario = usuario;
     }
     
+    public Usuario getUsuario() {
+        return this.usuario;
+    }
 }

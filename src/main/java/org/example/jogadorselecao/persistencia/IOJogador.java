@@ -14,10 +14,15 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.function.Predicate;
+import org.example.administracao.Permissao;
 
-public class IOJogador {
+public class IOJogador extends Permissao{
     
     //Metodos personalizados
+    @Override
+    public String getNome(){
+        return "ORGANIZA_JOGADOR";
+    }    
     
     //Verifica se o jogador já está salvo no arquivo (Responde a pergunta: Já existe um jogador com mesmo nome?)
     //Se o jogador estiver no arquivo de persistencia, retorna a linha em que foi achado.

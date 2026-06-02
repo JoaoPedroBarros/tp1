@@ -11,10 +11,14 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import org.example.administracao.
+import org.example.administracao.Permissao;
 
 public class IOSelecao extends Permissao{
     //Metodos personalizados
+    @Override
+    public String getNome(){
+        return "ORGANIZA_SELECAO";
+    }
     
     //Verifica se a selecao já está salvo no arquivo (Responde a pergunta: Já existe uma selecao o mesmo pais ou mesmo tecnico?)
     //Se a selecao estiver no arquivo de persistencia, retorna a linha em que foi achado.

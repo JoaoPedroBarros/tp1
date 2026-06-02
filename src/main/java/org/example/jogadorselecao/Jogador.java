@@ -1,4 +1,4 @@
-package classes.selecao.jogador;
+package org.example.jogadorselecao;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.format.DateTimeFormatter;

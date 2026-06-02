@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package org.example.selecaoJogador.GUI;
+package org.example.jogadorselecao.telas;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -78,10 +78,9 @@ public class CadastroJogador extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txtInputNome, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(txtInputPosicao, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(txtInputNumero, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(comboBoxStatus, javax.swing.GroupLayout.Alignment.LEADING, 0, 270, Short.MAX_VALUE)))))
+                                    .addComponent(txtInputPosicao)
+                                    .addComponent(txtInputNumero)
+                                    .addComponent(comboBoxStatus, 0, 270, Short.MAX_VALUE))))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)

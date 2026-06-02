@@ -1,13 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
-
 package org.example.partidas;
 
-/**
- *
- * @author babu
- */
+import org.example.jogadorselecao.Jogador;
 public class Partidas {
     
 }

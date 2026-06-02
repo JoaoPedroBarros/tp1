@@ -1,4 +1,4 @@
-package classes.selecao.jogador;
+package org.example.jogadorselecao;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.HashSet;

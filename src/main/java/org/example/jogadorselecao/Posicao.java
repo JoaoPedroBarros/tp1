@@ -1,4 +1,4 @@
-package classes.selecao.jogador;
+package org.example.jogadorselecao;
 
 public enum Posicao {
     GOLEIRO, ZAGUEIRO, LATERAL,

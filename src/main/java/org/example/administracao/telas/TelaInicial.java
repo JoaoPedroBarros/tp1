@@ -4,11 +4,11 @@
  */
 package org.example.administracao.telas;
 
+import org.example.jogadorselecao.telas.*;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import org.example.administracao.UsuarioLogado;
-import org.example.selecaoJogador.GUI.*;
 import org.example.partidas.telas.*;
 import org.example.estadioArbitragem.*;
 import org.example.ingressos.*;

@@ -4,7 +4,15 @@
  */
 package org.example.administracao.telas;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import org.example.administracao.*;
 
 
 public class Login extends javax.swing.JFrame {
@@ -36,7 +44,7 @@ public class Login extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Login"));
 
-        jLabel1.setText("E-mail: ");
+        jLabel1.setText("ID:");
 
         jLabel2.setText("Senha: ");
 
@@ -117,12 +125,41 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        SwingUtilities.invokeLater(() -> {
-            TelaInicial telaInicial = new TelaInicial();
-            telaInicial.setVisible(true);
+        String id = jTextField1.getText();
+        String senha = new String(jPasswordField1.getPassword());
+        
+        File persistenciaUsuarios = new File(AdministraUsuario.USUARIOS_FILE_PATH);
+        ObjectMapper mapper = new ObjectMapper();
+        
+        try {
+            Map<String,Usuario> mapUsuarios = mapper.readValue(persistenciaUsuarios, new TypeReference<Map<String,Usuario>>(){});
             
-            this.setVisible(false);
-        });
+            if (mapUsuarios.containsKey(id) == false || mapUsuarios.get(id).getSenha().equals(senha) == false) {
+                JOptionPane.showMessageDialog(rootPane, "Identificação e/ou senha incorretos!");
+            }
+            
+            else {
+                
+                UsuarioLogado sessao = new UsuarioLogado(mapUsuarios.get(id)); 
+                
+                SwingUtilities.invokeLater(() -> {
+                TelaInicial telaInicial = new TelaInicial(sessao);
+                telaInicial.setVisible(true);
+
+                this.setVisible(false);
+                });
+            }
+            
+        }
+        
+        catch (JsonMappingException e) {
+            System.out.println("Houve algum problema no mapeamento do JSON no Login");
+        }
+        
+        catch (IOException e) {
+            System.out.println("Houve algum problema ao carregar o arquivo de usuários no Login");
+        }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

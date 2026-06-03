@@ -93,7 +93,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="E-mail: "/>
+            <Property name="text" type="java.lang.String" value="ID:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">

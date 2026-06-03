@@ -42,5 +42,10 @@ public class Arbitro {
         this.experiencia = experiencia;
     }
     
-    
+    public void validarNacionalidadePartida(String nacionalidadeSelecao1, String nacionalidadeSelecao2) {
+        if (this.nacionalidade.equalsIgnoreCase(nacionalidadeSelecao1) || 
+            this.nacionalidade.equalsIgnoreCase(nacionalidadeSelecao2)) {
+            throw new IllegalArgumentException("Regra violada: O árbitro não pode atuar em partidas de sua própria nacionalidade.");
+        }
+    }
 }

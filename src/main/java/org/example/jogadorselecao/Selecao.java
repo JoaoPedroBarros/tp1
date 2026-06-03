@@ -62,12 +62,12 @@ public class Selecao {
         return time;
     }
 
-    private void setTime(HashSet<Jogador> time) {
+    public void setTime(HashSet<Jogador> time) {
         //Impede set com tamanhos inadequados de time
         if(time.size() < MIN_MEMBROS || time.size() > MAX_MEMBROS){
             throw new IllegalArgumentException("Quantidade inadequada de membros no time.");
         }
-        
+   
         //Garante que um jogador não poderá estar vinculado a duas seleções
         for(Jogador jogador : time){
             if(jogador.getSelecao() != null){
@@ -76,17 +76,24 @@ public class Selecao {
             }
         }
         
-        //Vincula cada jogador à atual instância de seleção
+        if(this.time != null){ //Para substituir a equipe inteira
+          for(Jogador jogador : this.time){
+                jogador.setSelecao(null);
+                this.time.remove(jogador);
+            }     
+        }
+  
+        //Vincula cada jogador da HashSet à atual instância de seleção
         for(Jogador jogador : time){
             jogador.setSelecao(this);
             this.time.add(jogador);
-        }
+        } 
     }    
 
     //Metodos personalizados
     public void convocar(Jogador jogador){
         if (time.size() == MAX_MEMBROS){
-            throw new IllegalArgumentException("Não é possível convocar " + jogador.getNome() + ". Pois a"
+            throw new IllegalStateException("Não é possível convocar " + jogador.getNome() + ". Pois a"
                     + " seleção do(a) " + this.getPais() +
                     " possui o limite máximo de " + MAX_MEMBROS + " membros.");
         }
@@ -97,7 +104,7 @@ public class Selecao {
     public void dispensar(Jogador jogador){
         if(time.contains(jogador)){
             if(time.size() == MIN_MEMBROS){
-                throw new IllegalArgumentException("Não é possível dispensar " + jogador.getNome() + "pois a seleção do(a) "
+                throw new IllegalStateException("Não é possível dispensar " + jogador.getNome() + "pois a seleção do(a) "
                         + this.getPais() + " atingiu o número mínimo de " + MIN_MEMBROS + " membros. Contrate um substituto"
                                 + " ou exclua a seleção manualmente.");
             }

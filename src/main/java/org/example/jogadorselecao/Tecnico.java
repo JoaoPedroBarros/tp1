@@ -7,11 +7,16 @@ public class Tecnico {
     @JsonIgnore
     private Selecao selecao = null;
     
+    
+        // danilo: jackson precisa de um construtor vazio
+      public Tecnico() {
+}
     //Construtor
     public Tecnico(String nome) {
-        this.nome = nome;
-    }  
+    setNome(nome);
+}
     
+
     //Getters e Setters
 
     public String getNome() {
@@ -33,5 +38,6 @@ public class Tecnico {
         this.selecao = selecao;
     }
 
+  
 
 }

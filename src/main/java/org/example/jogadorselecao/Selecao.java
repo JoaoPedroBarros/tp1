@@ -13,14 +13,19 @@ public class Selecao {
     private static final int MAX_MEMBROS = 26;
     private static final int MIN_MEMBROS = 18;
     
-
+// danilo: jackson precisa de um construtor vazio
+    public Selecao() {
+}
+    
     //Construtor
     public Selecao(String pais, int grupo, Tecnico tecnico, HashSet<Jogador> time) throws IllegalArgumentException {
         setPais(pais);
         setGrupo(grupo);
         setTecnico(tecnico);
         setTime(time);
-    }    
+    }
+
+    
     
     //Getters e Setters
     public String getPais() {

@@ -9,6 +9,15 @@ public class Arbitro {
     private String nacionalidade;
     private int experiencia;
 
+    public Arbitro(String nome, String nacionalidade, int experiencia) {
+        this.nome = nome;
+        this.nacionalidade = nacionalidade;
+        this.experiencia = experiencia;
+    }
+    
+    public Arbitro(){
+        
+    }
     public String getNome() {
         return nome;
     }
@@ -32,12 +41,11 @@ public class Arbitro {
     public void setExperiencia(int experiencia) {
         this.experiencia = experiencia;
     }
-
-    public Arbitro(String nome, String nacionalidade, int experiencia) {
-        this.nome = nome;
-        this.nacionalidade = nacionalidade;
-        this.experiencia = experiencia;
+    
+    public void validarNacionalidadePartida(String nacionalidadeSelecao1, String nacionalidadeSelecao2) {
+        if (this.nacionalidade.equalsIgnoreCase(nacionalidadeSelecao1) || 
+            this.nacionalidade.equalsIgnoreCase(nacionalidadeSelecao2)) {
+            throw new IllegalArgumentException("Regra violada: O árbitro não pode atuar em partidas de sua própria nacionalidade.");
+        }
     }
-    
-    
 }

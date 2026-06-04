@@ -4,6 +4,7 @@
  */
 package org.example.estadioArbitragem;
 
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
@@ -23,9 +24,16 @@ public class TelaCadastroEstadio extends javax.swing.JFrame {
      */
     public TelaCadastroEstadio() {
         initComponents();
-        habilitarBtnNovo();
+        estadoInicial();
         DefaultTableModel modelo = (DefaultTableModel) tabelaEstadios.getModel();
         tabelaEstadios.setRowSorter(new TableRowSorter(modelo));
+        
+        GerenciadorEstadioJSON gejson = new GerenciadorEstadioJSON();
+        List<Estadio> listaSalva = gejson.carregarEstadio();
+        
+        for (Estadio est : listaSalva){
+            modelo.addRow(new Object[]{est.getNome(), est.getLocalizacao(), est.getCapacidade()});
+        }
     }
 
     /**
@@ -187,14 +195,20 @@ public class TelaCadastroEstadio extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void habilitarBtnNovo(){
+    private void estadoInicial(){
+        
         btnSalvarCadEst.setEnabled(false);
         btnEditarCadEst.setEnabled(false);
         btnExcluirCadEst.setEnabled(false);
         btnNovoCadEst.setEnabled(true);
+        
         txtNomeEst.setEnabled(false);
         txtCapacidadeEst.setEnabled(false);
         txtLocalizacaoEst.setEnabled(false);
+        
+        limparCampos();
+        editar = false;
+        tabelaEstadios.clearSelection();
         
     }
     
@@ -214,28 +228,27 @@ public class TelaCadastroEstadio extends javax.swing.JFrame {
                 String nome = txtNomeEst.getText();
                 String localizacao = txtLocalizacaoEst.getText();
                 int capacidade = Integer.parseInt(txtCapacidadeEst.getText());
-
+                
+                DefaultTableModel dtmTabela = (DefaultTableModel)tabelaEstadios.getModel();
+                
                 if(editar == false){
                     Estadio estadio = new Estadio(nome, localizacao, capacidade);
-
-                    JOptionPane.showMessageDialog(rootPane, "Estádio " + estadio.getNome() + " cadastrado com sucesso!");
-                    DefaultTableModel dtmTabela = (DefaultTableModel)tabelaEstadios.getModel();
-                    dtmTabela.addRow(new Object[]{nome, localizacao, capacidade});
-                    limparCampos();
+                    dtmTabela.addRow(new Object[]{estadio.getNome(), estadio.getLocalizacao(), estadio.getCapacidade()});
+                    JOptionPane.showMessageDialog(rootPane, "Estádio " + estadio.getNome() + " cadastrado com sucesso!");  
+                    
                 } else {
-                    editar = true;
-                    btnEditarCadEst.setEnabled(false);
-                    btnSalvarCadEst.setEnabled(true);
-                    txtNomeEst.setEnabled(true);
-                    txtCapacidadeEst.setEnabled(true);
-                    txtLocalizacaoEst.setEnabled(true);
-                    tabelaEstadios.setValueAt(txtNomeEst.getText(), tabelaEstadios.getSelectedRow(), 0);
-                    tabelaEstadios.setValueAt(txtLocalizacaoEst.getText(), tabelaEstadios.getSelectedRow(), 1);
-                    tabelaEstadios.setValueAt(txtCapacidadeEst.getText(), tabelaEstadios.getSelectedRow(), 2);
-                    limparCampos();
+                    int linhaVisual = tabelaEstadios.getSelectedRow();
+                    int linhaReal = tabelaEstadios.convertColumnIndexToView(linhaVisual);
+                    
+                    dtmTabela.setValueAt(nome, linhaReal, 0);
+                    dtmTabela.setValueAt(localizacao, linhaReal, 1);
+                    dtmTabela.setValueAt(capacidade, linhaReal, 2);
+                    JOptionPane.showMessageDialog(rootPane, "Atualizado com sucesso!");
+                    
                 }
-                habilitarBtnNovo();
                 
+                atualizarArquivoJSON();
+                estadoInicial();
                 
             } catch(NumberFormatException e){
                 JOptionPane.showMessageDialog(rootPane, "A capacidade deve conter apenas números inteiros!", "Erro de Formatação", JOptionPane.ERROR_MESSAGE);
@@ -256,14 +269,12 @@ public class TelaCadastroEstadio extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Nenhuma linha selecionada!");
         } else {
             editar = true;
+            habilitarCampos();
             btnEditarCadEst.setEnabled(false);
+            btnExcluirCadEst.setEnabled(false);
+            btnNovoCadEst.setEnabled(false);
             btnSalvarCadEst.setEnabled(true);
-            txtNomeEst.setEnabled(true);
-            txtCapacidadeEst.setEnabled(true);
-            txtLocalizacaoEst.setEnabled(true);
-            tabelaEstadios.setValueAt(txtNomeEst.getText(), tabelaEstadios.getSelectedRow(), 0);
-            tabelaEstadios.setValueAt(txtLocalizacaoEst.getText(), tabelaEstadios.getSelectedRow(), 1);
-            tabelaEstadios.setValueAt(txtCapacidadeEst.getText(), tabelaEstadios.getSelectedRow(), 2);
+            
         }
     }//GEN-LAST:event_btnEditarCadEstActionPerformed
 
@@ -280,10 +291,11 @@ public class TelaCadastroEstadio extends javax.swing.JFrame {
                     DefaultTableModel dtmTabela = (DefaultTableModel) tabelaEstadios.getModel();
                     dtmTabela.removeRow(linhaReal);
                     
-                    limparCampos();
+                    atualizarArquivoJSON();
+                    estadoInicial();
                     
                 }
-                habilitarBtnNovo();
+                
         }
         
     }//GEN-LAST:event_btnExcluirCadEstActionPerformed
@@ -293,32 +305,50 @@ public class TelaCadastroEstadio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFecharCadEstActionPerformed
 
     private void tabelaEstadiosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaEstadiosMouseClicked
-        btnSalvarCadEst.setEnabled(false);
+       // estadoInicial();
+        
         btnEditarCadEst.setEnabled(true);
         btnExcluirCadEst.setEnabled(true);
-        btnNovoCadEst.setEnabled(false);
-        txtNomeEst.setEnabled(false);
-        txtCapacidadeEst.setEnabled(false);
-        txtLocalizacaoEst.setEnabled(false);
+        btnNovoCadEst.setEnabled(true);
         
-        txtNomeEst.setText(tabelaEstadios.getValueAt(tabelaEstadios.getSelectedRow(), 0 ).toString());
-        txtLocalizacaoEst.setText(tabelaEstadios.getValueAt(tabelaEstadios.getSelectedRow(), 1 ).toString());
-        txtCapacidadeEst.setText(tabelaEstadios.getValueAt(tabelaEstadios.getSelectedRow(), 2 ).toString());
+        int linhaSelecionada = tabelaEstadios.getSelectedRow();
+        if (linhaSelecionada != -1){
+            txtNomeEst.setText(tabelaEstadios.getValueAt(linhaSelecionada, 0 ).toString());
+            txtLocalizacaoEst.setText(tabelaEstadios.getValueAt(linhaSelecionada, 1 ).toString());
+            txtCapacidadeEst.setText(tabelaEstadios.getValueAt(linhaSelecionada, 2 ).toString());
+        }
+        
     }//GEN-LAST:event_tabelaEstadiosMouseClicked
 
     private void btnNovoCadEstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoCadEstActionPerformed
-        btnSalvarCadEst.setEnabled(true);
-        btnEditarCadEst.setEnabled(false);
-        btnExcluirCadEst.setEnabled(false);
+        estadoInicial();
+        habilitarCampos();
+        btnSalvarCadEst.setEnabled(true);    
         btnNovoCadEst.setEnabled(false);
-        txtNomeEst.setEnabled(true);
-        txtCapacidadeEst.setEnabled(true);
-        txtLocalizacaoEst.setEnabled(true);
-        limparCampos();
+        
     }//GEN-LAST:event_btnNovoCadEstActionPerformed
     
     private void habilitarCampos(){
+        txtNomeEst.setEnabled(true);
+        txtLocalizacaoEst.setEnabled(true);
+        txtCapacidadeEst.setEnabled(true);
+    }
+    
+    private void atualizarArquivoJSON(){
+        DefaultTableModel modelo = (DefaultTableModel) tabelaEstadios.getModel();
+        java.util.List<Estadio> listaParaSalvar = new java.util.ArrayList<>();
         
+        for(int i = 0; i < modelo.getRowCount(); i++){
+            String nome = modelo.getValueAt(i, 0).toString();
+            String localizacao = modelo.getValueAt(i, 1).toString();
+            int capacidade = Integer.parseInt(modelo.getValueAt(i, 2).toString());
+            
+            listaParaSalvar.add(new Estadio(nome, localizacao, capacidade));
+            
+        }
+        
+        GerenciadorEstadioJSON gejson = new GerenciadorEstadioJSON();
+        gejson.salvarEstadios(listaParaSalvar);
     }
     /**
      * @param args the command line arguments

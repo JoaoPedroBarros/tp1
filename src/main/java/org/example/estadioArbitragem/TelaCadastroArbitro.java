@@ -4,6 +4,9 @@
  */
 package org.example.estadioArbitragem;
 
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author helto
@@ -32,9 +35,9 @@ public class TelaCadastroArbitro extends javax.swing.JFrame {
         jLabelNomeArb = new javax.swing.JLabel();
         jLabelNacionalidadeArb = new javax.swing.JLabel();
         jLabelExperienciaArb = new javax.swing.JLabel();
-        jTextFieldNomeArb = new javax.swing.JTextField();
-        jTextFieldNacionalidadeArb = new javax.swing.JTextField();
-        jTextFieldExperienciaArb = new javax.swing.JTextField();
+        txtNomeArb = new javax.swing.JTextField();
+        txtNacionalidadeArb = new javax.swing.JTextField();
+        txtExperienciaArb = new javax.swing.JTextField();
         jButtonSalvarCadArb = new javax.swing.JButton();
         jButtonFecharCadArb = new javax.swing.JButton();
 
@@ -51,9 +54,9 @@ public class TelaCadastroArbitro extends javax.swing.JFrame {
         jLabelExperienciaArb.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabelExperienciaArb.setText("Experiência:");
 
-        jTextFieldNomeArb.addActionListener(this::jTextFieldNomeArbActionPerformed);
+        txtNomeArb.addActionListener(this::txtNomeArbActionPerformed);
 
-        jTextFieldExperienciaArb.addActionListener(this::jTextFieldExperienciaArbActionPerformed);
+        txtExperienciaArb.addActionListener(this::txtExperienciaArbActionPerformed);
 
         jButtonSalvarCadArb.setText("Salvar");
         jButtonSalvarCadArb.addActionListener(this::jButtonSalvarCadArbActionPerformed);
@@ -71,7 +74,7 @@ public class TelaCadastroArbitro extends javax.swing.JFrame {
                     .addGroup(jPanelCadastroArbLayout.createSequentialGroup()
                         .addComponent(jLabelNomeArb)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextFieldNomeArb, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtNomeArb, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabelExperienciaArb)
                     .addGroup(jPanelCadastroArbLayout.createSequentialGroup()
                         .addGroup(jPanelCadastroArbLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -81,8 +84,8 @@ public class TelaCadastroArbitro extends javax.swing.JFrame {
                             .addGroup(jPanelCadastroArbLayout.createSequentialGroup()
                                 .addGap(24, 24, 24)
                                 .addGroup(jPanelCadastroArbLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextFieldExperienciaArb, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextFieldNacionalidadeArb, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(txtExperienciaArb, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtNacionalidadeArb, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanelCadastroArbLayout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(jButtonFecharCadArb, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))))
@@ -94,15 +97,15 @@ public class TelaCadastroArbitro extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanelCadastroArbLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelNomeArb)
-                    .addComponent(jTextFieldNomeArb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNomeArb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelCadastroArbLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelNacionalidadeArb)
-                    .addComponent(jTextFieldNacionalidadeArb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNacionalidadeArb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelCadastroArbLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelExperienciaArb, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldExperienciaArb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtExperienciaArb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(44, 44, 44)
                 .addGroup(jPanelCadastroArbLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonSalvarCadArb, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -130,16 +133,46 @@ public class TelaCadastroArbitro extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextFieldNomeArbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNomeArbActionPerformed
+    private void txtNomeArbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeArbActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldNomeArbActionPerformed
+    }//GEN-LAST:event_txtNomeArbActionPerformed
 
-    private void jTextFieldExperienciaArbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldExperienciaArbActionPerformed
+    private void txtExperienciaArbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtExperienciaArbActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldExperienciaArbActionPerformed
+    }//GEN-LAST:event_txtExperienciaArbActionPerformed
 
     private void jButtonSalvarCadArbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarCadArbActionPerformed
-        // TODO add your handling code here:
+        if(txtNomeArb.getText().equals("") ||
+                txtNacionalidadeArb.getText().equals("") ||
+                txtExperienciaArb.getText().equals("")){
+            JOptionPane.showMessageDialog(rootPane, "Verifique os campos em branco");
+        
+        } else {         
+            try{
+                String nome = txtNomeArb.getText();
+                String nacionalidade = txtNacionalidadeArb.getText();
+                int experiencia = Integer.parseInt(txtExperienciaArb.getText());
+
+                Arbitro arbitro = new Arbitro(nome, nacionalidade, experiencia);
+
+                GerenciadorArbitroJSON gajson = new GerenciadorArbitroJSON();
+                
+                List<Arbitro> listaParaSalvar = gajson.carregarArbitro();
+                
+                listaParaSalvar.add(arbitro);
+                
+                gajson.salvarArbitro(listaParaSalvar);
+                
+                JOptionPane.showMessageDialog(rootPane, "Árbitro cadastrado com sucesso!");
+                
+                txtNomeArb.setText("");
+                txtNacionalidadeArb.setText("");
+                txtExperienciaArb.setText("");
+            } catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(rootPane, "A experiência deve conter apenas números inteiros!");
+            }
+            
+        }
     }//GEN-LAST:event_jButtonSalvarCadArbActionPerformed
 
     private void jButtonFecharCadArbActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFecharCadArbActionPerformed
@@ -182,9 +215,9 @@ public class TelaCadastroArbitro extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelNacionalidadeArb;
     private javax.swing.JLabel jLabelNomeArb;
     private javax.swing.JPanel jPanelCadastroArb;
-    private javax.swing.JTextField jTextFieldExperienciaArb;
-    private javax.swing.JTextField jTextFieldNacionalidadeArb;
-    private javax.swing.JTextField jTextFieldNomeArb;
+    private javax.swing.JTextField txtExperienciaArb;
+    private javax.swing.JTextField txtNacionalidadeArb;
+    private javax.swing.JTextField txtNomeArb;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
-public class Selecao {
+public final class Selecao {
     private String pais;
     private int grupo;
     private Tecnico tecnico;
@@ -13,9 +13,14 @@ public class Selecao {
     private static final int MAX_MEMBROS = 26;
     private static final int MIN_MEMBROS = 18;
     
+    //Estatísticas
+    private int vitorias;
+    private int derrotas;
+    private int empates;
+    
 // danilo: jackson precisa de um construtor vazio
     public Selecao() {
-}
+    }
     
     //Construtor
     public Selecao(String pais, int grupo, Tecnico tecnico, HashSet<Jogador> time) throws IllegalArgumentException {
@@ -25,7 +30,6 @@ public class Selecao {
         setTime(time);
     }
 
-    
     
     //Getters e Setters
     public String getPais() {
@@ -95,6 +99,31 @@ public class Selecao {
         } 
     }    
 
+    public int getVitorias() {
+        return vitorias;
+    }
+
+    public void setVitorias(int vitorias) {
+        this.vitorias = vitorias;
+    }
+
+    public int getDerrotas() {
+        return derrotas;
+    }
+
+    public void setDerrotas(int derrotas) {
+        this.derrotas = derrotas;
+    }
+
+    public int getEmpates() {
+        return empates;
+    }
+
+    public void setEmpates(int empates) {
+        this.empates = empates;
+    }
+
+    
     //Metodos personalizados
     public void convocar(Jogador jogador){
         if (time.size() == MAX_MEMBROS){
@@ -128,6 +157,16 @@ public class Selecao {
         }
         return true;
         
+    }
+ 
+    //Métodos personalizados
+    public void atualizaEstat(int v, int d, int e) throws IllegalArgumentException{
+        if (v < 0 || d < 0 || e < 0){
+            throw new IllegalArgumentException("Dados estatísticos não podem ser negativos.");
+        }
+        this.vitorias += v;
+        this.derrotas += d;
+        this.empates += e;
     }
     
     @Override

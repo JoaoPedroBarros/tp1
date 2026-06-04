@@ -17,7 +17,7 @@ public class CadastroJogador extends javax.swing.JPanel {
      * Creates new form CadastroJogador
      */
     public CadastroJogador() {
-        initComponents();
+        initComponents();        
     }
 
     /**

@@ -104,7 +104,7 @@ public class IOJogador extends Permissao{
     }
     
     //Retorna uma HashSet de Jogadores da Memória, com a caractéristica fornecida
-    //Se jogador não estiver na mémoria, retorna nulo.
+    //Se não houver jogadores com a característica escolhida, retorna nulo.
     //Caso contrário, retorna uma HashSet de Jogadores com a caractéristica escolhida
     public static HashSet<Jogador> getMemJogadores(Predicate<Jogador> criterio){
         

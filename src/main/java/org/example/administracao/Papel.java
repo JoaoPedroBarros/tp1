@@ -4,8 +4,10 @@
  */
 package org.example.administracao;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import java.util.List;
 
 /**
  *
@@ -37,7 +39,12 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 })
 public abstract class Papel {
     
-    String nomePapel;
-    public Papel() {} // construtor padrao para o Jackson
+    protected String nomePapel;
     public abstract String getNomePapel(); // para retonar na serializacao
+    
+    @JsonIgnore
+    public abstract List<? extends Permissao> getPermissoes(); // retorna as permissoes. Nao tem o atributo pq sera exclusivo da classe filha que implementa Papel.
+    
+    public Papel() {} // construtor padrao para o Jackson
+
 }

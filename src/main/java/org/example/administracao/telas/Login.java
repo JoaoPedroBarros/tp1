@@ -128,38 +128,25 @@ public class Login extends javax.swing.JFrame {
         String id = jTextField1.getText();
         String senha = new String(jPasswordField1.getPassword());
         
-        File persistenciaUsuarios = new File(AdministraUsuario.USUARIOS_FILE_PATH);
-        ObjectMapper mapper = new ObjectMapper();
+        PersistenciaUsuario persistenciaUsuarios = new PersistenciaUsuario();
+            
+        Map<String, Usuario> mapUsuarios = persistenciaUsuarios.getMapUsuarios();
         
-        try {
-            Map<String,Usuario> mapUsuarios = mapper.readValue(persistenciaUsuarios, new TypeReference<Map<String,Usuario>>(){});
+        if (mapUsuarios.containsKey(id) == false || mapUsuarios.get(id).getSenha().equals(senha) == false) {
+            JOptionPane.showMessageDialog(rootPane, "Identificação e/ou senha incorretos!");
+        }
             
-            if (mapUsuarios.containsKey(id) == false || mapUsuarios.get(id).getSenha().equals(senha) == false) {
-                JOptionPane.showMessageDialog(rootPane, "Identificação e/ou senha incorretos!");
-            }
-            
-            else {
+        else {
                 
-                UsuarioLogado sessao = new UsuarioLogado(mapUsuarios.get(id)); 
+            UsuarioLogado sessao = new UsuarioLogado(mapUsuarios.get(id));
                 
-                SwingUtilities.invokeLater(() -> {
-                TelaInicial telaInicial = new TelaInicial(sessao);
-                telaInicial.setVisible(true);
+            SwingUtilities.invokeLater(() -> {
+            TelaInicial telaInicial = new TelaInicial(sessao);
+            telaInicial.setVisible(true);
 
-                this.setVisible(false);
-                });
-            }
-            
-        }
-        
-        catch (JsonMappingException e) {
-            System.out.println("Houve algum problema no mapeamento do JSON no Login");
-        }
-        
-        catch (IOException e) {
-            System.out.println("Houve algum problema ao carregar o arquivo de usuários no Login");
-        }
-        
+            this.setVisible(false);
+            });
+        }        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

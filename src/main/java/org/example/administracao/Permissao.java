@@ -10,4 +10,5 @@ package org.example.administracao;
  */
 public abstract class Permissao {
     abstract public String getNome();
+    public Permissao() {}
 }

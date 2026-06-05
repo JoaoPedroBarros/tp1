@@ -1,10 +1,13 @@
 package org.example.administracao;
 
 import java.util.List;
+import org.example.jogadorselecao.persistencia.IOJogador;
+import org.example.jogadorselecao.persistencia.IOSelecao;
 
 public class Administrador extends Papel{
     // lista de permissoes que o administrador tem.
-    final static List<? extends Permissao> permissoesAdministrador = List.of(new AdministraUsuario());
+    
+    private final static List<? extends Permissao> listaPermissoes = List.of(new AdministraUsuario(), new IOJogador(), new IOSelecao());
     
     public Administrador() {
         this.nomePapel = "ADMINISTRADOR";
@@ -13,6 +16,11 @@ public class Administrador extends Papel{
     @Override
     public String getNomePapel() {
         return nomePapel;
+    }
+    
+    @Override
+    public List<? extends Permissao> getPermissoes() {
+        return listaPermissoes;
     }
     
 }

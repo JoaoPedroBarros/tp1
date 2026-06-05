@@ -4,6 +4,8 @@
  */
 package org.example.administracao;
 
+import java.util.List;
+
 /**
  *
  * @author arkham
@@ -13,6 +15,11 @@ public class Operador extends Papel {
     @Override
     public String getNomePapel() {
         return "Operador";
+    }
+    
+    @Override
+    public List<? extends Permissao> getPermissoes() {
+        return null;
     }
     
 }

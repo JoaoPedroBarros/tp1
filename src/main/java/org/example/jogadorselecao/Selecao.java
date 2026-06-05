@@ -49,7 +49,7 @@ public final class Selecao {
 
     public final void setGrupo(int grupo) {
         if (grupo <= 0){
-            throw new IllegalArgumentException("O número do jogador deve ser maior que 0.");
+            throw new IllegalArgumentException("O grupo da seleção deve ser maior que 0.");
         }
         this.grupo = grupo;
     }
@@ -59,12 +59,12 @@ public final class Selecao {
     }
 
     public final void setTecnico(Tecnico tecnico) {
-        if(tecnico.getSelecao() != null){
+        if(tecnico.getNomeSelecao() != null){
             throw new IllegalArgumentException(tecnico.getNome() + 
-                    " já está afiliado a selecao do(a) " + tecnico.getSelecao().getPais() + ".");
+                    " já está afiliado à selecao do(a) " + tecnico.getNomeSelecao() + ".");
         }
         this.tecnico = tecnico;
-        tecnico.setSelecao(this);
+        tecnico.setSelecao(this.getPais());
     }
 
     public HashSet<Jogador> getTime() {
@@ -72,6 +72,8 @@ public final class Selecao {
     }
 
     public void setTime(HashSet<Jogador> time) {
+        if(time == null){return;}
+        
         //Impede set com tamanhos inadequados de time
         if(time.size() < MIN_MEMBROS || time.size() > MAX_MEMBROS){
             throw new IllegalArgumentException("Quantidade inadequada de membros no time.");
@@ -79,22 +81,22 @@ public final class Selecao {
    
         //Garante que um jogador não poderá estar vinculado a duas seleções
         for(Jogador jogador : time){
-            if(jogador.getSelecao() != null){
+            if(jogador.getNomeSelecao() != null){
                 throw new IllegalArgumentException("O jogador " + jogador.getNome() +
-                        " já está afiliada à seleção do(a) " + jogador.getSelecao().getPais() + ".");
+                        " já está afiliada à seleção do(a) " + jogador.getNomeSelecao() + ".");
             }
         }
         
         if(this.time != null){ //Para substituir a equipe inteira
           for(Jogador jogador : this.time){
-                jogador.setSelecao(null);
+                jogador.setNomeSelecao(null);
                 this.time.remove(jogador);
             }     
         }
   
         //Vincula cada jogador da HashSet à atual instância de seleção
         for(Jogador jogador : time){
-            jogador.setSelecao(this);
+            jogador.setNomeSelecao(this.getPais());
             this.time.add(jogador);
         } 
     }    
@@ -131,7 +133,7 @@ public final class Selecao {
                     + " seleção do(a) " + this.getPais() +
                     " possui o limite máximo de " + MAX_MEMBROS + " membros.");
         }
-        jogador.setSelecao(this);   //Vincula jogador
+        jogador.setNomeSelecao(pais);   //Vincula jogador
         time.add(jogador);
     }
     
@@ -143,7 +145,7 @@ public final class Selecao {
                                 + " ou exclua a seleção manualmente.");
             }
             else{
-                jogador.setSelecao(null);   //Desvincula jogador
+                jogador.setNomeSelecao(null);   //Desvincula jogador
                 time.remove(jogador);
             }
         }

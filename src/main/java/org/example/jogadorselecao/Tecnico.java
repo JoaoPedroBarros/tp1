@@ -5,16 +5,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Tecnico {
     private String nome;
     @JsonIgnore
-    private Selecao selecao = null;
+    private String nomeSelecao;
     
     
-        // danilo: jackson precisa de um construtor vazio
-      public Tecnico() {
-}
+    // danilo: jackson precisa de um construtor vazio
+    public Tecnico() {
+    }
+    
     //Construtor
     public Tecnico(String nome) {
-    setNome(nome);
-}
+        setNome(nome);
+    }
     
 
     //Getters e Setters
@@ -30,14 +31,12 @@ public class Tecnico {
         this.nome = nome;
     }
 
-    public Selecao getSelecao() {
-        return selecao;
+    public String getNomeSelecao() {
+        return nomeSelecao;
     }
 
-    protected void setSelecao(Selecao selecao) {
-        this.selecao = selecao;
+    protected void setSelecao(String nomeSelecao) {
+        this.nomeSelecao = nomeSelecao;
     }
-
-  
 
 }

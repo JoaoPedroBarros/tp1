@@ -54,8 +54,10 @@ public class IOJogador extends Permissao{
     }
     
     //Append jogadores no arquivo jogadores.jsonl
-    public static void appendJogador(Jogador jogador){
-        if (containsJogador(jogador) != -1){return;}
+    public static void appendJogador(Jogador jogador) throws ElementoDuplicado{
+        if (containsJogador(jogador) != -1){
+            throw new ElementoDuplicado("Jogador já está registrado no sistema.");
+        }
         
         ObjectMapper mapper = new ObjectMapper();          // Instancia Mapeamento padrao da biblioteca Jackson
         mapper.configure(JsonGenerator.Feature.AUTO_CLOSE_TARGET, false);
@@ -169,7 +171,7 @@ public class IOJogador extends Permissao{
     
     //Função extra (mais para legibilidade)
     //Guarda todos os novos jogadores distintos no arquivo de persistência
-    public static void adicionarJogadores(List<Jogador> jogadores){
+    public static void adicionarJogadores(List<Jogador> jogadores) throws ElementoDuplicado{
         for(var jogador : jogadores){
             appendJogador(jogador);
         }

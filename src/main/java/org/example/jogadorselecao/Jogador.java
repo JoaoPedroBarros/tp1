@@ -15,8 +15,7 @@ public final class Jogador{
     private int numero;
     private StatusJogador status;
     private String dataNascimento;
-    @JsonIgnore
-    private Selecao selecao;
+    private String nomeSelecao;
     
     //Atributos estatísticos
     private int amarelos = 0;
@@ -48,6 +47,9 @@ public final class Jogador{
     public final void setNome(String nome){
         if(nome.matches(".*\\d.*") || nome.matches(".*[^a-zA-Z0-9 ].*")){
            throw new IllegalArgumentException("Nome não pode conter números ou símbolos especiais.");
+        }
+        else if(nome.isEmpty()){
+            throw new IllegalArgumentException("O campo Nome não foi preenchido.");
         }
         this.nome = nome;
     }
@@ -84,6 +86,10 @@ public final class Jogador{
     }
 
     public void setDataNascimento(String dataNascimento) {
+        if(dataNascimento.isEmpty()){
+            throw new IllegalArgumentException("O campo Data de Nascimento não foi preenchido.");
+        }
+        
         String formatoData = "dd/MM/uuuu";
         DateTimeFormatter formato = DateTimeFormatter
         .ofPattern(formatoData)
@@ -102,12 +108,12 @@ public final class Jogador{
         }
     }
 
-    public Selecao getSelecao() {
-        return selecao;
+    public String getNomeSelecao() {
+        return nomeSelecao;
     }
 
-    protected void setSelecao(Selecao selecao) {
-        this.selecao = selecao;
+    public void setNomeSelecao(String nomeSelecao) {
+        this.nomeSelecao = nomeSelecao;
     }
 
     public int getAmarelos() {
@@ -162,6 +168,5 @@ public final class Jogador{
         System.out.println("Status: " + getStatus());
         System.out.println("Data de Nascimento: " + getDataNascimento());   
         System.out.println("-------------------------------------------");
-    }
-    
+    }    
 }

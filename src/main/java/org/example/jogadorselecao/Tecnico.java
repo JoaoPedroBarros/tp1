@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Tecnico {
     private String nome;
-    @JsonIgnore
     private String nomeSelecao;
     
     
@@ -26,13 +25,13 @@ public class Tecnico {
 
     public final void setNome(String nome) throws IllegalArgumentException{
         if(nome.isBlank() || nome.isEmpty()){
-            throw new IllegalArgumentException("O campo Nome não foi preenchido.");  
+            throw new IllegalArgumentException("O Campo Técnico não foi preenchido.");  
         }
         else if(nome.matches("^[\\p{L}\\s]+$")){
             this.nome = nome;
         }
         else{
-           throw new IllegalArgumentException("Nome não pode conter números ou símbolos especiais.");
+           throw new IllegalArgumentException("Nome do técnico não pode conter números ou símbolos especiais.");
         }
     }
 
@@ -44,4 +43,9 @@ public class Tecnico {
         this.nomeSelecao = nomeSelecao;
     }
 
+    public void mostra(){
+        System.out.println("\nNome: " + nome);
+        System.out.println("Seleção: " + nomeSelecao);
+    }
+    
 }

@@ -285,8 +285,10 @@ public class IOJogador extends Permissao{
         return jogador;
     }
     
-    public static List<Jogador> getMult(List<Integer> indices) throws IOException{
-        if(indices.isEmpty()){return null;}
+    public static List<Jogador> getMult(List<Integer> indices) throws IOException, IllegalArgumentException{
+        if(indices.isEmpty() || indices.get(0) == -1){
+            throw new IllegalArgumentException("Lista de indices inválida.");
+        }
         
         File arquivo = new File("src/main/resources/jogadores.jsonl");
         ObjectMapper mapper = new ObjectMapper();// Instancia Mapeamento padrao da biblioteca Jackson

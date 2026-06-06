@@ -50,8 +50,8 @@ public class IOSelecao extends Permissao{
     }
     
     //Append jogadores no arquivo jogadores.jsonl
-    public static void appendSelecao(Selecao selecao){
-        if (containsSelecao(selecao) != -1){return;}
+    public static boolean appendSelecao(Selecao selecao){
+        if (containsSelecao(selecao) != -1){return false;}
         
         ObjectMapper mapper = new ObjectMapper();          // Instancia Mapeamento padrao da biblioteca Jackson
         mapper.configure(JsonGenerator.Feature.AUTO_CLOSE_TARGET, false);
@@ -59,36 +59,33 @@ public class IOSelecao extends Permissao{
         try (FileOutputStream os = new FileOutputStream("src/main/resources/selecoes.jsonl", true)) {
             mapper.writeValue(os, selecao);
             os.write("\n".getBytes());
+            return true;
         } catch (IOException e) {
-            System.err.println("Nao foi possivel adicionar a selecao ao arquivo de persistencia.");
+           return false;
         }
     }
     
     //Apaga jogador do arquivo de persistencia
-    public static void deleteSelecao(Selecao selecao){
+    public static void deleteSelecao(String pais) throws IOException {
         File arquivoOriginal = new File("src/main/resources/selecoes.jsonl");
         File arquivoTemp = new File("src/main/resources/temp.jsonl");
 
-        ObjectMapper mapper = new ObjectMapper();// Instancia Mapeamento padrao da biblioteca Jackson
-        String linha; //String auxiliar para leitura    
-        int cont = 1;
+        String linha; //String auxiliar para leitura 
         
         try (BufferedReader leitura = new BufferedReader(new FileReader(arquivoOriginal));
              BufferedWriter escrita = new BufferedWriter(new FileWriter(arquivoTemp))){
 
-            String jsonStr = mapper.writeValueAsString(selecao); // Conversão da classe jogador para string de Json
-            
+            String comparador = "{\"nome\":\"" + pais + "\"";
+                    
             //Atualiza arquivo temporário com todos os dados, exceto o deletado
             while((linha = leitura.readLine()) != null){
-                if(jsonStr.equals(linha)){
-                    cont++;
+                if(linha.substring(0, linha.indexOf(",")).equals(comparador)){ //Compara somente os nomes do Jogadores
                     continue; //Não escreve a linha que se deseja apagar
                 }
                 escrita.write(linha + "\n"); //Escreve linha no arquivo temporário
-                cont++;
             }
         } catch (IOException e) {
-            System.err.println("Nao foi possivel abrir o arqiuivo para deleção.");
+            throw new IOException("Nao foi possivel abrir o arqiuivo para deleção.");
         }
         
         if(arquivoOriginal.delete()){

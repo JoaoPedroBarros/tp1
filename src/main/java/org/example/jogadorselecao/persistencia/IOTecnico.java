@@ -53,7 +53,7 @@ public class IOTecnico extends Permissao{
     }
     
     //Append tecnico no arquivo tecnicos.jsonl
-    public static void appendTecnico(Tecnico tecnico) throws ElementoDuplicado{
+    public static void appendTecnico(Tecnico tecnico) throws ElementoDuplicado, IOException{
         if (containsTecnico(tecnico) != -1){
             throw new ElementoDuplicado("Tecnico já está registrado no sistema.");
         }
@@ -65,7 +65,7 @@ public class IOTecnico extends Permissao{
             mapper.writeValue(os, tecnico);
             os.write("\n".getBytes());
         } catch (IOException e) {
-            System.err.println("Nao foi possivel adicionar o tecnico ao arquivo de persistencia.");
+            throw new IOException("Técnico não pôde ser cadastrado.");
         }
     }
     

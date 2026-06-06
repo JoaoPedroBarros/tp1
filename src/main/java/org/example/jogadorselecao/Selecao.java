@@ -13,6 +13,7 @@ public final class Selecao {
     private List<Jogador> time = new ArrayList<>();
     private static final int MAX_MEMBROS = 26;
     private static final int MIN_MEMBROS = 18;
+    private boolean isCopying;  //Define estado de transferência de dados do Registro para a JTable
     
     //Estatísticas
     private int vitorias;
@@ -21,10 +22,12 @@ public final class Selecao {
     
 // danilo: jackson precisa de um construtor vazio
     public Selecao() {
+        this.isCopying = true;
     }
     
     //Construtor
     public Selecao(String pais, int grupo, Tecnico tecnico, List<Jogador> time) throws IllegalArgumentException {
+        this.isCopying = false;
         setPais(pais);
         setGrupo(grupo);
         setTecnico(tecnico);
@@ -65,6 +68,11 @@ public final class Selecao {
     }
 
     public final void setTecnico(Tecnico tecnico) {
+        if(isCopying){
+            this.tecnico = tecnico;
+            return;
+        }
+        
         if(tecnico.getNomeSelecao() != null){
             throw new IllegalArgumentException(tecnico.getNome() + 
                     " já está afiliado à selecao do(a) " + tecnico.getNomeSelecao() + ".");
@@ -78,6 +86,13 @@ public final class Selecao {
     }
 
     public void setTime(List<Jogador> time) {
+        if(isCopying){
+            for(Jogador jogador : time){
+                this.time.add(jogador);
+            }
+            return;
+        }
+        
         if(time == null){return;}
         
         //Impede set com tamanhos inadequados de time
@@ -91,7 +106,7 @@ public final class Selecao {
                 throw new IllegalArgumentException("O jogador " + jogador.getNome() +
                         " já está afiliada à seleção do(a) " + jogador.getNomeSelecao() + ".");
             }
-        }
+        }    
         
         if(this.time != null){ //Para substituir a equipe inteira
           for(Jogador jogador : this.time){
@@ -99,7 +114,7 @@ public final class Selecao {
                 this.time.remove(jogador);
             }     
         }
-  
+
         //Vincula cada jogador da HashSet à atual instância de seleção
         for(Jogador jogador : time){
             jogador.setNomeSelecao(this.getPais());

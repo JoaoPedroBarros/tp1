@@ -45,7 +45,9 @@ public class CadastroSelecao extends javax.swing.JPanel {
     
     public CadastroSelecao() {
         initComponents();
-        jogadores = IOJogador.getMemJogadores(Jogador -> Jogador.getStatus().equals(StatusJogador.ATIVO), indices);
+        jogadores = IOJogador.getMemJogadores(Jogador -> Jogador.getStatus().equals(StatusJogador.ATIVO)
+                                              && Jogador.getNomeSelecao() == null, indices);
+        
         atualizaTableJog(jogadores); //Atualiza os valores da tabela com jogadores ATIVOS salvos no arquivo jogadores.jsonl
         tabelaJogs.setAutoCreateRowSorter(true); //Permite ordenação simples por duplo clique nos rótulos das colunas
         
@@ -60,7 +62,7 @@ public class CadastroSelecao extends javax.swing.JPanel {
             tabelaJogs.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
     }
-    
+
     private void atualizaTableJog(List<Jogador> jogadores){
         //Altera dinamicamente a tabela
         String[] colunas = new String[] {"Nome", "Número", "Posição"}; //Configura colunas
@@ -296,42 +298,33 @@ public class CadastroSelecao extends javax.swing.JPanel {
        }       
        
        List<Integer> indicesRefRegisto = new ArrayList<>(); //Instancia a Lista a ser passada para atualização dos Registros
-       for(int i = 0; i < indexesDaTabela.length; i++){     //Constroi a Lista com indices correspondentes no registro
+       for(int i = 0; i < indexesDaTabela.length; i++){     //Constroi a Lista com indices correspondentes no registros
            indicesRefRegisto.add(indices.get(indexesDaTabela[i]));
        }      
        
-       
-        try{
+       boolean wasTecnicoAppended = false;
+       boolean wasSelecaoAppended = false;
+       try{
             List<Jogador> selecionados = IOJogador.getMult(indicesRefRegisto); //Resgata jogadores do registro
-           
-            for(Jogador jogador : selecionados){
-                jogador.mostra();
-            }
-            //Tecnico tecnico = new Tecnico(txtInputTecnico.getText()); //Instancia tecnico
-            
-            /*Selecao selecao = new Selecao(txtInputPais.getText(), 
+
+            Tecnico tecnico = new Tecnico(txtInputTecnico.getText()); //Instancia tecnico
+
+            Selecao selecao = new Selecao(txtInputPais.getText(), 
                                           Integer.parseInt(txtInputGrupo.getText()),
                                           tecnico,
                                           selecionados); //Instancia a selecao
-           
-            //selecao.mostra();
             
-            //IOTecnico.appendTecnico(tecnico); //Adiciona tecnico ao registro
+            IOTecnico.appendTecnico(tecnico); //Adiciona tecnico ao registro
             
-            //IOSelecao.appendSelecao(selecao); //Adiciona selecao ao registro selecoes.jsonl
+            IOSelecao.appendSelecao(selecao); //Adiciona selecao ao registro selecoes.jsonl
            
-            //IOJogador.insertMult(selecionados, indicesRefRegisto);*/ //Atualiza jogadores selecionados no Registro jogadores.jsonl
+            IOJogador.insertMult(selecionados, indicesRefRegisto); //Atualiza jogadores selecionados no Registro jogadores.jsonl
+            JOptionPane.showMessageDialog(null, "Operação realizada com sucesso");
+            SwingUtilities.getWindowAncestor(this).dispose();
         }
-        catch(IOException | IllegalArgumentException e){
+        catch(ElementoDuplicado | IOException | IllegalArgumentException e){
             JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO!", JOptionPane.ERROR_MESSAGE);
-            try {
-                IOTecnico.deleteTecnico(txtInputTecnico.getText());
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO!", JOptionPane.ERROR_MESSAGE);
-            }
         }
-        JOptionPane.showMessageDialog(null, "Operação realizada com sucesso");
-        //SwingUtilities.getWindowAncestor(this).dispose();
     }//GEN-LAST:event_botaoSalvarActionPerformed
 
     private void txtInputFiltroNumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtInputFiltroNumActionPerformed

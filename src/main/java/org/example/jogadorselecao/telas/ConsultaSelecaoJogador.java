@@ -301,6 +301,9 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
     private void jRadioButtonJogadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonJogadorActionPerformed
         // TODO add your handling code here:
         txtInputGrupo.setEnabled(false);
+        if(txtInputGrupo.getText().isEmpty() || txtInputGrupo.getText().isBlank()){
+            txtInputGrupo.setText(".*");
+        }
         comboBoxPosicao.setEnabled(true);
         comboBoxStatus.setEnabled(true);
         criaTabelaJogador();

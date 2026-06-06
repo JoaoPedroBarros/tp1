@@ -13,13 +13,22 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import org.example.jogadorselecao.Jogador;
+import org.example.jogadorselecao.Posicao;
 import org.example.jogadorselecao.Selecao;
 import org.example.jogadorselecao.StatusJogador;
+import org.example.jogadorselecao.Tecnico;
+import org.example.jogadorselecao.persistencia.ElementoDuplicado;
 import org.example.jogadorselecao.persistencia.IOJogador;
+import org.example.jogadorselecao.persistencia.IOSelecao;
+import org.example.jogadorselecao.persistencia.IOTecnico;
 
 /**
  *
@@ -30,11 +39,15 @@ public class CadastroSelecao extends javax.swing.JPanel {
     /**
      * Creates new form CadastroSelecao
      */
+    
+    private List<Integer> indices = new ArrayList<>();
+    private List<Jogador> jogadores = new ArrayList<>();
+    
     public CadastroSelecao() {
         initComponents();
-        
-        List<Jogador> jogadores = IOJogador.getMemJogadores(Jogador -> Jogador.getStatus().equals(StatusJogador.ATIVO));
-        atualizaTableJog(jogadores);
+        jogadores = IOJogador.getMemJogadores(Jogador -> Jogador.getStatus().equals(StatusJogador.ATIVO), indices);
+        atualizaTableJog(jogadores); //Atualiza os valores da tabela com jogadores ATIVOS salvos no arquivo jogadores.jsonl
+        tabelaJogs.setAutoCreateRowSorter(true); //Permite ordenação simples por duplo clique nos rótulos das colunas
         
         //Faz com que a seleção de uma linha ou coluna seja total (linha toda)
         tabelaJogs.setRowSelectionAllowed(true);
@@ -46,19 +59,39 @@ public class CadastroSelecao extends javax.swing.JPanel {
         for (int i = 0; i < tabelaJogs.getColumnCount(); i++){
             tabelaJogs.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
-        
-        //Atualiza os valores da tabela, conforme valores salvos no arquivo jogadores.jsonl
-        //HashSet <Jogador> jogadores =  new HashSet<>();
-        //jogadores = IOJogador.getMemJogadores(Jogador -> Jogador.getSelecao().getNome().equals(null));
     }
     
     private void atualizaTableJog(List<Jogador> jogadores){
-        tabelaJogs.clearSelection(); //Desseleciona a linha atualmente selecionada
-        DefaultTableModel modelo = (DefaultTableModel) tabelaJogs.getModel(); //Gera um modelo de tabela para manipulação da JTable
-        modelo.setRowCount(0); //Zera o numero de linhas, efetivamente limpando a tabela
+        //Altera dinamicamente a tabela
+        String[] colunas = new String[] {"Nome", "Número", "Posição"}; //Configura colunas
+
+        tabelaJogs.clearSelection();
+        
+        DefaultTableModel modelo = new DefaultTableModel(null, colunas){
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+            @Override
+            public Class<?> getColumnClass(int columnIndex){
+                switch (columnIndex){
+                    case 0:
+                        return String.class;
+                    case 1:
+                        return Integer.class;
+                    case 2:
+                        return String.class;
+                    default:
+                        return Object.class;
+                }
+            }
+        };
+        
+        tabelaJogs.setModel(modelo); //Configura modelo da Tabela (Quantidade de colunas e disposição destas)
+        tabelaJogs.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         
         for(Jogador jogador : jogadores){
-            modelo.addRow(new Object[]{jogador.getNome(), jogador.getNumero(), jogador.getPosicao()});             
+            modelo.addRow(new Object[]{jogador.getNome(), jogador.getNumero(), jogador.getPosicao().toString()});             
         }
         
         //Define seleção da linha inteira
@@ -74,7 +107,6 @@ public class CadastroSelecao extends javax.swing.JPanel {
         }    
     }
 
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -91,12 +123,17 @@ public class CadastroSelecao extends javax.swing.JPanel {
         txtInputGrupo = new javax.swing.JTextField();
         botaoSalvar = new javax.swing.JButton();
         botaoCancelar = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tabelaJogs = new javax.swing.JTable();
         labelSelecioneJog = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        botaoFiltro = new javax.swing.JButton();
         txtInputTecnico = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
+        comboBoxPosicao = new javax.swing.JComboBox<>();
+        labelFiltroNum = new javax.swing.JLabel();
+        labelFiltroPosicao = new javax.swing.JLabel();
+        labelOpcoesFiltro = new javax.swing.JLabel();
+        botaoAplicarFiltros = new javax.swing.JButton();
+        txtInputFiltroNum = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tabelaJogs = new javax.swing.JTable();
 
         labelPais.setText("País:");
 
@@ -110,43 +147,73 @@ public class CadastroSelecao extends javax.swing.JPanel {
         botaoCancelar.setText("Cancelar");
         botaoCancelar.addActionListener(this::botaoCancelarActionPerformed);
 
+        labelSelecioneJog.setText("Selecione 18 a 26 jogadores para uma Seleção.");
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createCompoundBorder(null, javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
+
+        labelFiltroNum.setText("Número:");
+
+        labelFiltroPosicao.setText("Posição:");
+
+        labelOpcoesFiltro.setText("Opções de Filtragem");
+
+        botaoAplicarFiltros.setText("Aplicar filtros");
+
+        txtInputFiltroNum.addActionListener(this::txtInputFiltroNumActionPerformed);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelFiltroPosicao)
+                            .addComponent(labelFiltroNum))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtInputFiltroNum)
+                            .addComponent(comboBoxPosicao, 0, 116, Short.MAX_VALUE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(30, 30, 30)
+                                .addComponent(labelOpcoesFiltro))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(31, 31, 31)
+                                .addComponent(botaoAplicarFiltros)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addComponent(labelOpcoesFiltro)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelFiltroNum)
+                    .addComponent(txtInputFiltroNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboBoxPosicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelFiltroPosicao))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addComponent(botaoAplicarFiltros)
+                .addContainerGap())
+        );
+
         tabelaJogs.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Nome", "Número", "Posição"
+
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Object.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tabelaJogs.setColumnSelectionAllowed(true);
-        tabelaJogs.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(tabelaJogs);
-        tabelaJogs.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        if (tabelaJogs.getColumnModel().getColumnCount() > 0) {
-            tabelaJogs.getColumnModel().getColumn(0).setResizable(false);
-        }
-
-        labelSelecioneJog.setText("Selecione 18 a 26 jogadores:");
-
-        jTextField1.addActionListener(this::jTextField1ActionPerformed);
-
-        botaoFiltro.setText("🔍");
-        botaoFiltro.addActionListener(this::botaoFiltroActionPerformed);
+        ));
+        jScrollPane2.setViewportView(tabelaJogs);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -154,63 +221,61 @@ public class CadastroSelecao extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(botaoSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(botaoCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(botaoSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(botaoCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(labelPais)
-                                    .addComponent(labelGrupo)
-                                    .addComponent(labelTecnico))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(txtInputGrupo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
-                                    .addComponent(txtInputPais)
-                                    .addComponent(txtInputTecnico))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(labelSelecioneJog, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTextField1)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(10, 10, 10)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(labelPais)
+                                            .addComponent(labelTecnico)
+                                            .addComponent(labelGrupo))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(txtInputGrupo, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtInputPais)
+                                            .addComponent(txtInputTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(labelSelecioneJog))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(botaoFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(5, 5, 5))))
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelPais)
-                    .addComponent(txtInputPais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelGrupo)
-                    .addComponent(txtInputGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelTecnico)
-                    .addComponent(txtInputTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(botaoFiltro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(labelSelecioneJog, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(12, 12, 12)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelPais)
+                            .addComponent(txtInputPais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelGrupo)
+                            .addComponent(txtInputGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(9, 9, 9)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtInputTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelTecnico))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(labelSelecioneJog, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botaoSalvar)
                     .addComponent(botaoCancelar))
-                .addGap(7, 7, 7))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -225,30 +290,71 @@ public class CadastroSelecao extends javax.swing.JPanel {
 
     private void botaoSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSalvarActionPerformed
         // TODO add your handling code here:
+       int[] indexesDaTabela = tabelaJogs.getSelectedRows(); //Pega indexes selecionados na GUI
+       for(int i = 0; i < indexesDaTabela.length; i++){     //Converte indexes selecionados para a referencia no Modelo Base
+           indexesDaTabela[i] = tabelaJogs.convertRowIndexToModel(indexesDaTabela[i]);
+       }       
+       
+       List<Integer> indicesRefRegisto = new ArrayList<>(); //Instancia a Lista a ser passada para atualização dos Registros
+       for(int i = 0; i < indexesDaTabela.length; i++){     //Constroi a Lista com indices correspondentes no registro
+           indicesRefRegisto.add(indices.get(indexesDaTabela[i]));
+       }      
+       
+       
+        try{
+            List<Jogador> selecionados = IOJogador.getMult(indicesRefRegisto); //Resgata jogadores do registro
+           
+            for(Jogador jogador : selecionados){
+                jogador.mostra();
+            }
+            //Tecnico tecnico = new Tecnico(txtInputTecnico.getText()); //Instancia tecnico
+            
+            /*Selecao selecao = new Selecao(txtInputPais.getText(), 
+                                          Integer.parseInt(txtInputGrupo.getText()),
+                                          tecnico,
+                                          selecionados); //Instancia a selecao
+           
+            //selecao.mostra();
+            
+            //IOTecnico.appendTecnico(tecnico); //Adiciona tecnico ao registro
+            
+            //IOSelecao.appendSelecao(selecao); //Adiciona selecao ao registro selecoes.jsonl
+           
+            //IOJogador.insertMult(selecionados, indicesRefRegisto);*/ //Atualiza jogadores selecionados no Registro jogadores.jsonl
+        }
+        catch(IOException | IllegalArgumentException e){
+            JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO!", JOptionPane.ERROR_MESSAGE);
+            try {
+                IOTecnico.deleteTecnico(txtInputTecnico.getText());
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO!", JOptionPane.ERROR_MESSAGE);
+            }
+        }
         JOptionPane.showMessageDialog(null, "Operação realizada com sucesso");
-        SwingUtilities.getWindowAncestor(this).dispose();
+        //SwingUtilities.getWindowAncestor(this).dispose();
     }//GEN-LAST:event_botaoSalvarActionPerformed
 
-    private void botaoFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoFiltroActionPerformed
+    private void txtInputFiltroNumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtInputFiltroNumActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_botaoFiltroActionPerformed
-
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtInputFiltroNumActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botaoAplicarFiltros;
     private javax.swing.JButton botaoCancelar;
-    private javax.swing.JButton botaoFiltro;
     private javax.swing.JButton botaoSalvar;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JComboBox<Posicao> comboBoxPosicao;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel labelFiltroNum;
+    private javax.swing.JLabel labelFiltroPosicao;
     private javax.swing.JLabel labelGrupo;
+    private javax.swing.JLabel labelOpcoesFiltro;
     private javax.swing.JLabel labelPais;
     private javax.swing.JLabel labelSelecioneJog;
     private javax.swing.JLabel labelTecnico;
     private javax.swing.JTable tabelaJogs;
+    private javax.swing.JTextField txtInputFiltroNum;
     private javax.swing.JTextField txtInputGrupo;
     private javax.swing.JTextField txtInputPais;
     private javax.swing.JTextField txtInputTecnico;

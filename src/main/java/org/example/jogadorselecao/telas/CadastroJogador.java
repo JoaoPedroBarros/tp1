@@ -29,13 +29,10 @@ public class CadastroJogador extends javax.swing.JPanel {
         initComponents();
         
         //Adiciona posicoes
-        comboBoxPosicao.addItem(Posicao.CENTROAVANTE);
         comboBoxPosicao.addItem(Posicao.GOLEIRO);
-        comboBoxPosicao.addItem(Posicao.LATERAL);
-        comboBoxPosicao.addItem(Posicao.PONTA);
-        comboBoxPosicao.addItem(Posicao.RESERVA);
-        comboBoxPosicao.addItem(Posicao.VOLANTE);
-        comboBoxPosicao.addItem(Posicao.ZAGUEIRO);
+        comboBoxPosicao.addItem(Posicao.DEFENSOR);
+        comboBoxPosicao.addItem(Posicao.MEIO_CAMPISTA);
+        comboBoxPosicao.addItem(Posicao.ATACANTE);
         
         //Adiciona Status
         comboBoxStatus.addItem(StatusJogador.ATIVO);
@@ -49,13 +46,10 @@ public class CadastroJogador extends javax.swing.JPanel {
         this.indice = index;
         
         //Adiciona posicoes
-        comboBoxPosicao.addItem(Posicao.CENTROAVANTE);
         comboBoxPosicao.addItem(Posicao.GOLEIRO);
-        comboBoxPosicao.addItem(Posicao.LATERAL);
-        comboBoxPosicao.addItem(Posicao.PONTA);
-        comboBoxPosicao.addItem(Posicao.RESERVA);
-        comboBoxPosicao.addItem(Posicao.VOLANTE);
-        comboBoxPosicao.addItem(Posicao.ZAGUEIRO);
+        comboBoxPosicao.addItem(Posicao.DEFENSOR);
+        comboBoxPosicao.addItem(Posicao.MEIO_CAMPISTA);
+        comboBoxPosicao.addItem(Posicao.ATACANTE);
         
         //Adiciona Status
         comboBoxStatus.addItem(StatusJogador.ATIVO);

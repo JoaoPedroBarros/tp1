@@ -1,6 +1,7 @@
 package org.example.jogadorselecao;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -9,7 +10,7 @@ public final class Selecao {
     private String pais;
     private int grupo;
     private Tecnico tecnico;
-    private HashSet<Jogador> time = new HashSet<>();
+    private List<Jogador> time = new ArrayList<>();
     private static final int MAX_MEMBROS = 26;
     private static final int MIN_MEMBROS = 18;
     
@@ -23,7 +24,7 @@ public final class Selecao {
     }
     
     //Construtor
-    public Selecao(String pais, int grupo, Tecnico tecnico, HashSet<Jogador> time) throws IllegalArgumentException {
+    public Selecao(String pais, int grupo, Tecnico tecnico, List<Jogador> time) throws IllegalArgumentException {
         setPais(pais);
         setGrupo(grupo);
         setTecnico(tecnico);
@@ -36,11 +37,16 @@ public final class Selecao {
         return pais;
     }
 
-    public final void setPais(String pais) {
-        if(pais.matches(".*\\d.*") || pais.matches(".*[^a-zA-Z0-9 ].*")){
-           throw new IllegalArgumentException("Nome do país não pode conter números ou símbolos especiais.");
+    public final void setPais(String pais){
+        if(pais.isBlank() || pais.isEmpty()){
+            throw new IllegalArgumentException("O campo Nome não foi preenchido.");  
         }
-        this.pais = pais;
+        else if(pais.matches("^[\\p{L}\\s]+$")){
+            this.pais = pais;
+        }
+        else{
+           throw new IllegalArgumentException("Nome não pode conter números ou símbolos especiais.");
+        }
     }
 
     public int getGrupo() {
@@ -67,11 +73,11 @@ public final class Selecao {
         tecnico.setSelecao(this.getPais());
     }
 
-    public HashSet<Jogador> getTime() {
+    public List<Jogador> getTime() {
         return time;
     }
 
-    public void setTime(HashSet<Jogador> time) {
+    public void setTime(List<Jogador> time) {
         if(time == null){return;}
         
         //Impede set com tamanhos inadequados de time
@@ -189,7 +195,9 @@ public final class Selecao {
         System.out.println("Grupo: " + getGrupo());
         System.out.println("Tecnico: " + getTecnico().getNome());
         for (Jogador jogador : time){
-            jogador.mostra();
+            //jogador.mostra();
+            System.out.print("[ " + jogador.getNome() + ",");
+            System.out.println(" ]");
         }
     }
     

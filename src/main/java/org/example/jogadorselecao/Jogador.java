@@ -45,13 +45,15 @@ public final class Jogador{
     }
 
     public final void setNome(String nome){
-        if(nome.matches(".*\\d.*") || nome.matches(".*[^a-zA-Z0-9 ].*")){
+        if(nome.isBlank() || nome.isEmpty()){
+            throw new IllegalArgumentException("O campo Nome não foi preenchido.");  
+        }
+        else if(nome.matches("^[\\p{L}\\s]+$")){
+            this.nome = nome;
+        }
+        else{
            throw new IllegalArgumentException("Nome não pode conter números ou símbolos especiais.");
         }
-        else if(nome.isEmpty()){
-            throw new IllegalArgumentException("O campo Nome não foi preenchido.");
-        }
-        this.nome = nome;
     }
 
     public Posicao getPosicao() {
@@ -153,7 +155,7 @@ public final class Jogador{
         if(this == o) return true;
         if(o == null || getClass() != o.getClass()) return false;
         Jogador j = (Jogador) o;
-        return Objects.equals(nome, j.getNome());
+        return Objects.equals(nome.toLowerCase(), j.getNome().toLowerCase());
     }
     
     @Override

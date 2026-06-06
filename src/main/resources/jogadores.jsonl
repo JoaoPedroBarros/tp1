@@ -1,6 +1,42 @@
-{"nome":"Soares","posicao":"ZAGUEIRO","numero":58,"status":"ATIVO","dataNascimento":"30/03/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Henrique Cascao","posicao":"CENTROAVANTE","numero":762,"status":"ATIVO","dataNascimento":"17/07/1983","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Pele","posicao":"PONTA","numero":10,"status":"ATIVO","dataNascimento":"01/01/1999","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Alberto","posicao":"ZAGUEIRO","numero":58,"status":"ATIVO","dataNascimento":"30/03/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Pedro","posicao":"LATERAL","numero":30,"status":"ATIVO","dataNascimento":"30/03/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}{"nome":"Alfredo Di Stefano","posicao":"RESERVA","numero":15,"status":"ATIVO","dataNascimento":"04/01/1999","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Zacarias","posicao":"PONTA","numero":90,"status":"ATIVO","dataNascimento":"14/05/2005","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Ponyo","posicao":"GOLEIRO","numero":30,"status":"ATIVO","dataNascimento":"30/03/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Paula","posicao":"MEIO_CAMPISTA","numero":30,"status":"ATIVO","dataNascimento":"30/03/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Pelé","posicao":"ATACANTE","numero":10,"status":"ATIVO","dataNascimento":"01/01/1999","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Ricardinho Gomes","posicao":"MEIO_CAMPISTA","numero":30,"status":"ATIVO","dataNascimento":"30/03/1994","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Pedro","posicao":"MEIO_CAMPISTA","numero":30,"status":"ATIVO","dataNascimento":"30/03/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}{"nome":"Alfredo Di Stefano","posicao":"RESERVA","numero":15,"status":"ATIVO","dataNascimento":"04/01/1999","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Zacarias","posicao":"ATACANTE","numero":90,"status":"ATIVO","dataNascimento":"14/05/2005","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Diego Maradona","posicao":"ATACANTE","numero":1705,"status":"ATIVO","dataNascimento":"09/08/1978","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Garrincha","posicao":"ATACANTE","numero":21,"status":"ATIVO","dataNascimento":"21/10/1966","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Marco Van Basten","posicao":"ATACANTE","numero":54,"status":"ATIVO","dataNascimento":"22/03/1994","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Michel Platini","posicao":"ATACANTE","numero":722,"status":"ATIVO","dataNascimento":"12/01/1968","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Gerd Müller","posicao":"ATACANTE","numero":265,"status":"ATIVO","dataNascimento":"12/11/1971","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Alisson Becker","posicao":"GOLEIRO","numero":1,"status":"ATIVO","dataNascimento":"03/02/1977","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Ederson","posicao":"GOLEIRO","numero":2,"status":"ATIVO","dataNascimento":"03/02/1977","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Humberto","posicao":"ATACANTE","numero":13,"status":"ATIVO","dataNascimento":"17/08/1999","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Weverton","posicao":"GOLEIRO","numero":15,"status":"ATIVO","dataNascimento":"29/09/1981","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Alex Sandro","posicao":"DEFENSOR","numero":16,"status":"ATIVO","dataNascimento":"29/09/1981","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Bremer","posicao":"DEFENSOR","numero":17,"status":"ATIVO","dataNascimento":"29/09/1981","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Danilo","posicao":"DEFENSOR","numero":18,"status":"ATIVO","dataNascimento":"29/09/1981","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Douglas Santos","posicao":"MEIO_CAMPISTA","numero":19,"status":"ATIVO","dataNascimento":"20/10/1999","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Gabriel Magalhães","posicao":"DEFENSOR","numero":19,"status":"ATIVO","dataNascimento":"29/09/1981","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Ibañez","posicao":"ATACANTE","numero":20,"status":"ATIVO","dataNascimento":"30/06/1997","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Léo Pereira","posicao":"DEFENSOR","numero":22,"status":"ATIVO","dataNascimento":"10/05/1995","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Marquinhos","posicao":"DEFENSOR","numero":24,"status":"ATIVO","dataNascimento":"10/05/1995","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Wesley","posicao":"ATACANTE","numero":25,"status":"ATIVO","dataNascimento":"10/05/1995","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Bruno Guimarães","posicao":"MEIO_CAMPISTA","numero":26,"status":"ATIVO","dataNascimento":"10/05/1995","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Casemiro","posicao":"ATACANTE","numero":27,"status":"ATIVO","dataNascimento":"10/05/1995","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Danilo Santos","posicao":"ATACANTE","numero":28,"status":"ATIVO","dataNascimento":"10/05/1995","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Ochoa","posicao":"GOLEIRO","numero":13,"status":"ATIVO","dataNascimento":"13/03/1993","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Fabinho","posicao":"MEIO_CAMPISTA","numero":27,"status":"ATIVO","dataNascimento":"15/08/2004","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Zico","posicao":"ATACANTE","numero":31,"status":"ATIVO","dataNascimento":"15/08/2004","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Lucas Paquetá","posicao":"GOLEIRO","numero":28,"status":"ATIVO","dataNascimento":"15/08/2004","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Endrick","posicao":"ATACANTE","numero":32,"status":"ATIVO","dataNascimento":"15/08/2004","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Gabriel Martinelli","posicao":"ATACANTE","numero":34,"status":"ATIVO","dataNascimento":"15/08/2004","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Igor Thiago","posicao":"GOLEIRO","numero":35,"status":"ATIVO","dataNascimento":"15/08/2004","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Zlatan Ibrahimović","posicao":"ATACANTE","numero":33,"status":"ATIVO","dataNascimento":"03/10/1981","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Luiz Henrique","posicao":"ATACANTE","numero":43,"status":"ATIVO","dataNascimento":"02/03/1998","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Matheus Cunha","posicao":"ATACANTE","numero":45,"status":"ATIVO","dataNascimento":"02/03/1998","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Neymar","posicao":"ATACANTE","numero":10,"status":"ATIVO","dataNascimento":"05/02/1992","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Raphinha","posicao":"ATACANTE","numero":34,"status":"ATIVO","dataNascimento":"02/03/1998","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Rayan","posicao":"ATACANTE","numero":15,"status":"ATIVO","dataNascimento":"02/03/1998","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Vinícius Júnior","posicao":"ATACANTE","numero":10,"status":"ATIVO","dataNascimento":"12/07/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Jax Maximus","posicao":"DEFENSOR","numero":30,"status":"ATIVO","dataNascimento":"30/03/1991","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}

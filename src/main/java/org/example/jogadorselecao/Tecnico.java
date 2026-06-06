@@ -24,11 +24,16 @@ public class Tecnico {
         return nome;
     }
 
-    public final void setNome(String nome){
-        if(nome.matches(".*\\d.*") || nome.matches(".*[^a-zA-Z0-9 ].*")){
+    public final void setNome(String nome) throws IllegalArgumentException{
+        if(nome.isBlank() || nome.isEmpty()){
+            throw new IllegalArgumentException("O campo Nome não foi preenchido.");  
+        }
+        else if(nome.matches("^[\\p{L}\\s]+$")){
+            this.nome = nome;
+        }
+        else{
            throw new IllegalArgumentException("Nome não pode conter números ou símbolos especiais.");
         }
-        this.nome = nome;
     }
 
     public String getNomeSelecao() {

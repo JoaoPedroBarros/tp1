@@ -240,6 +240,19 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
             public boolean isCellEditable(int row, int column){
                 return false;
             }
+            @Override
+            public Class<?> getColumnClass(int columnIndex){
+                switch (columnIndex){
+                    case 0:
+                        return String.class;
+                    case 1:
+                        return Integer.class;
+                    case 2:
+                        return String.class;
+                    default:
+                        return Object.class;
+                }
+            }
         };
         
         consultaTable.setModel(modelo); //Configura modelo da Tabela (Quantidade de colunas e disposição destas)
@@ -258,6 +271,24 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
             @Override
             public boolean isCellEditable(int row, int column){
                 return false;
+            }
+            
+            @Override
+            public Class<?> getColumnClass(int columnIndex){
+                switch (columnIndex){
+                    case 0:
+                        return String.class;
+                    case 1:
+                        return Integer.class;
+                    case 2:
+                        return String.class;
+                    case 3:
+                        return String.class;
+                    case 4:
+                        return String.class;
+                    default:
+                        return Object.class;
+                }
             }
         };
         
@@ -292,8 +323,8 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
             while((linha = leitura.readLine()) != null){
                 if(!tipo){
                     jogador = mapper.readValue(linha, Jogador.class);
-                    modelo.addRow(new Object[]{jogador.getNome(), jogador.getNumero(), jogador.getPosicao(),
-                                               jogador.getStatus(), jogador.getNomeSelecao()});                   
+                    modelo.addRow(new Object[]{jogador.getNome(), jogador.getNumero(), jogador.getPosicao().toString(),
+                                               jogador.getStatus().toString(), jogador.getNomeSelecao()});                   
                 }
                 else{
                     selecao = mapper.readValue(linha, Selecao.class);
@@ -382,7 +413,6 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Selecione somente uma linha para edição.", "Erro!", JOptionPane.ERROR_MESSAGE);
             return;            
         }
-        
         
         int indice = consultaTable.convertRowIndexToModel(consultaTable.getSelectedRow());
         

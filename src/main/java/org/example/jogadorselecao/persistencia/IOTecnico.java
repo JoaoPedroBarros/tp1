@@ -1,47 +1,44 @@
 package org.example.jogadorselecao.persistencia;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.jogadorselecao.Jogador;
 import com.fasterxml.jackson.core.JsonGenerator;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.function.Predicate;
-import javax.imageio.IIOException;
 import org.example.administracao.Permissao;
+import org.example.jogadorselecao.Tecnico;
 
-public class IOJogador extends Permissao{
+public class IOTecnico extends Permissao{
     
     //Metodos personalizados
     @Override
     public String getNome(){
-        return "ORGANIZA_JOGADOR";
+        return "ORGANIZA_TECNICO";
     }    
     
-    //Verifica se o jogador já está salvo no arquivo (Responde a pergunta: Já existe um jogador com mesmo nome?)
-    //Se o jogador estiver no arquivo de persistencia, retorna a linha em que foi achado.
-    //Se o jogador não estiver no arquivo, retorna -1.
-    public static int containsJogador(Jogador jogador){
-        File arquivo = new File("src/main/resources/jogadores.jsonl");
+    //Verifica se o tecnico já está salvo no arquivo (Responde a pergunta: Já existe um tecnico com mesmo nome?)
+    //Se o tecnico estiver no arquivo de persistencia, retorna a linha em que foi achado.
+    //Se o tecnico não estiver no arquivo, retorna -1.
+    public static int containsTecnico(Tecnico tecnico){
+        File arquivo = new File("src/main/resources/tecnicos.jsonl");
         ObjectMapper mapper = new ObjectMapper();// Instancia Mapeamento padrao da biblioteca Jackson
         String linha;
         int index = 1;
         
         try(BufferedReader leitura = new BufferedReader(new FileReader(arquivo))){
-            String jsonStr = mapper.writeValueAsString(jogador); // Conversão da classe jogador para string de Json
+            String jsonStr = mapper.writeValueAsString(tecnico); // Conversão da classe Tecnico para string de Json
             
             while((linha = leitura.readLine()) != null){
-                //Compara somente os nomes dos jogadores
+                //Compara somente os nomes dos tecnicos
                 if(linha.substring(0, linha.indexOf(","))
-                   .equalsIgnoreCase(jsonStr.substring(0, jsonStr.indexOf(",")))){ //Compara somente os nomes do Jogadores
+                   .equalsIgnoreCase(jsonStr.substring(0, jsonStr.indexOf(",")))){ //Compara somente os nomes do Tecnicos
                     break;
                 }
                 index++;
@@ -55,26 +52,26 @@ public class IOJogador extends Permissao{
         return -1; //Retorno default
     }
     
-    //Append jogadores no arquivo jogadores.jsonl
-    public static void appendJogador(Jogador jogador) throws ElementoDuplicado{
-        if (containsJogador(jogador) != -1){
-            throw new ElementoDuplicado("Jogador já está registrado no sistema.");
+    //Append tecnico no arquivo tecnicos.jsonl
+    public static void appendTecnico(Tecnico tecnico) throws ElementoDuplicado{
+        if (containsTecnico(tecnico) != -1){
+            throw new ElementoDuplicado("Tecnico já está registrado no sistema.");
         }
         
         ObjectMapper mapper = new ObjectMapper();          // Instancia Mapeamento padrao da biblioteca Jackson
         mapper.configure(JsonGenerator.Feature.AUTO_CLOSE_TARGET, false);
         
-        try (FileOutputStream os = new FileOutputStream("src/main/resources/jogadores.jsonl", true)) {
-            mapper.writeValue(os, jogador);
+        try (FileOutputStream os = new FileOutputStream("src/main/resources/tecnicos.jsonl", true)) {
+            mapper.writeValue(os, tecnico);
             os.write("\n".getBytes());
         } catch (IOException e) {
-            System.err.println("Nao foi possivel adicionar o jogador ao arquivo de persistencia.");
+            System.err.println("Nao foi possivel adicionar o tecnico ao arquivo de persistencia.");
         }
     }
     
-    //Apaga jogador do arquivo de persistencia dado o nome do Jogador
-    public static void deleteJogador(String nome) throws IOException{
-        File arquivoOriginal = new File("src/main/resources/jogadores.jsonl");
+    //Apaga tecnico do arquivo de persistencia dado o nome do Tecnico
+    public static void deleteTecnico(String nome) throws IOException{
+        File arquivoOriginal = new File("src/main/resources/tecnicos.jsonl");
         File arquivoTemp = new File("src/main/resources/temp.jsonl");
 
         String linha; //String auxiliar para leitura    
@@ -86,7 +83,7 @@ public class IOJogador extends Permissao{
                     
             //Atualiza arquivo temporário com todos os dados, exceto o deletado
             while((linha = leitura.readLine()) != null){
-                if(linha.substring(0, linha.indexOf(",")).equals(comparador)){ //Compara somente os nomes do Jogadores
+                if(linha.substring(0, linha.indexOf(",")).equals(comparador)){ //Compara somente os nomes do Tecnicos
                     continue; //Não escreve a linha que se deseja apagar
                 }
                 escrita.write(linha + "\n"); //Escreve linha no arquivo temporário
@@ -103,22 +100,22 @@ public class IOJogador extends Permissao{
         }
     }
     
-    //Retorna uma HashSet de Jogadores da Memória, com a caractéristica fornecida
-    //Se não houver jogadores com a característica escolhida, retorna nulo.
-    //Caso contrário, retorna uma HashSet de Jogadores com a caractéristica escolhida
+    //Retorna uma HashSet de Tecnico da Memória, com a caractéristica fornecida
+    //Se não houver tecnicos com a característica escolhida, retorna nulo.
+    //Caso contrário, retorna uma List dos Tecnicos com a caractéristica escolhida
     //No vetor indice
-    public static List<Jogador> getMemJogadores(Predicate<Jogador> criterio, List<Integer> indices){
+    public static List<Tecnico> getMemTecnicos(Predicate<Tecnico> criterio, List<Integer> indices){
         
-        List<Jogador> listaFiltrada = new ArrayList<>();
-        File save = new File("src/main/resources/jogadores.jsonl");
+        List<Tecnico> listaFiltrada = new ArrayList<>();
+        File save = new File("src/main/resources/tecnicos.jsonl");
         ObjectMapper mapper = new ObjectMapper();// Instancia Mapeamento padrao da biblioteca Jackson
         String linha; //String auxiliar para leitura
         int cont = 0;
-        Jogador aux;
+        Tecnico aux;
         
         try(BufferedReader leitura = new BufferedReader(new FileReader(save))){            
             while((linha = leitura.readLine()) != null){
-                aux = mapper.readValue(linha, Jogador.class);
+                aux = mapper.readValue(linha, Tecnico.class);
                 if(criterio.test(aux)){
                     listaFiltrada.add(aux);
                     indices.add(cont);
@@ -132,13 +129,13 @@ public class IOJogador extends Permissao{
         return listaFiltrada;
     }
     
-    //Edita um objeto Jogador da Memória, se ele estiver na memória
+    //Edita um objeto Tecnico da Memória, se ele estiver na memória
     //Caso não exista, não faz nada.
-    public static void setMemJogador(Jogador jogador){
+    public static void setMemTecnico(Tecnico tecnico){
         int indice;
-        if((indice = containsJogador(jogador)) == -1){return;}
+        if((indice = containsTecnico(tecnico)) == -1){return;}
         
-        File save = new File("src/main/resources/jogadores.jsonl");
+        File save = new File("src/main/resources/tecnicos.jsonl");
         File temp = new File("src/main/resources/temp.jsonl");
         ObjectMapper mapper = new ObjectMapper();// Instancia Mapeamento padrao da biblioteca Jackson
         String linha; //String auxiliar para leitura
@@ -146,7 +143,7 @@ public class IOJogador extends Permissao{
         
         try(BufferedReader leitura = new BufferedReader(new FileReader(save));
             BufferedWriter escrita = new BufferedWriter(new FileWriter(temp))){
-            String jsonStr = mapper.writeValueAsString(jogador);
+            String jsonStr = mapper.writeValueAsString(tecnico);
             
             while((linha = leitura.readLine()) != null){
                 cont++;
@@ -169,8 +166,8 @@ public class IOJogador extends Permissao{
         }
     }  
     
-    public static void insert(Jogador jogador, int index) throws IOException{
-        File arquivoOriginal = new File("src/main/resources/jogadores.jsonl");
+    public static void insert(Tecnico tecnico, int index) throws IOException{
+        File arquivoOriginal = new File("src/main/resources/tecnicos.jsonl");
         File arquivoTemp = new File("src/main/resources/temp.jsonl");
 
         String linha; //String auxiliar para leitura
@@ -179,11 +176,11 @@ public class IOJogador extends Permissao{
         try (BufferedReader leitura = new BufferedReader(new FileReader(arquivoOriginal));
              BufferedWriter escrita = new BufferedWriter(new FileWriter(arquivoTemp))){
              
-            String jsonStr = mapper.writeValueAsString(jogador);
+            String jsonStr = mapper.writeValueAsString(tecnico);
 
             //Atualiza arquivo temporário com todos os dados, exceto o deletado
             while((linha = leitura.readLine()) != null){
-                if(cont == index){ //Compara somente os nomes do Jogadores
+                if(cont == index){ //Compara somente os nomes do Tecnicos
                     escrita.write(jsonStr + "\n");
                     cont++;
                     continue;
@@ -209,12 +206,12 @@ public class IOJogador extends Permissao{
         }     
     }
 
-    public static void insertMult(List<Jogador> jogadores, List<Integer> indices) throws IOException{
-        if(jogadores.size() != indices.size()){
+    public static void insertMult(List<Tecnico> tecnicos, List<Integer> indices) throws IOException{
+        if(tecnicos.size() != indices.size()){
             throw new IOException("Tamanhos das listas não coincidem.");
         }
         
-        File arquivoOriginal = new File("src/main/resources/jogadores.jsonl");
+        File arquivoOriginal = new File("src/main/resources/tecnicos.jsonl");
         File arquivoTemp = new File("src/main/resources/temp.jsonl");
 
         String linha; //String auxiliar para leitura
@@ -227,10 +224,10 @@ public class IOJogador extends Permissao{
 
             //Atualiza arquivo temporário com todos os dados, exceto o deletado
             while((linha = leitura.readLine()) != null){
-                if(!indices.isEmpty() && cont == indices.get(0)){ //Compara somente os nomes do Jogadores
+                if(!indices.isEmpty() && cont == indices.get(0)){ //Compara somente os nomes do Tecnicos
                     indices.remove(0);
-                    jsonStr = mapper.writeValueAsString(jogadores.get(0));
-                    jogadores.remove(0);
+                    jsonStr = mapper.writeValueAsString(tecnicos.get(0));
+                    tecnicos.remove(0);
                     escrita.write(jsonStr + "\n");
                     cont++;
                     continue;
@@ -257,19 +254,19 @@ public class IOJogador extends Permissao{
     }
 
     
-    public static Jogador get(int index) throws IOException{
+    public static Tecnico get(int index) throws IOException{
         if(index == -1){return null;}
         
-        File arquivo = new File("src/main/resources/jogadores.jsonl");
+        File arquivo = new File("src/main/resources/tecnicos.jsonl");
         ObjectMapper mapper = new ObjectMapper();// Instancia Mapeamento padrao da biblioteca Jackson
         String linha;
-        Jogador jogador = null;
+        Tecnico tecnico = null;
         int cont = 0;
         
         try(BufferedReader leitura = new BufferedReader(new FileReader(arquivo))){            
             while((linha = leitura.readLine()) != null){
                 if(cont == index){
-                    jogador = mapper.readValue(linha, Jogador.class);
+                    tecnico = mapper.readValue(linha, Tecnico.class);
                 }
                 cont++;
             }          
@@ -278,27 +275,27 @@ public class IOJogador extends Permissao{
             throw new IOException("Ocorreu um erro inesperado na leitura do arquivo.");
         } 
         
-        if(jogador == null){
-            throw new IOException("Jogador não encontrado. Get não foi executado corretamente.");
+        if(tecnico == null){
+            throw new IOException("Técnico não encontrado. Get não foi executado corretamente.");
         }
         
-        return jogador;
+        return tecnico;
     }
     
-    public static List<Jogador> getMult(List<Integer> indices) throws IOException{
+    public static List<Tecnico> getMult(List<Integer> indices) throws IOException{
         if(indices.isEmpty()){return null;}
         
-        File arquivo = new File("src/main/resources/jogadores.jsonl");
+        File arquivo = new File("src/main/resources/tecnicos.jsonl");
         ObjectMapper mapper = new ObjectMapper();// Instancia Mapeamento padrao da biblioteca Jackson
         String linha;
-        List<Jogador> jogadores = new ArrayList<>();
+        List<Tecnico> tecnicos = null;
         int iterador = 0;
         int cont = 0;
         
         try(BufferedReader leitura = new BufferedReader(new FileReader(arquivo))){            
-            while(iterador < indices.size() && (linha = leitura.readLine()) != null){
+            while((linha = leitura.readLine()) != null){
                 if(cont == indices.get(iterador)){
-                    jogadores.add(mapper.readValue(linha, Jogador.class));
+                    tecnicos.add(mapper.readValue(linha, Tecnico.class));
                     iterador++;
                 }
                 cont++;
@@ -309,29 +306,10 @@ public class IOJogador extends Permissao{
         } 
         
         if(iterador < indices.size()){
-            throw new IOException("Jogador não encontrado. GetMul não foi executado corretamente.");
+            throw new IOException("Técnico não encontrado. GetMul não foi executado corretamente.");
         }
         
-        return jogadores;        
+        return tecnicos;        
     }
     
-    
-    //Função extra (mais para legibilidade)
-    //Guarda todos os novos jogadores distintos no arquivo de persistência
-    public static void adicionarJogadores(List<Jogador> jogadores) throws ElementoDuplicado{
-        for(var jogador : jogadores){
-            appendJogador(jogador);
-        }
-    }
-    
-    //Métodos não escalonáveis
-    //Mantive esses métodos para discutir depois a real praticidade e impacto de usar procedimenro não escalonáveis
-    //NE significa Não Escalonável
-    public static void appendJogNE(Jogador jogador){
-        
-    }
-    
-    public static void atualizaJogsNE(HashSet<Jogador> jogadores){
-        
-    }
 }

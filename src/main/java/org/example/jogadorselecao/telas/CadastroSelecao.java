@@ -9,8 +9,16 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 import org.example.jogadorselecao.Jogador;
+import org.example.jogadorselecao.Selecao;
+import org.example.jogadorselecao.StatusJogador;
 import org.example.jogadorselecao.persistencia.IOJogador;
 
 /**
@@ -25,22 +33,48 @@ public class CadastroSelecao extends javax.swing.JPanel {
     public CadastroSelecao() {
         initComponents();
         
+        List<Jogador> jogadores = IOJogador.getMemJogadores(Jogador -> Jogador.getStatus().equals(StatusJogador.ATIVO));
+        atualizaTableJog(jogadores);
+        
         //Faz com que a seleção de uma linha ou coluna seja total (linha toda)
-        TabelaSelecaoJog.setRowSelectionAllowed(true);
-        TabelaSelecaoJog.setColumnSelectionAllowed(false);
+        tabelaJogs.setRowSelectionAllowed(true);
+        tabelaJogs.setColumnSelectionAllowed(false);
         
         //Centraliza os conteudos das colunas
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        for (int i = 0; i < TabelaSelecaoJog.getColumnCount(); i++){
-            TabelaSelecaoJog.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        for (int i = 0; i < tabelaJogs.getColumnCount(); i++){
+            tabelaJogs.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
         
         //Atualiza os valores da tabela, conforme valores salvos no arquivo jogadores.jsonl
-        HashSet <Jogador> jogadores =  new HashSet<>();
+        //HashSet <Jogador> jogadores =  new HashSet<>();
         //jogadores = IOJogador.getMemJogadores(Jogador -> Jogador.getSelecao().getNome().equals(null));
     }
+    
+    private void atualizaTableJog(List<Jogador> jogadores){
+        tabelaJogs.clearSelection(); //Desseleciona a linha atualmente selecionada
+        DefaultTableModel modelo = (DefaultTableModel) tabelaJogs.getModel(); //Gera um modelo de tabela para manipulação da JTable
+        modelo.setRowCount(0); //Zera o numero de linhas, efetivamente limpando a tabela
+        
+        for(Jogador jogador : jogadores){
+            modelo.addRow(new Object[]{jogador.getNome(), jogador.getNumero(), jogador.getPosicao()});             
+        }
+        
+        //Define seleção da linha inteira
+        tabelaJogs.setRowSelectionAllowed(true);
+        tabelaJogs.setColumnSelectionAllowed(false);
+        
+        //Centraliza os conteúdos das colunas
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer(){
+        };
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        for (int i = 0; i < tabelaJogs.getColumnCount(); i++){
+            tabelaJogs.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }    
+    }
 
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -58,7 +92,7 @@ public class CadastroSelecao extends javax.swing.JPanel {
         botaoSalvar = new javax.swing.JButton();
         botaoCancelar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        TabelaSelecaoJog = new javax.swing.JTable();
+        tabelaJogs = new javax.swing.JTable();
         labelSelecioneJog = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         botaoFiltro = new javax.swing.JButton();
@@ -76,38 +110,9 @@ public class CadastroSelecao extends javax.swing.JPanel {
         botaoCancelar.setText("Cancelar");
         botaoCancelar.addActionListener(this::botaoCancelarActionPerformed);
 
-        TabelaSelecaoJog.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaJogs.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, ""},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "Nome", "Número", "Posição"
@@ -128,12 +133,12 @@ public class CadastroSelecao extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        TabelaSelecaoJog.setColumnSelectionAllowed(true);
-        TabelaSelecaoJog.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(TabelaSelecaoJog);
-        TabelaSelecaoJog.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        if (TabelaSelecaoJog.getColumnModel().getColumnCount() > 0) {
-            TabelaSelecaoJog.getColumnModel().getColumn(0).setResizable(false);
+        tabelaJogs.setColumnSelectionAllowed(true);
+        tabelaJogs.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(tabelaJogs);
+        tabelaJogs.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        if (tabelaJogs.getColumnModel().getColumnCount() > 0) {
+            tabelaJogs.getColumnModel().getColumn(0).setResizable(false);
         }
 
         labelSelecioneJog.setText("Selecione 18 a 26 jogadores:");
@@ -234,7 +239,6 @@ public class CadastroSelecao extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable TabelaSelecaoJog;
     private javax.swing.JButton botaoCancelar;
     private javax.swing.JButton botaoFiltro;
     private javax.swing.JButton botaoSalvar;
@@ -244,6 +248,7 @@ public class CadastroSelecao extends javax.swing.JPanel {
     private javax.swing.JLabel labelPais;
     private javax.swing.JLabel labelSelecioneJog;
     private javax.swing.JLabel labelTecnico;
+    private javax.swing.JTable tabelaJogs;
     private javax.swing.JTextField txtInputGrupo;
     private javax.swing.JTextField txtInputPais;
     private javax.swing.JTextField txtInputTecnico;

@@ -40,14 +40,34 @@ public class GestaoUsuarios extends javax.swing.JFrame {
         this.persistenciaUsuario = persistenciaUsuario;
         initComponents();
         
-        caixaTipoUsuario.addItem(new Administrador());
-        caixaTipoUsuario.addItem(new Organizador());
-        caixaTipoUsuario.addItem(new Operador());
-        
-        caixaStatusUsuario.addItem(Usuario.StatusUsuario.ATIVO);
-        caixaStatusUsuario.addItem(Usuario.StatusUsuario.AFASTADO);
-        caixaStatusUsuario.addItem(Usuario.StatusUsuario.DESLIGADO);
+        desabilitaInputPesquisa();
     }
+    
+    private void preencheTabela(List<Usuario> listaUsuario) {
+        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tabelaUsuarios.getModel();
+        
+        modelo.setRowCount(0);
+        modelo.setColumnIdentifiers(new Object[]{"Nome", "ID", "Função", "País"});
+        
+        
+        for (Usuario e : listaUsuario) {
+            modelo.addRow(new Object[] {
+                e.getNome(),
+                e.getIdentificacao(),
+                e.getPapel(),
+                e.getPais()
+            });
+        }
+    }
+    
+    private void desabilitaInputPesquisa() {
+        checkInputNome.setEnabled(false);
+        checkInputEmail.setEnabled(false);
+        caixaCheckFuncao.setEnabled(false);
+        checkInputID.setEnabled(false);
+        checkInputPais.setEnabled(false);
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -87,10 +107,10 @@ public class GestaoUsuarios extends javax.swing.JFrame {
         checkPais = new javax.swing.JCheckBox();
         checkInputPais = new javax.swing.JTextField();
         botaoPesquisa = new javax.swing.JButton();
-        caixaCheckFuncao = new javax.swing.JComboBox<>();
         botaoLista = new javax.swing.JButton();
         scrollUsuarios = new javax.swing.JScrollPane();
         tabelaUsuarios = new javax.swing.JTable();
+        caixaCheckFuncao = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -113,8 +133,13 @@ public class GestaoUsuarios extends javax.swing.JFrame {
         botaoFechar.addActionListener(this::botaoFecharActionPerformed);
 
         caixaTipoUsuario.addItem(new Administrador());
+        caixaTipoUsuario.addItem(new Organizador());
+        caixaTipoUsuario.addItem(new Operador());
         caixaTipoUsuario.addActionListener(this::caixaTipoUsuarioActionPerformed);
 
+        caixaStatusUsuario.addItem(Usuario.StatusUsuario.ATIVO);
+        caixaStatusUsuario.addItem(Usuario.StatusUsuario.AFASTADO);
+        caixaStatusUsuario.addItem(Usuario.StatusUsuario.DESLIGADO);
         caixaStatusUsuario.addActionListener(this::caixaStatusUsuarioActionPerformed);
 
         javax.swing.GroupLayout painelCadastraUsuarioLayout = new javax.swing.GroupLayout(painelCadastraUsuario);
@@ -215,14 +240,17 @@ public class GestaoUsuarios extends javax.swing.JFrame {
         botaoPesquisa.setText("Pesquisar...");
         botaoPesquisa.addActionListener(this::botaoPesquisaActionPerformed);
 
-        caixaCheckFuncao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrador", "Árbitro", "Organizador", "Operador" }));
-
         botaoLista.setText("Listar todos os usuários...");
         botaoLista.addActionListener(this::botaoListaActionPerformed);
 
         scrollUsuarios.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         scrollUsuarios.setViewportView(tabelaUsuarios);
+
+        caixaCheckFuncao.addItem(null);
+        caixaCheckFuncao.addItem(new Administrador());
+        caixaCheckFuncao.addItem(new Organizador());
+        caixaCheckFuncao.addItem(new Operador());
 
         javax.swing.GroupLayout painelPesquisaUsuarioLayout = new javax.swing.GroupLayout(painelPesquisaUsuario);
         painelPesquisaUsuario.setLayout(painelPesquisaUsuarioLayout);
@@ -241,18 +269,18 @@ public class GestaoUsuarios extends javax.swing.JFrame {
                             .addComponent(checkPais)
                             .addComponent(botaoPesquisa))
                         .addGap(21, 21, 21)
-                        .addGroup(painelPesquisaUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(checkInputNome, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(caixaCheckFuncao, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(checkInputID, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(checkInputEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(checkInputPais, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(botaoLista))
+                        .addGroup(painelPesquisaUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(checkInputNome, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                            .addComponent(checkInputID, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                            .addComponent(checkInputEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                            .addComponent(checkInputPais, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                            .addComponent(botaoLista)
+                            .addComponent(caixaCheckFuncao, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
-        painelPesquisaUsuarioLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {caixaCheckFuncao, checkInputEmail, checkInputID, checkInputNome, checkInputPais});
+        painelPesquisaUsuarioLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {checkInputEmail, checkInputID, checkInputNome, checkInputPais});
 
         painelPesquisaUsuarioLayout.setVerticalGroup(
             painelPesquisaUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -289,7 +317,7 @@ public class GestaoUsuarios extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        painelPesquisaUsuarioLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {caixaCheckFuncao, checkInputEmail, checkInputID, checkInputNome, checkInputPais});
+        painelPesquisaUsuarioLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {checkInputEmail, checkInputID, checkInputNome, checkInputPais});
 
         jTabbedPane1.addTab("Pesquisar usuário", painelPesquisaUsuario);
 
@@ -325,13 +353,12 @@ public class GestaoUsuarios extends javax.swing.JFrame {
         
         try {
             AdministraUsuario.criaUsuario(usuarioCadastro, persistenciaUsuario);
+            JOptionPane.showMessageDialog(rootPane, "Usuário cadastrado com sucesso! Seu ID é: " + usuarioCadastro.getIdentificacao());
         }
         
-        catch (SenhaInsuficienteException | CamposEmBrancoException e) {
+        catch (CamposEmBrancoException | SenhaInsuficienteException e) {
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
         }
-        
-        JOptionPane.showMessageDialog(rootPane, "Usuário cadastrado com sucesso! Seu ID é: " + usuarioCadastro.getIdentificacao());
              
     }//GEN-LAST:event_botaoSalvarUsuarioActionPerformed
 
@@ -340,53 +367,64 @@ public class GestaoUsuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_botaoFecharActionPerformed
 
     private void botaoListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoListaActionPerformed
-        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tabelaUsuarios.getModel();
-        
-        modelo.setRowCount(0);
-        modelo.setColumnIdentifiers(new Object[]{"Nome", "ID", "Função", "País"});
-        
         List<Usuario> listaUsuario = AdministraUsuario.listaUsuario(persistenciaUsuario);
-        
-        for (Usuario e : listaUsuario) {
-            modelo.addRow(new Object[] {
-                e.getNome(),
-                e.getIdentificacao(),
-                e.getPapel(),
-                e.getPais()
-            });
-        }
+        preencheTabela(listaUsuario);
     }//GEN-LAST:event_botaoListaActionPerformed
 
     private void botaoPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPesquisaActionPerformed
-        SwingUtilities.invokeLater(() -> {
-            TelaUsuario janelaTelaUsuario = new TelaUsuario();
-            janelaTelaUsuario.setVisible(true);
-            janelaTelaUsuario.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        });
+        String nome = checkInputNome.getText();
+        String email = checkInputEmail.getText();
+        Papel papel = (Papel) caixaCheckFuncao.getSelectedItem();
+        String pais = checkInputPais.getText();
+        String id = checkInputID.getText();
+        
+        List<Usuario> resultadoPesquisa = AdministraUsuario.pesquisaUsuario(nome, id, email, pais, papel, persistenciaUsuario);
+        
+        preencheTabela(resultadoPesquisa);   
     }//GEN-LAST:event_botaoPesquisaActionPerformed
 
     private void checkPaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkPaisActionPerformed
-        // TODO add your handling code here:
+        if (checkPais.isSelected() == false) {
+            checkInputPais.setText("");
+            checkInputPais.setEnabled(false);
+        }
+        else checkInputPais.setEnabled(true);
     }//GEN-LAST:event_checkPaisActionPerformed
 
     private void checkEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkEmailActionPerformed
-        // TODO add your handling code here:
+        if (checkEmail.isSelected() == false) {
+            checkInputEmail.setText("");
+            checkInputEmail.setEnabled(false);
+        }
+        else checkInputEmail.setEnabled(true);
     }//GEN-LAST:event_checkEmailActionPerformed
 
     private void checkIdentificacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkIdentificacaoActionPerformed
-        // TODO add your handling code here:
+        if (checkIdentificacao.isSelected() == false) {
+            checkInputID.setText("");
+            checkInputID.setEnabled(false);
+        }
+        else checkInputID.setEnabled(true);
     }//GEN-LAST:event_checkIdentificacaoActionPerformed
 
     private void checkFuncaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkFuncaoActionPerformed
-        // TODO add your handling code here:
+        if (checkFuncao.isSelected() == false) {
+            caixaCheckFuncao.setSelectedIndex(0);
+            caixaCheckFuncao.setEnabled(false);
+        }
+        else caixaCheckFuncao.setEnabled(true);
     }//GEN-LAST:event_checkFuncaoActionPerformed
 
     private void checkInputNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkInputNomeActionPerformed
-        // TODO add your handling code here:
+        // T
     }//GEN-LAST:event_checkInputNomeActionPerformed
 
     private void checkNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkNomeActionPerformed
-        // TODO add your handling code here:
+        if (checkNome.isSelected() == false) {
+            checkInputNome.setText("");
+            checkInputNome.setEnabled(false);
+        }
+        else checkInputNome.setEnabled(true);
     }//GEN-LAST:event_checkNomeActionPerformed
 
     private void caixaTipoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_caixaTipoUsuarioActionPerformed
@@ -427,7 +465,7 @@ public class GestaoUsuarios extends javax.swing.JFrame {
     private javax.swing.JButton botaoLista;
     private javax.swing.JButton botaoPesquisa;
     private javax.swing.JButton botaoSalvarUsuario;
-    private javax.swing.JComboBox<String> caixaCheckFuncao;
+    private javax.swing.JComboBox<Papel> caixaCheckFuncao;
     private javax.swing.JComboBox<Usuario.StatusUsuario> caixaStatusUsuario;
     private javax.swing.JComboBox<Papel> caixaTipoUsuario;
     private javax.swing.JCheckBox checkEmail;

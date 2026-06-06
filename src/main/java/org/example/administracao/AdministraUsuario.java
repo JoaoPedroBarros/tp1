@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.example.administracao.excecoes.CamposEmBrancoException;
 import org.example.administracao.excecoes.SenhaInsuficienteException;
 
@@ -34,12 +37,12 @@ public class AdministraUsuario extends Permissao {
     static public void criaUsuario(Usuario usuarioCadastro, PersistenciaUsuario persistencia) throws SenhaInsuficienteException, CamposEmBrancoException {
        Map<String, Usuario> mapUsuario = persistencia.getMapUsuarios();
        
-       if (usuarioCadastro.getSenha().length() < 8) {
-           throw new SenhaInsuficienteException("Senha insuficiente");
-       }
-       
        if (usuarioCadastro.getNome().isBlank() || usuarioCadastro.getEmail().isBlank() || usuarioCadastro.getPais().isBlank()) {
            throw new CamposEmBrancoException("Há campos do cadastro que não foram preenchidos");
+       }
+       
+       if (usuarioCadastro.getSenha().length() < 8) {
+           throw new SenhaInsuficienteException("Senha insuficiente");
        }
        
        mapUsuario.put(usuarioCadastro.getIdentificacao(), usuarioCadastro);
@@ -58,53 +61,48 @@ public class AdministraUsuario extends Permissao {
     }
     
     static public boolean editaUsuario (Usuario usuario) {
-        //  ao entrar na tela de editar, instanciar um usuario e copiar os valores editados para a persistencia
+        //  ao entrar na tela de editar, instanciar um usuario com a mesma id e copiar os valores editados para a persistencia
        
         return true;
     }
     
-    static public List<Usuario> pesquisaUsuario(String nome, String identificacao, String email, String pais, String senha, Usuario.StatusUsuario status, Papel papel) {
+    static public List<Usuario> pesquisaUsuario(String nome, String identificacao, String email, String pais, Papel papel, PersistenciaUsuario persistencia) {
         // TODO: provavelmente nao vai ser elegante criar um poliformismo por overloading.
         // aqui, vou cuidar para, na tela, receber os argumentos. Se ele estiver desabilitado, vou receber como null
         // para ignorar durante a busca.
         
-        ObjectMapper mapper = new ObjectMapper();
-        File persistenciaUsuarios = new File(USUARIOS_FILE_PATH);
+        Map<String, Usuario> mapUsuarios = persistencia.getMapUsuarios();
         List<Usuario> retornaListaUsuarios = new ArrayList<>();
         
-        
-        try {
-            Map<String, Usuario> mapUsuarios = mapper.readValue(persistenciaUsuarios, new TypeReference<Map<String, Usuario>>(){});
+        System.out.println(email);
             
-            // 1º caso: se a identificacao nao for nula, ha apenas um retorno. Portanto, pode simplesmente ver se existe no JSON e retornar uma lista unitaria
-            // 2º caso: iterar e coletar os usuarios que coincidem com algum parametro.
+        // 1º caso: se a identificacao nao for nula, ha apenas um retorno. Portanto, pode simplesmente ver se existe no JSON e retornar uma lista unitaria
+        // 2º caso: iterar e coletar os usuarios que coincidem com algum parametro.
             
-            if (identificacao.isEmpty() == false && mapUsuarios.containsKey(identificacao)) {
-                retornaListaUsuarios.add(mapUsuarios.get(identificacao));
+        if (identificacao.isBlank() == false && mapUsuarios.containsKey(identificacao)) {
+            retornaListaUsuarios.add(mapUsuarios.get(identificacao));
+        }
+            
+        else {
+            retornaListaUsuarios = listaUsuario(persistencia);
+            
+            // funciona, mas pensar depois meios pra deixar o codigo mais bonito
+            
+            if (nome != null && nome.isEmpty() == false) {
+                retornaListaUsuarios = retornaListaUsuarios.stream().filter(u -> u.getNome().equals(nome)).collect(Collectors.toList());
             }
             
-            else {
-                for (Map.Entry<String, Usuario> entry : mapUsuarios.entrySet()) {
-                    Usuario usuarioIteracao = entry.getValue();
-                    
-                    if (usuarioIteracao.getNome().equals(nome) || usuarioIteracao.getEmail().equals(email) || usuarioIteracao.getPais().equals(pais)
-                        || usuarioIteracao.getStatus() == status || usuarioIteracao.getPapel().getClass() == papel.getClass()) {
-                            retornaListaUsuarios.add(usuarioIteracao);
-                    }
-                    
-                    // isso jah trata a duplicata, porque um usuario vai ser analisado apenas uma vez. Melhor do que fazer um if ou switch case para cada caso
-                }
-                
+            if (email != null && email.isEmpty() == false) {
+                retornaListaUsuarios = retornaListaUsuarios.stream().filter(u -> u.getEmail().equals(email)).collect(Collectors.toList());
             }
             
-        }
-        
-        catch (JsonMappingException e) {
-            System.err.println("Houve algum problema no mapeamento do JSON durante a pesquisa de usuários");
-        }
-        
-        catch (IOException e) {
-            System.err.println("Houve algum problema ao manipular o arquivo durante a pesquisa de usuários");
+            if (pais.isEmpty() == false) {
+                retornaListaUsuarios = retornaListaUsuarios.stream().filter(u -> u.getPais().equals(pais)).collect(Collectors.toList());
+            }
+            
+            if (papel != null) {
+                retornaListaUsuarios = retornaListaUsuarios.stream().filter(u -> u.getPapel().getClass() == papel.getClass()).collect(Collectors.toList());
+            }
         }
         
         return retornaListaUsuarios;

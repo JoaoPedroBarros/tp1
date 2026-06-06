@@ -205,16 +205,11 @@
               </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="caixaTipoUsuario">
-              <Properties>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="0"/>
-                </Property>
-              </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="caixaTipoUsuarioActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="caixaTipoUsuario.addItem(new Administrador());&#xa;"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="caixaTipoUsuario.addItem(new Administrador());&#xa;caixaTipoUsuario.addItem(new Organizador());&#xa;caixaTipoUsuario.addItem(new Operador());"/>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Papel&gt;"/>
               </AuxValues>
             </Component>
@@ -228,6 +223,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="caixaStatusUsuarioActionPerformed"/>
               </Events>
               <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="caixaStatusUsuario.addItem(Usuario.StatusUsuario.ATIVO);&#xa;caixaStatusUsuario.addItem(Usuario.StatusUsuario.AFASTADO);&#xa;caixaStatusUsuario.addItem(Usuario.StatusUsuario.DESLIGADO);"/>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Usuario.StatusUsuario&gt;"/>
               </AuxValues>
             </Component>
@@ -259,13 +255,13 @@
                                   <Component id="botaoPesquisa" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="checkInputNome" linkSize="3" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
-                                  <Component id="caixaCheckFuncao" linkSize="3" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
-                                  <Component id="checkInputID" linkSize="3" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
-                                  <Component id="checkInputEmail" linkSize="3" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
-                                  <Component id="checkInputPais" linkSize="3" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="checkInputNome" linkSize="3" alignment="0" pref="250" max="32767" attributes="0"/>
+                                  <Component id="checkInputID" linkSize="3" alignment="0" pref="250" max="32767" attributes="0"/>
+                                  <Component id="checkInputEmail" linkSize="3" alignment="0" pref="250" max="32767" attributes="0"/>
+                                  <Component id="checkInputPais" linkSize="3" alignment="0" pref="250" max="32767" attributes="0"/>
                                   <Component id="botaoLista" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="caixaCheckFuncao" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
@@ -285,7 +281,7 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="checkFuncao" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="caixaCheckFuncao" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="caixaCheckFuncao" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -379,21 +375,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botaoPesquisaActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JComboBox" name="caixaCheckFuncao">
-              <Properties>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="4">
-                    <StringItem index="0" value="Administrador"/>
-                    <StringItem index="1" value="&#xc1;rbitro"/>
-                    <StringItem index="2" value="Organizador"/>
-                    <StringItem index="3" value="Operador"/>
-                  </StringArray>
-                </Property>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-              </AuxValues>
-            </Component>
             <Component class="javax.swing.JButton" name="botaoLista">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Listar todos os usu&#xe1;rios..."/>
@@ -424,6 +405,12 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JComboBox" name="caixaCheckFuncao">
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="caixaCheckFuncao.addItem(null);&#xa;caixaCheckFuncao.addItem(new Administrador());&#xa;caixaCheckFuncao.addItem(new Organizador());&#xa;caixaCheckFuncao.addItem(new Operador());"/>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Papel&gt;"/>
+              </AuxValues>
+            </Component>
           </SubComponents>
         </Container>
       </SubComponents>

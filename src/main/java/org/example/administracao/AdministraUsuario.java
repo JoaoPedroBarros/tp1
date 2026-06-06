@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import org.example.administracao.excecoes.CamposEmBrancoException;
+import org.example.administracao.excecoes.SenhaInsuficienteException;
 
 /**
  *
@@ -28,28 +31,19 @@ public class AdministraUsuario extends Permissao {
         return "ADMINISTRA_USUARIO";
     }
     
-    static public boolean criaUsuario(Usuario usuarioCadastro) {
-        
-        ObjectMapper mapper = new ObjectMapper();
-        File persistenciaUsuarios = new File(USUARIOS_FILE_PATH);
-        
-        try {
-            Map<String,Usuario> mapUsuarios = mapper.readValue(persistenciaUsuarios, new TypeReference<Map<String,Usuario>>(){});
-            mapUsuarios.put(usuarioCadastro.getIdentificacao(),usuarioCadastro);
-            mapper.writeValue(persistenciaUsuarios, mapUsuarios);
-        }
-        
-        catch (JsonMappingException e) {
-            System.err.println("Houve algum problema no mapeamento do JSON durante o cadastro do usuário.");
-            return false;
-        }
-        
-        catch (IOException e) {
-            System.err.println("Houve algum problema ao manipular o arquivo durante o cadastro do usuário.");
-            return false;
-        }
-                
-        return true;
+    static public void criaUsuario(Usuario usuarioCadastro, PersistenciaUsuario persistencia) throws SenhaInsuficienteException, CamposEmBrancoException {
+       Map<String, Usuario> mapUsuario = persistencia.getMapUsuarios();
+       
+       if (usuarioCadastro.getSenha().length() < 8) {
+           throw new SenhaInsuficienteException("Senha insuficiente");
+       }
+       
+       if (usuarioCadastro.getNome().isBlank() || usuarioCadastro.getEmail().isBlank() || usuarioCadastro.getPais().isBlank()) {
+           throw new CamposEmBrancoException("Há campos do cadastro que não foram preenchidos");
+       }
+       
+       mapUsuario.put(usuarioCadastro.getIdentificacao(), usuarioCadastro);
+       persistencia.salvarPersistencia();
     }
     
     static public List<Usuario> listaUsuario() {
@@ -149,5 +143,18 @@ public class AdministraUsuario extends Permissao {
             return false;
         }
         return true;
+    }
+    
+    static public String gerarId(Map<String, Usuario> persistenciaUsuario) {
+        Random rand = new Random();
+        String id;
+        
+        do {
+            int n = rand.nextInt(40000);
+            n += 260000;
+            id = Integer.toString(n);
+        } while (persistenciaUsuario.containsKey(id) == true);
+        
+        return id;
     }
 }

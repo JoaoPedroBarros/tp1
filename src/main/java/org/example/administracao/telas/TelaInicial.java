@@ -4,7 +4,6 @@
  */
 package org.example.administracao.telas;
 
-import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 import org.example.jogadorselecao.telas.*;
@@ -44,7 +43,7 @@ public class TelaInicial extends javax.swing.JFrame {
         Supplier<Stream<? extends Permissao>> supplierPermissoes = () -> sessao.getUsuario().getPapel().getPermissoes().stream();
         
         if (supplierPermissoes.get().anyMatch(u -> u instanceof AdministraUsuario)) {
-            //persistenciaUsuario = new PersistenciaUsuario();
+            persistenciaUsuario = new PersistenciaUsuario();
             menuAdministracao.setEnabled(true);
         }
         
@@ -55,7 +54,7 @@ public class TelaInicial extends javax.swing.JFrame {
    
     }
     
-    private void desabilitaMenu() { // o padrao eh que todos os menus estejam desabilitados, para que, com as permissoes do usuarios, sejam habilitados
+    private void desabilitaMenu() { // o padrao eh que todos os menus estejam desabilitados, para que, com as permissoes do usuarios, sejam habilitados pouco a pouco
         menuAdministracao.setEnabled(false);
         menuEstadioArbitragem.setEnabled(false);
         menuPartidas.setEnabled(false);
@@ -179,7 +178,7 @@ public class TelaInicial extends javax.swing.JFrame {
 
     private void gerenciaUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gerenciaUsuariosActionPerformed
         SwingUtilities.invokeLater(() -> {
-            GestaoUsuarios janelaGestaoUsuarios = new GestaoUsuarios();
+            GestaoUsuarios janelaGestaoUsuarios = new GestaoUsuarios(sessao, persistenciaUsuario);
             janelaGestaoUsuarios.setVisible(true);
             janelaGestaoUsuarios.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         });

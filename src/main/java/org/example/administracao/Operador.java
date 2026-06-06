@@ -22,4 +22,9 @@ public class Operador extends Papel {
         return null;
     }
     
+    @Override
+    public String toString() {
+        return "Operador";
+    }
+    
 }

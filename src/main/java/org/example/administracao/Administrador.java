@@ -23,4 +23,9 @@ public class Administrador extends Papel{
         return listaPermissoes;
     }
     
+    @Override
+    public String toString() {
+        return "Administrador";
+    }
+    
 }

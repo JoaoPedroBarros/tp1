@@ -11,9 +11,11 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.function.Predicate;
+import javax.imageio.IIOException;
 import org.example.administracao.Permissao;
 
 public class IOJogador extends Permissao{
@@ -70,47 +72,43 @@ public class IOJogador extends Permissao{
         }
     }
     
-    //Apaga jogador do arquivo de persistencia
-    public static void deleteJogador(Jogador jogador){
+    //Apaga jogador do arquivo de persistencia dado o nome do Jogador
+    public static void deleteJogador(String nome) throws IOException{
         File arquivoOriginal = new File("src/main/resources/jogadores.jsonl");
         File arquivoTemp = new File("src/main/resources/temp.jsonl");
 
-        ObjectMapper mapper = new ObjectMapper();// Instancia Mapeamento padrao da biblioteca Jackson
         String linha; //String auxiliar para leitura    
-        int cont = 1;
         
         try (BufferedReader leitura = new BufferedReader(new FileReader(arquivoOriginal));
              BufferedWriter escrita = new BufferedWriter(new FileWriter(arquivoTemp))){
 
-            String jsonStr = mapper.writeValueAsString(jogador); // Conversão da classe jogador para string de Json
-            
+            String comparador = "{\"nome\":\"" + nome + "\"";
+                    
             //Atualiza arquivo temporário com todos os dados, exceto o deletado
             while((linha = leitura.readLine()) != null){
-                if(jsonStr.equals(linha)){
-                    cont++;
+                if(linha.substring(0, linha.indexOf(",")).equals(comparador)){ //Compara somente os nomes do Jogadores
                     continue; //Não escreve a linha que se deseja apagar
                 }
                 escrita.write(linha + "\n"); //Escreve linha no arquivo temporário
-                cont++;
             }
         } catch (IOException e) {
-            System.err.println("Nao foi possivel abrir o arqiuivo para deleção.");
+            throw new IOException("Nao foi possivel abrir o arqiuivo para deleção.");
         }
         
         if(arquivoOriginal.delete()){
             arquivoTemp.renameTo(arquivoOriginal); //Renomeia o arquivo temporário para o nome padrão
         }
         else{
-            System.err.println("Nao foi possivel deletar o arquivo.");
+            throw new IOException("Nao foi possivel deletar o arquivo.");
         }
     }
     
     //Retorna uma HashSet de Jogadores da Memória, com a caractéristica fornecida
     //Se não houver jogadores com a característica escolhida, retorna nulo.
     //Caso contrário, retorna uma HashSet de Jogadores com a caractéristica escolhida
-    public static HashSet<Jogador> getMemJogadores(Predicate<Jogador> criterio){
+    public static List<Jogador> getMemJogadores(Predicate<Jogador> criterio){
         
-        HashSet<Jogador> listaFiltrada = new HashSet<>();
+        List<Jogador> listaFiltrada = new ArrayList<>();
         File save = new File("src/main/resources/jogadores.jsonl");
         ObjectMapper mapper = new ObjectMapper();// Instancia Mapeamento padrao da biblioteca Jackson
         String linha; //String auxiliar para leitura
@@ -167,6 +165,74 @@ public class IOJogador extends Permissao{
             System.err.println("Nao foi possivel deletar o arquivo.");
         }
     }  
+    
+    public static void insert(Jogador jogador, int index) throws IOException{
+        File arquivoOriginal = new File("src/main/resources/jogadores.jsonl");
+        File arquivoTemp = new File("src/main/resources/temp.jsonl");
+
+        String linha; //String auxiliar para leitura
+        ObjectMapper mapper = new ObjectMapper();          // Instancia Mapeamento padrao da biblioteca Jackson
+        int cont = 0;
+        try (BufferedReader leitura = new BufferedReader(new FileReader(arquivoOriginal));
+             BufferedWriter escrita = new BufferedWriter(new FileWriter(arquivoTemp))){
+             
+            String jsonStr = mapper.writeValueAsString(jogador);
+
+            //Atualiza arquivo temporário com todos os dados, exceto o deletado
+            while((linha = leitura.readLine()) != null){
+                if(cont == index){ //Compara somente os nomes do Jogadores
+                    escrita.write(jsonStr + "\n");
+                    cont++;
+                    continue;
+                }
+                escrita.write(linha + "\n"); //Escreve linha no arquivo temporário
+                cont++;
+            }
+            //Escrita na ultima posicao
+             if(cont <= index){
+                 throw new IOException("Index maior do que o tamanho do arquivo.");
+             }            
+            
+        } catch (IOException e) {
+            throw new IOException("Nao foi possivel abrir o arqiuivo para deleção.");
+        }
+        
+ 
+        if(arquivoOriginal.delete()){
+            arquivoTemp.renameTo(arquivoOriginal); //Renomeia o arquivo temporário para o nome padrão
+        }
+        else{
+            throw new IOException("Nao foi possivel deletar o arquivo.");
+        }     
+    }
+    
+    public static Jogador get(int index) throws IOException{
+        if(index == -1){return null;}
+        
+        File arquivo = new File("src/main/resources/jogadores.jsonl");
+        ObjectMapper mapper = new ObjectMapper();// Instancia Mapeamento padrao da biblioteca Jackson
+        String linha;
+        Jogador jogador = null;
+        int cont = 0;
+        
+        try(BufferedReader leitura = new BufferedReader(new FileReader(arquivo))){            
+            while((linha = leitura.readLine()) != null){
+                if(cont == index){
+                    jogador = mapper.readValue(linha, Jogador.class);
+                }
+                cont++;
+            }          
+        }
+        catch(IOException e){
+            throw new IOException("Ocorreu um erro inesperado na leitura do arquivo.");
+        } 
+        
+        if(jogador == null){
+            throw new IOException("Jogador não encontrado. Get não foi executado corretamente.");
+        }
+        
+        return jogador;
+    }
     
     
     //Função extra (mais para legibilidade)

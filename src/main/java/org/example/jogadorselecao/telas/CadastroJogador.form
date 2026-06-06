@@ -33,7 +33,7 @@
                                   <Component id="txtInputNome" pref="270" max="32767" attributes="0"/>
                                   <Component id="txtInputNumero" alignment="0" max="32767" attributes="0"/>
                                   <Component id="comboBoxPosicao" max="32767" attributes="0"/>
-                                  <Component id="comboBoxStatus" min="-2" max="-2" attributes="0"/>
+                                  <Component id="comboBoxStatus" alignment="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>

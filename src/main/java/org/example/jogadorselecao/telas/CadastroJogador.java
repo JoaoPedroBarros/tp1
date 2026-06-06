@@ -4,6 +4,7 @@
  */
 package org.example.jogadorselecao.telas;
 
+import java.io.IOException;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -19,6 +20,8 @@ import org.example.jogadorselecao.persistencia.IOJogador;
  */
 public class CadastroJogador extends javax.swing.JPanel {
 
+    private boolean isEditing;
+    private int indice;
     /**
      * Creates new form CadastroJogador
      */
@@ -39,7 +42,39 @@ public class CadastroJogador extends javax.swing.JPanel {
         comboBoxStatus.addItem(StatusJogador.LESIONADO);
         comboBoxStatus.addItem(StatusJogador.SUSPENSO);        
     }
-
+    public CadastroJogador(boolean isEditing, int index){
+        initComponents();
+        
+        this.isEditing = true;
+        this.indice = index;
+        
+        //Adiciona posicoes
+        comboBoxPosicao.addItem(Posicao.CENTROAVANTE);
+        comboBoxPosicao.addItem(Posicao.GOLEIRO);
+        comboBoxPosicao.addItem(Posicao.LATERAL);
+        comboBoxPosicao.addItem(Posicao.PONTA);
+        comboBoxPosicao.addItem(Posicao.RESERVA);
+        comboBoxPosicao.addItem(Posicao.VOLANTE);
+        comboBoxPosicao.addItem(Posicao.ZAGUEIRO);
+        
+        //Adiciona Status
+        comboBoxStatus.addItem(StatusJogador.ATIVO);
+        comboBoxStatus.addItem(StatusJogador.LESIONADO);
+        comboBoxStatus.addItem(StatusJogador.SUSPENSO);   
+        
+        try{
+            Jogador aux = IOJogador.get(index);
+            txtInputNome.setText(aux.getNome());
+            comboBoxPosicao.setSelectedItem(aux.getPosicao());
+            txtInputNumero.setText(Integer.toString(aux.getNumero()));
+            comboBoxStatus.setSelectedItem(aux.getStatus());
+            txtInputData.setText(aux.getDataNascimento());
+        }
+        catch(IOException e){
+            JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO!", JOptionPane.ERROR_MESSAGE);            
+        }
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -98,7 +133,7 @@ public class CadastroJogador extends javax.swing.JPanel {
                                     .addComponent(txtInputNome, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
                                     .addComponent(txtInputNumero)
                                     .addComponent(comboBoxPosicao, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(comboBoxStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(comboBoxStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -159,11 +194,16 @@ public class CadastroJogador extends javax.swing.JPanel {
             Jogador jogador = new Jogador(txtInputNome.getText(),
                     (Posicao)comboBoxPosicao.getSelectedItem(), Integer.parseInt(txtInputNumero.getText()),
                     (StatusJogador)comboBoxStatus.getSelectedItem(), txtInputData.getText());
-            IOJogador.appendJogador(jogador);
+            if(isEditing){
+                IOJogador.insert(jogador, indice);
+            }
+            else{
+                IOJogador.appendJogador(jogador);
+            }
             JOptionPane.showMessageDialog(null, txtInputNome.getText() + " foi cadastrado com sucesso.");
             SwingUtilities.getWindowAncestor(this).dispose();
         }
-        catch(IllegalArgumentException | ElementoDuplicado e){
+        catch(IllegalArgumentException | ElementoDuplicado | IOException e){
             JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO!", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_botaoSalvarActionPerformed

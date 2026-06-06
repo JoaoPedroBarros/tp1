@@ -166,7 +166,8 @@ public final class Jogador{
         System.out.println("Posicao: " + getPosicao());
         System.out.println("Numero: " + getNumero());
         System.out.println("Status: " + getStatus());
-        System.out.println("Data de Nascimento: " + getDataNascimento());   
+        System.out.println("Data de Nascimento: " + getDataNascimento());
+        System.out.println("Nome da Selecao: " + getNomeSelecao());
         System.out.println("-------------------------------------------");
     }    
 }

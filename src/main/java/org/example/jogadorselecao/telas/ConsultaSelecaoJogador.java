@@ -5,6 +5,7 @@
 package org.example.jogadorselecao.telas;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.awt.Frame;
 import java.awt.Window;
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,15 +15,22 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import org.example.jogadorselecao.Jogador;
+import org.example.jogadorselecao.Posicao;
 import org.example.jogadorselecao.Selecao;
+import org.example.jogadorselecao.StatusJogador;
+import org.example.jogadorselecao.persistencia.ElementoDuplicado;
+import org.example.jogadorselecao.persistencia.IOJogador;
+
 
 /**
  *
@@ -34,7 +42,7 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
      * Creates new form ConsultaSelecaoJogador
      */
     public ConsultaSelecaoJogador() {
-        initComponents();
+        initComponents();        
     }
 
     /**
@@ -76,6 +84,7 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
         botaoConsultar.addActionListener(this::botaoConsultarActionPerformed);
 
         botaoEditar.setText("Editar");
+        botaoEditar.addActionListener(this::botaoEditarActionPerformed);
 
         botaoExcluir.setText("Excluir");
         botaoExcluir.addActionListener(this::botaoExcluirActionPerformed);
@@ -88,9 +97,11 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
         jRadioButtonJogador.setText("Jogador");
         jRadioButtonJogador.addActionListener(this::jRadioButtonJogadorActionPerformed);
 
-        comboBoxStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ATIVO", "LESIONADO", "SUSPENSO" }));
+        comboBoxStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { ".*", "ATIVO", "LESIONADO", "SUSPENSO" }));
 
-        comboBoxPosicao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "GOLEIRO", "ZAGUEIRO", "LATERAL", "VOLANTE", "PONTA", "CENTROAVANTE", "RESERVA" }));
+        comboBoxPosicao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { ".*", "GOLEIRO", "ZAGUEIRO", "LATERAL", "VOLANTE", "PONTA", "CENTROAVANTE", "RESERVA" }));
+
+        txtInputGrupo.setText(".*");
 
         botaoVoltar.setText("Voltar");
         botaoVoltar.addActionListener(this::botaoVoltarActionPerformed);
@@ -186,7 +197,24 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
         // TODO add your handling code here:
         int res = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja prosseguir?", "Atenção!", JOptionPane.YES_NO_OPTION);
         if (res == JOptionPane.YES_OPTION){
-            JOptionPane.showMessageDialog(null, "Exclusão realizada com sucesso.");
+            
+            DefaultTableModel modelo = (DefaultTableModel) consultaTable.getModel();
+            int indice = consultaTable.getSelectedRow();
+            try{
+                IOJogador.deleteJogador((String) consultaTable.getValueAt(indice, 0));
+                JOptionPane.showMessageDialog(null, "Exclusão realizada com sucesso.");
+                modelo.removeRow(indice);
+            }
+            catch (IOException e){
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);              
+            }
+            
+            
+            boolean isSelecaoSelected = txtInputGrupo.isEnabled() && !comboBoxPosicao.isEnabled() && !comboBoxStatus.isEnabled();
+            
+            consultaTable.clearSelection();
+            consultaTable.setRowSorter(null);
+            atualizaTabela(isSelecaoSelected);
         }
     }//GEN-LAST:event_botaoExcluirActionPerformed
 
@@ -202,33 +230,56 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
         comboBoxStatus.setEnabled(false);
         
         //Altera dinamicamente a tabela
-        File save = new File("src/main/resources/selecoes.jsonl"); //Configura arquivo de leitura
         String[] colunas = new String[] {"País", "Grupo", "Técnico"}; //Configura colunas
 
         consultaTable.clearSelection();
         consultaTable.setRowSorter(null);
-        consultaTable.setModel(new DefaultTableModel(null, colunas)); //Configura modelo da Tabela (Quantidade de colunas e disposição destas)
         
-        atualizaTabela(save, true); 
+        DefaultTableModel modelo = new DefaultTableModel(null, colunas){
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
+        
+        consultaTable.setModel(modelo); //Configura modelo da Tabela (Quantidade de colunas e disposição destas)
+        consultaTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        atualizaTabela(true);
+        aplicaFiltro();
     }//GEN-LAST:event_jRadioButtonSelecaoActionPerformed
 
+    private void criaTabelaJogador(){
+        //Altera dinamicamente a tabela
+        String[] colunas = new String[] {"Nome", "Número", "Posição", "Status", "Seleção"}; //Configura colunas
+
+        consultaTable.clearSelection();
+        consultaTable.setRowSorter(null);
+        DefaultTableModel modelo = new DefaultTableModel(null, colunas){
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
+        
+        consultaTable.setModel(modelo); //Configura modelo da Tabela (Quantidade de colunas e disposição destas)
+        consultaTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        atualizaTabela(false);
+        aplicaFiltro();
+    }
+    
     private void jRadioButtonJogadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonJogadorActionPerformed
         // TODO add your handling code here:
         txtInputGrupo.setEnabled(false);
         comboBoxPosicao.setEnabled(true);
         comboBoxStatus.setEnabled(true);
-        
-        //Altera dinamicamente a tabela
-        File save = new File("src/main/resources/jogadores.jsonl"); //Configura arquivo de leitura
-        String[] colunas = new String[] {"Nome", "Número", "Posição", "Status", "Seleção"}; //Configura colunas
-
-        consultaTable.clearSelection();
-        consultaTable.setRowSorter(null);
-        consultaTable.setModel(new DefaultTableModel(null, colunas)); //Configura modelo da Tabela (Quantidade de colunas e disposição destas)
-        atualizaTabela(save, false); 
+        criaTabelaJogador();
     }//GEN-LAST:event_jRadioButtonJogadorActionPerformed
     
-    private void atualizaTabela(File save, boolean tipo){//tipo = true - Tabela de Seleções; false - Tabela de Jogadores
+    private void atualizaTabela(boolean tipo){//tipo = true - Tabela de Seleções; false - Tabela de Jogadores
+        File save;
+        //Configura arquivo de leitura
+        save = tipo ? new File("src/main/resources/selecoes.jsonl") : new File("src/main/resources/jogadores.jsonl"); 
+        
         consultaTable.clearSelection(); //Desseleciona a linha atualmente selecionada
         DefaultTableModel modelo = (DefaultTableModel) consultaTable.getModel(); //Gera um modelo de tabela para manipulação da JTable
         modelo.setRowCount(0); //Zera o numero de linhas, efetivamente limpando a tabela
@@ -266,25 +317,21 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
         }    
     }
     
-    private void botaoConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoConsultarActionPerformed
-        // TODO add your handling code here:
-        //Tratamento para caso de: Não foi selecionada uma categoria
-        if(!(!txtInputGrupo.isEnabled() || !comboBoxStatus.isEnabled() || !comboBoxPosicao.isEnabled())){
-            JOptionPane.showMessageDialog(null, "Selecione uma opção.", "Erro!", JOptionPane.OK_OPTION);
-            return;
-        }
-        
+    private void aplicaFiltro(){
         //Cria classe filtro 
         DefaultTableModel modelo = (DefaultTableModel) consultaTable.getModel();
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
+        boolean isJogadorSelected = !txtInputGrupo.isEnabled() && comboBoxPosicao.isEnabled() && comboBoxStatus.isEnabled();
         
-        if(!txtInputGrupo.isEnabled() && comboBoxPosicao.isEnabled() && comboBoxStatus.isEnabled()){
+        if(isJogadorSelected){
             
             //Cria filtro and customizado
             String status = comboBoxStatus.getSelectedItem().toString();
             String posicao = comboBoxPosicao.getSelectedItem().toString();
+            
             RowFilter<DefaultTableModel, Object> filtro1 = RowFilter.regexFilter(status);
             RowFilter<DefaultTableModel, Object> filtro2 = RowFilter.regexFilter(posicao);
+            
             List<RowFilter<DefaultTableModel, Object>> lista = new ArrayList<>();   //Caramba. Conversao dupla??!!
             lista.add(filtro1);
             lista.add(filtro2);
@@ -296,16 +343,16 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
         else{
             try{
                 String str = txtInputGrupo.getText().trim();
-                int i = Integer.parseInt(str);
-                if(i <= 0){
+                int i;
+                if(!str.equals(".*") && (i = Integer.parseInt(str)) <= 0){
                     throw new IllegalArgumentException("Grupos devem ser números positivos.");
                 }
                 RowFilter<DefaultTableModel, Object> filtro = RowFilter.regexFilter(str);
                 sorter.setRowFilter(filtro); //Filtra tabela
-                consultaTable.setRowSorter(sorter);
+                consultaTable.setRowSorter(sorter);  
             }
             catch(NumberFormatException e){
-                JOptionPane.showMessageDialog(null, "Grupo foi preenchido com um valor inválido.", "Erro!", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Grupo está vazio.", "Erro!", JOptionPane.ERROR_MESSAGE);
                 sorter.setRowFilter(null); //Filtra tabela
             }
             catch(IllegalArgumentException a){
@@ -313,7 +360,59 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
                  sorter.setRowFilter(null); //Filtra tabela
             }
         }
+    }
+    
+    private void botaoConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoConsultarActionPerformed
+        // TODO add your handling code here:
+        //Tratamento para caso de: Não foi selecionada uma categoria
+        if(!(!txtInputGrupo.isEnabled() || !comboBoxStatus.isEnabled() || !comboBoxPosicao.isEnabled())){
+            JOptionPane.showMessageDialog(null, "Selecione uma opção.", "Erro!", JOptionPane.OK_OPTION);
+            return;
+        }
+        aplicaFiltro();
     }//GEN-LAST:event_botaoConsultarActionPerformed
+
+    private void botaoEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEditarActionPerformed
+        // TODO add your handling code here:
+        if(consultaTable.getSelectedRowCount() <= 0){
+            JOptionPane.showMessageDialog(null, "Nenhuma linha foi selecionada.", "Erro!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        else if(1 < consultaTable.getSelectedRowCount()){
+            JOptionPane.showMessageDialog(null, "Selecione somente uma linha para edição.", "Erro!", JOptionPane.ERROR_MESSAGE);
+            return;            
+        }
+        
+        
+        int indice = consultaTable.convertRowIndexToModel(consultaTable.getSelectedRow());
+        
+        boolean isJogadorSelected = !txtInputGrupo.isEnabled() && comboBoxPosicao.isEnabled() && comboBoxStatus.isEnabled();
+        
+        if(isJogadorSelected){
+            //Criação da tela de Edição de Jogador
+            CadastroJogador painel = new CadastroJogador(true, indice);
+            JFrame origem = (JFrame) SwingUtilities.getWindowAncestor(SwingUtilities.getWindowAncestor(this));
+            JDialog dialogo = new JDialog(origem, "Edição de Jogador", true);
+            dialogo.getContentPane().add(painel);
+            dialogo.pack();
+            dialogo.setResizable(false);
+            dialogo.setLocationRelativeTo(this);
+            dialogo.setVisible(true);            
+        }
+        else{
+            /*CadastroSelecao painel = new CadastroSelecao();
+            JFrame origem = (JFrame) SwingUtilities.getWindowAncestor(SwingUtilities.getWindowAncestor(this));
+            JDialog dialogo = new JDialog(origem, "Edição de Seleção", true);
+            dialogo.getContentPane().add(painel);
+            dialogo.pack();
+            dialogo.setResizable(false);
+            dialogo.setLocationRelativeTo(this);
+            dialogo.setVisible(true);*/
+        }
+
+        atualizaTabela(!isJogadorSelected);
+        aplicaFiltro();
+    }//GEN-LAST:event_botaoEditarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

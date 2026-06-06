@@ -8,9 +8,13 @@ public class Organizador extends Papel{
     
     private final static List<? extends Permissao> listaPermissoes = List.of(new IOJogador(), new IOSelecao());
     
+    public Organizador() {
+        this.nomePapel = "ORGANIZADOR";
+    }
+    
     @Override
     public String getNomePapel() {
-        return "Organizador";
+        return nomePapel;
     }
     
     @Override
@@ -20,7 +24,7 @@ public class Organizador extends Papel{
     
     @Override
     public String toString() {
-        return "ORGANIZADOR";
+        return "Organizador";
     }
     
 }

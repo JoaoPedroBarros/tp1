@@ -24,7 +24,7 @@ public class AdministraUsuario extends Permissao {
     // todos os metodos serao booleanos para retornar o resultado da operacao
     // a verificacao de permissao estara nas telas, segundo o RBAC. Isso evita compilacao ciclica
     
-    static final public String USUARIOS_FILE_PATH = "src/main/resources/usuarios.json";
+    public static String USUARIOS_FILE_PATH =  "abc";
     
     @Override
     public String getNome() {
@@ -46,28 +46,15 @@ public class AdministraUsuario extends Permissao {
        persistencia.salvarPersistencia();
     }
     
-    static public List<Usuario> listaUsuario() {
-        ObjectMapper mapper = new ObjectMapper();
-        File persistenciaUsuarios = new File(USUARIOS_FILE_PATH);
-        List<Usuario> retornaListaUsuarios = new ArrayList<>();
+    static public List<Usuario> listaUsuario(PersistenciaUsuario persistencia) {
+        Map<String, Usuario> mapUsuario = persistencia.getMapUsuarios();
+        List<Usuario> listaRetorno = new ArrayList<>();
         
-        try {
-            Map<String, Usuario> mapUsuarios = mapper.readValue(persistenciaUsuarios, new TypeReference<Map<String, Usuario>>(){});
-            
-            for (Map.Entry<String, Usuario> entry : mapUsuarios.entrySet()) {
-                retornaListaUsuarios.add(entry.getValue());
-            }
+        for (Map.Entry<String, Usuario> entry : mapUsuario.entrySet()) {
+            listaRetorno.add(entry.getValue());
         }
         
-        catch (JsonMappingException e) {
-            System.err.println("Houve algum problema no mapeamento do JSON ao listar usuários");
-        }
-        
-        catch (IOException e) {
-            System.err.println("Houve algum problema ao manipular o arquivo ao listar usuários");
-        }
-        
-        return retornaListaUsuarios;
+        return listaRetorno;   
     }
     
     static public boolean editaUsuario (Usuario usuario) {

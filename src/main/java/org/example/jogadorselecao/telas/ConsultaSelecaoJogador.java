@@ -205,13 +205,6 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
         
         int res = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja prosseguir?", "Atenção!", JOptionPane.YES_NO_OPTION);
         if (res == JOptionPane.YES_OPTION){
-            
-            DefaultTableModel modelo = (DefaultTableModel) consultaTable.getModel();
-            //consultaTable.getSelectedRows(); //PEGA INDICES
-            //CONVERSÃO DE LOOPS
-            //APLICA DELECAO EM LOOP
-                //MODULE AS FUNCOES DELETEJOG E DELETESEL
-            //int[] indices = consultaTable.convertColumnIndexToModel(consultaTable.getSelectedRows());
             int indice = consultaTable.getSelectedRow();
             boolean isSelecaoSelected = txtInputGrupo.isEnabled() && !comboBoxPosicao.isEnabled() && !comboBoxStatus.isEnabled();
             if(!isSelecaoSelected){
@@ -219,7 +212,6 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
                     if(consultaTable.getValueAt(indice, 4) == null){
                         IOJogador.deleteJogador((String) consultaTable.getValueAt(indice, 0));
                         JOptionPane.showMessageDialog(null, "Exclusão realizada com sucesso.");
-                        modelo.removeRow(indice);
                     }
                     else{
                         JOptionPane.showMessageDialog(null, "Jogador está vinculado a uma seleção.\nEle deve ser dispensado primeiro.", "Erro!", JOptionPane.ERROR_MESSAGE);
@@ -252,6 +244,7 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
             consultaTable.clearSelection();
             consultaTable.setRowSorter(null);
             atualizaTabela(isSelecaoSelected);
+            consultaTable.setAutoCreateRowSorter(true);
         }
     }//GEN-LAST:event_botaoExcluirActionPerformed
 
@@ -293,7 +286,7 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
         };
         
         consultaTable.setModel(modelo); //Configura modelo da Tabela (Quantidade de colunas e disposição destas)
-        consultaTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        consultaTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         atualizaTabela(true);
         aplicaFiltro();
     }//GEN-LAST:event_jRadioButtonSelecaoActionPerformed
@@ -330,7 +323,7 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
         };
         
         consultaTable.setModel(modelo); //Configura modelo da Tabela (Quantidade de colunas e disposição destas)
-        consultaTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        consultaTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         atualizaTabela(false);
         aplicaFiltro();
     }

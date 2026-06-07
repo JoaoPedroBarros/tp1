@@ -50,6 +50,7 @@ public class CadastroSelecao extends javax.swing.JPanel {
     private int indice;
     private int tamTime;
     private Tecnico tecAux;
+    private List<Integer> indiceTecnico = new ArrayList<>();
     
     public CadastroSelecao() {
         initComponents();
@@ -319,11 +320,10 @@ public class CadastroSelecao extends javax.swing.JPanel {
            indicesRefRegisto.add(indices.get(indexesDaTabela[i]));
        }
        
-        //Adianta o processo para o Tecnico
-        List<Integer> indiceTecnico = new ArrayList<>();
-        List<Tecnico> tecnicoMod = IOTecnico.getMemTecnicos(Tecnico -> Tecnico.getNome().equalsIgnoreCase(tecAux.getNome()), indiceTecnico);
        //Da desvinculação da equipe antiga
         if(isEditing && tamTime > 0){ //Esse tamTime > 0 não é concebível, mas vai que
+        //Adianta o processo para o Tecnico
+            List<Tecnico> tecnicoMod = IOTecnico.getMemTecnicos(Tecnico -> Tecnico.getNome().equalsIgnoreCase(tecAux.getNome()), indiceTecnico);
             tabelaJogs.clearSelection(); //Desfaz seleção do usuário
             tabelaJogs.setRowSelectionInterval(0, tamTime-1); //Seleciona os membros
             

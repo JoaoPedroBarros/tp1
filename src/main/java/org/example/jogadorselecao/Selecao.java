@@ -153,21 +153,32 @@ public final class Selecao {
  
     
     /*Sugestão de procedimento (passo a passo) completo para modificação das estatísticas, mantendo a persistência de dados.
-        //Para modificar a seleção da Alemanha
-        int indice = IOSelecao.contains("Alemanha"); //Método é caseSensitive
-        Selecao selecao = IOSelecao().get(indice);  //Resgata seleção da memória
-        selecao.atualizaEstat(dadosSelecao); //Atualiza estatísticas da selecao
-        PersistenciaDeDados.insert(selecao, indice); //Atualiza registro da selecao
-    
-        List<Integer> indicesNoRegistro = new ArrayList<>();
-        List<Jogador> membros = IOJogador.getMemJogadores(Jogador -> selecao.getPais().equals(Jogador.getNomeSelecao(),
-                                                          indicesNoRegistro));
-          
-        for (int i = 0; i < dadosJogadores.length; i++){ //Atualiza instâncias de membros do time
-            membros.get(i).atualizaEstat(dadosJogadores[i]);
-        }
+        //Para modificar a seleção com nome "nomeSelecao"
+        int[] dadosSelecao; //Vetor de vitorias, derrotas e empates (Nessa ordem obrigatoriamente)
+        int[][] dadosJogadores; //Matriz de dados de cada jogador. Deve ter tamanhoTime linhas e 5 colunas, com os
+                                // valores amarelos, vermelhos, passes, assistências e gols (Nessa ordem obrigatoriamente)
         
-        IOJogador.insertMult(membros, indicesNoRegistro); //Atualiza registros de membros do time
+        try{
+            int indice = IOSelecao.containsSelecao("nomeSelecao"); //Método é caseSensitive
+            Selecao selecao = IOSelecao.get(indice);  //Resgata seleção da memória
+            selecao.atualizaEstat(dadosSelecao); //Atualiza estatísticas da selecao
+
+            for (int i = 0; i < dadosJogadores.length; i++){ //Atualiza instâncias de membros do time
+                selecao.getTime().get(i).atualizaEstat(dadosJogadores[i]);
+                selecao.getTime().get(i).mostra();
+            }
+            
+            PersistenciaDeDados.insert(selecao, indice); //Atualiza registro da selecao
+
+            List<Integer> indicesNoRegistro = new ArrayList<>();
+            IOJogador.getMemJogadores(Jogador -> selecao.getPais().equals(Jogador.getNomeSelecao()), 
+                                                              indicesNoRegistro);
+            System.out.println("Indices no Reg: " + indicesNoRegistro);
+            IOJogador.insertMult(selecao.getTime(), indicesNoRegistro); //Atualiza registros de membros do time        
+        }
+        catch (IOException e){
+            //Tratamento do erro.
+        }
     */
     
     

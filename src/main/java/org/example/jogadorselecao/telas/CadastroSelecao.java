@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import javax.swing.ListSelectionModel;
@@ -94,12 +95,16 @@ public class CadastroSelecao extends javax.swing.JPanel {
             //Configura tabela.
             tamTime = aux.getTime().size(); //Pega tamanho do time
             
-            jogadores.addAll(aux.getTime()); //Adiciona membros
+            //Pega membros e seus índices
+            jogadores = IOJogador.getMemJogadores(Jogador -> aux.getPais().equals(Jogador.getNomeSelecao()), indices);
             
+            List<Integer> indexesVagos = new ArrayList<>();
             List<Jogador> vagos = IOJogador.getMemJogadores(Jogador -> Jogador.getStatus().equals(StatusJogador.ATIVO)
-                                              && Jogador.getNomeSelecao() == null, indices); //Gera lista de vagos
+                                              && Jogador.getNomeSelecao() == null, indexesVagos); //Adiciona membros
             
             jogadores.addAll(vagos); //Adiciona jogadores vagos os final da tabela
+            indices.addAll(indexesVagos); //Adiciona indices dos jogadores vagos em ordem na lista de indices
+            
             
             atualizaTableJog(jogadores); //Atualiza tabela com os jogadores
             tabelaJogs.setAutoCreateRowSorter(true); //Permite ordenação simples por duplo clique nos rótulos das colunas
@@ -360,10 +365,13 @@ public class CadastroSelecao extends javax.swing.JPanel {
        List<Integer> indicesRefRegisto = new ArrayList<>(); //Instancia a Lista a ser passada para atualização dos Registros
        for(int i = 0; i < indexesDaTabela.length; i++){     //Constroi a Lista com indices correspondentes no registros
            indicesRefRegisto.add(indices.get(indexesDaTabela[i]));
-       }  
-       /* 
+       }
+ 
+        //Adianta o processo para o Tecnico
+        List<Integer> indiceTecnico = new ArrayList<>();
+        List<Tecnico> tecnicoMod = IOTecnico.getMemTecnicos(Tecnico -> Tecnico.getNome().equalsIgnoreCase(tecAux.getNome()), indiceTecnico);
        //Da desvinculação da equipe antiga
-        if(isEditing && tamTime > 0){
+        if(isEditing && tamTime > 0){ //Esse tamTime > 0 não é concebível, mas vai que
             tabelaJogs.clearSelection(); //Desfaz seleção do usuário
             tabelaJogs.setRowSelectionInterval(0, tamTime-1); //Seleciona os membros
             
@@ -376,11 +384,7 @@ public class CadastroSelecao extends javax.swing.JPanel {
             List<Integer> indicesMembros = new ArrayList<>(); //Instancia a Lista a ser passada para atualização dos Registros
             for(int i = 0; i < indexesMembros.length; i++){     //Constroi a Lista com indices correspondentes no registros
                 indicesMembros.add(indices.get(indexesMembros[i]));
-            }  
-            
-            //Repete processo para o Tecnico
-            List<Integer> indiceTecnico = new ArrayList<>();
-            List<Tecnico> tecnicoMod = IOTecnico.getMemTecnicos(Tecnico -> Tecnico.getNome().equalsIgnoreCase(tecAux.getNome()), indiceTecnico);
+            } 
             
             //Instancia os membros na memória
             try{
@@ -398,7 +402,7 @@ public class CadastroSelecao extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO!", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-        }*/
+        }
        
        //Da vinculação da nova equipe
        //Precisa de garantir a atomicidade do procedimento abaixo. Está na gambiarra
@@ -413,10 +417,15 @@ public class CadastroSelecao extends javax.swing.JPanel {
                                           Integer.parseInt(txtInputGrupo.getText()),
                                           tecnico,
                                           selecionados); //Instancia a selecao
-            
-            IOTecnico.appendTecnico(tecnico); //Adiciona tecnico ao registro
-            
-            IOSelecao.appendSelecao(selecao); //Adiciona selecao ao registro selecoes.jsonl
+            if(isEditing){
+                IOTecnico.insert(tecnico, indiceTecnico.getFirst()); //Adiciona tecnico ao registro
+                //IOSelecao.insert(selecao); //Adiciona selecao ao registro selecoes.jsonl //Implementar insertSelecao
+            }
+            else{
+                IOTecnico.appendTecnico(tecnico); //Adiciona tecnico ao registro
+                IOSelecao.appendSelecao(selecao); //Adiciona selecao ao registro selecoes.jsonl               
+            }
+
             
             IOJogador.insertMult(selecionados, indicesRefRegisto); //Atualiza jogadores selecionados no Registro jogadores.jsonl
             JOptionPane.showMessageDialog(null, "Operação realizada com sucesso");

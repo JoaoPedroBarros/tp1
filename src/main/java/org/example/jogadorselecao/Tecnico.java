@@ -16,7 +16,7 @@ public class Tecnico {
         setNome(nome);
     }
     
-
+    
     //Getters e Setters
 
     public String getNome() {

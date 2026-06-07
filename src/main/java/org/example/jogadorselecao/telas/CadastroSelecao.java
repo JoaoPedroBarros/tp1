@@ -19,6 +19,8 @@ import java.util.HashSet;
 import java.util.List;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import org.example.jogadorselecao.Jogador;
@@ -27,6 +29,7 @@ import org.example.jogadorselecao.Selecao;
 import org.example.jogadorselecao.StatusJogador;
 import org.example.jogadorselecao.Tecnico;
 import org.example.jogadorselecao.persistencia.ElementoDuplicado;
+import org.example.jogadorselecao.persistencia.PersistenciaDeDados;
 import org.example.jogadorselecao.persistencia.IOJogador;
 import org.example.jogadorselecao.persistencia.IOSelecao;
 import org.example.jogadorselecao.persistencia.IOTecnico;
@@ -66,6 +69,17 @@ public class CadastroSelecao extends javax.swing.JPanel {
         for (int i = 0; i < tabelaJogs.getColumnCount(); i++){
             tabelaJogs.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
+        
+        labelContagemSelecionados.setText("0 jogadores selecionados.");
+        tabelaJogs.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+            @Override
+            public void valueChanged(ListSelectionEvent e){
+                if(!e.getValueIsAdjusting()){
+                    int totalLinhasSelecionadas = tabelaJogs.getSelectedRowCount();
+                    labelContagemSelecionados.setText(totalLinhasSelecionadas + " jogadores selecionados.");
+                }
+            }
+        });
     }
     
     public CadastroSelecao(int indice){
@@ -74,8 +88,20 @@ public class CadastroSelecao extends javax.swing.JPanel {
         this.isEditing = true;
         this.indice = indice;
         
+        labelContagemSelecionados.setText("0 jogadores selecionados.");
+        tabelaJogs.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+            @Override
+            public void valueChanged(ListSelectionEvent e){
+                if(!e.getValueIsAdjusting()){
+                    int totalLinhasSelecionadas = tabelaJogs.getSelectedRowCount();
+                    labelContagemSelecionados.setText(totalLinhasSelecionadas + " jogadores selecionados.");
+                }
+            }
+        });
+
         try{
             Selecao aux = IOSelecao.get(indice);
+            
             tecAux = aux.getTecnico();
             txtInputPais.setText(aux.getPais());
             txtInputGrupo.setText(Integer.toString(aux.getGrupo()));
@@ -199,6 +225,7 @@ public class CadastroSelecao extends javax.swing.JPanel {
         txtInputFiltroNum = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabelaJogs = new javax.swing.JTable();
+        labelContagemSelecionados = new javax.swing.JLabel();
 
         labelPais.setText("País:");
 
@@ -212,7 +239,7 @@ public class CadastroSelecao extends javax.swing.JPanel {
         botaoCancelar.setText("Cancelar");
         botaoCancelar.addActionListener(this::botaoCancelarActionPerformed);
 
-        labelSelecioneJog.setText("Selecione 18 a 26 jogadores para uma Seleção.");
+        labelSelecioneJog.setText("Selecione 18 a 26 jogadores.");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createCompoundBorder(null, javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
 
@@ -280,6 +307,8 @@ public class CadastroSelecao extends javax.swing.JPanel {
         ));
         jScrollPane2.setViewportView(tabelaJogs);
 
+        labelContagemSelecionados.setText("jLabel1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -289,35 +318,34 @@ public class CadastroSelecao extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(botaoSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(botaoCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(labelPais)
-                                            .addComponent(labelTecnico)
-                                            .addComponent(labelGrupo))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(txtInputGrupo, javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtInputPais)
-                                            .addComponent(txtInputTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(labelSelecioneJog))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                    .addComponent(labelPais)
+                                    .addComponent(labelTecnico)
+                                    .addComponent(labelGrupo))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(txtInputGrupo, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtInputPais)
+                                    .addComponent(txtInputTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(labelSelecioneJog)
+                            .addComponent(labelContagemSelecionados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(33, 33, 33)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(botaoSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(botaoCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(14, 14, 14)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -331,19 +359,21 @@ public class CadastroSelecao extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtInputTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(labelTecnico))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(labelSelecioneJog, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labelSelecioneJog, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labelContagemSelecionados, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botaoSalvar)
                     .addComponent(botaoCancelar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void botaoCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoCancelarActionPerformed
         // TODO add your handling code here:
                 // TODO add your handling code here:
@@ -366,7 +396,8 @@ public class CadastroSelecao extends javax.swing.JPanel {
        for(int i = 0; i < indexesDaTabela.length; i++){     //Constroi a Lista com indices correspondentes no registros
            indicesRefRegisto.add(indices.get(indexesDaTabela[i]));
        }
- 
+        System.out.println(indicesRefRegisto);
+       
         //Adianta o processo para o Tecnico
         List<Integer> indiceTecnico = new ArrayList<>();
         List<Tecnico> tecnicoMod = IOTecnico.getMemTecnicos(Tecnico -> Tecnico.getNome().equalsIgnoreCase(tecAux.getNome()), indiceTecnico);
@@ -410,7 +441,7 @@ public class CadastroSelecao extends javax.swing.JPanel {
        boolean wasSelecaoAppended = false;
        try{
             List<Jogador> selecionados = IOJogador.getMult(indicesRefRegisto); //Resgata jogadores do registro
-
+            
             Tecnico tecnico = new Tecnico(txtInputTecnico.getText()); //Instancia tecnico
 
             Selecao selecao = new Selecao(txtInputPais.getText(), 
@@ -418,8 +449,8 @@ public class CadastroSelecao extends javax.swing.JPanel {
                                           tecnico,
                                           selecionados); //Instancia a selecao
             if(isEditing){
-                IOTecnico.insert(tecnico, indiceTecnico.getFirst()); //Adiciona tecnico ao registro
-                //IOSelecao.insert(selecao); //Adiciona selecao ao registro selecoes.jsonl //Implementar insertSelecao
+                PersistenciaDeDados.insert(tecnico, indiceTecnico.getFirst()); //Adiciona tecnico ao registro
+                PersistenciaDeDados.insert(selecao, indice); //Adiciona selecao ao registro selecoes.jsonl //Implementar insertSelecao
             }
             else{
                 IOTecnico.appendTecnico(tecnico); //Adiciona tecnico ao registro
@@ -466,11 +497,11 @@ public class CadastroSelecao extends javax.swing.JPanel {
             }
             catch(NumberFormatException e){
                 JOptionPane.showMessageDialog(null, "Número está vazio.", "Erro!", JOptionPane.ERROR_MESSAGE);
-                sorter.setRowFilter(null); //Filtra tabela
+                //sorter.setRowFilter(null); //Filtra tabela
             }
             catch(IllegalArgumentException a){
                  JOptionPane.showMessageDialog(null, a.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);              
-                 sorter.setRowFilter(null); //Filtra tabela
+                 //sorter.setRowFilter(null); //Filtra tabela
             }      
     }//GEN-LAST:event_botaoAplicarFiltrosActionPerformed
 
@@ -482,6 +513,7 @@ public class CadastroSelecao extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> comboBoxPosicao;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel labelContagemSelecionados;
     private javax.swing.JLabel labelFiltroNum;
     private javax.swing.JLabel labelFiltroPosicao;
     private javax.swing.JLabel labelGrupo;

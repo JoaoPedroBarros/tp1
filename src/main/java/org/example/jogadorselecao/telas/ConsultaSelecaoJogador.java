@@ -318,7 +318,7 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
         DefaultTableModel modelo = (DefaultTableModel) consultaTable.getModel(); //Gera um modelo de tabela para manipulação da JTable
         modelo.setRowCount(0); //Zera o numero de linhas, efetivamente limpando a tabela
         Jogador jogador; //Molde para leitura de jogadores
-        Selecao selecao; //Modde para leitura de selecoes
+        Selecao selecao; //Molde para leitura de selecoes
         
         ObjectMapper mapper = new ObjectMapper();// Instancia Mapeamento padrao da biblioteca Jackson
         String linha; //String auxiliar para leitura
@@ -336,7 +336,8 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
 
             }
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO!", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+            //JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO!", JOptionPane.ERROR_MESSAGE);
         }
         
         //Define seleção da linha inteira
@@ -423,7 +424,7 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
         
         if(isJogadorSelected){
             //Criação da tela de Edição de Jogador
-            CadastroJogador painel = new CadastroJogador(true, indice);
+            CadastroJogador painel = new CadastroJogador(indice);
             JFrame origem = (JFrame) SwingUtilities.getWindowAncestor(SwingUtilities.getWindowAncestor(this));
             JDialog dialogo = new JDialog(origem, "Edição de Jogador", true);
             dialogo.getContentPane().add(painel);
@@ -433,14 +434,14 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
             dialogo.setVisible(true);            
         }
         else{
-            /*CadastroSelecao painel = new CadastroSelecao();
+            CadastroSelecao painel = new CadastroSelecao(indice);
             JFrame origem = (JFrame) SwingUtilities.getWindowAncestor(SwingUtilities.getWindowAncestor(this));
             JDialog dialogo = new JDialog(origem, "Edição de Seleção", true);
             dialogo.getContentPane().add(painel);
             dialogo.pack();
             dialogo.setResizable(false);
             dialogo.setLocationRelativeTo(this);
-            dialogo.setVisible(true);*/
+            dialogo.setVisible(true);
         }
 
         atualizaTabela(!isJogadorSelected);

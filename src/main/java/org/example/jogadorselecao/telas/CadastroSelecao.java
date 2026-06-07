@@ -42,6 +42,10 @@ public class CadastroSelecao extends javax.swing.JPanel {
     
     private List<Integer> indices = new ArrayList<>();
     private List<Jogador> jogadores = new ArrayList<>();
+    private boolean isEditing;
+    private int indice;
+    private int tamTime;
+    private Tecnico tecAux;
     
     public CadastroSelecao() {
         initComponents();
@@ -60,6 +64,60 @@ public class CadastroSelecao extends javax.swing.JPanel {
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
         for (int i = 0; i < tabelaJogs.getColumnCount(); i++){
             tabelaJogs.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+    }
+    
+    public CadastroSelecao(int indice){
+        initComponents();
+        
+        this.isEditing = true;
+        this.indice = indice;
+        
+        try{
+            Selecao aux = IOSelecao.get(indice);
+            tecAux = aux.getTecnico();
+            txtInputPais.setText(aux.getPais());
+            txtInputGrupo.setText(Integer.toString(aux.getGrupo()));
+            txtInputTecnico.setText(aux.getTecnico().getNome());
+            
+            //Inicializa filtros
+            txtInputFiltroNum.setText(".*");
+            
+            //Adiciona posicoes
+            comboBoxPosicao.addItem(".*");
+            comboBoxPosicao.addItem(Posicao.GOLEIRO.toString());
+            comboBoxPosicao.addItem(Posicao.DEFENSOR.toString());
+            comboBoxPosicao.addItem(Posicao.MEIO_CAMPISTA.toString());
+            comboBoxPosicao.addItem(Posicao.ATACANTE.toString());
+            comboBoxPosicao.setSelectedItem(".*");
+            
+            //Configura tabela.
+            tamTime = aux.getTime().size(); //Pega tamanho do time
+            
+            jogadores.addAll(aux.getTime()); //Adiciona membros
+            
+            List<Jogador> vagos = IOJogador.getMemJogadores(Jogador -> Jogador.getStatus().equals(StatusJogador.ATIVO)
+                                              && Jogador.getNomeSelecao() == null, indices); //Gera lista de vagos
+            
+            jogadores.addAll(vagos); //Adiciona jogadores vagos os final da tabela
+            
+            atualizaTableJog(jogadores); //Atualiza tabela com os jogadores
+            tabelaJogs.setAutoCreateRowSorter(true); //Permite ordenação simples por duplo clique nos rótulos das colunas
+        
+            //Faz com que a seleção de uma linha ou coluna seja total (linha toda)
+            tabelaJogs.setRowSelectionAllowed(true);
+            tabelaJogs.setColumnSelectionAllowed(false);
+        
+            //Centraliza os conteudos das colunas
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+            for (int i = 0; i < tabelaJogs.getColumnCount(); i++){
+                tabelaJogs.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+            }
+            tabelaJogs.setRowSelectionInterval(0, tamTime-1); //Deixa os membros selecionados
+        }
+        catch(IOException e){
+            JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO!", JOptionPane.ERROR_MESSAGE);            
         }
     }
 
@@ -160,6 +218,7 @@ public class CadastroSelecao extends javax.swing.JPanel {
         labelOpcoesFiltro.setText("Opções de Filtragem");
 
         botaoAplicarFiltros.setText("Aplicar filtros");
+        botaoAplicarFiltros.addActionListener(this::botaoAplicarFiltrosActionPerformed);
 
         txtInputFiltroNum.addActionListener(this::txtInputFiltroNumActionPerformed);
 
@@ -179,15 +238,14 @@ public class CadastroSelecao extends javax.swing.JPanel {
                             .addComponent(txtInputFiltroNum)
                             .addComponent(comboBoxPosicao, 0, 116, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(30, 30, 30)
-                                .addComponent(labelOpcoesFiltro))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(31, 31, 31)
-                                .addComponent(botaoAplicarFiltros)))
+                        .addGap(30, 30, 30)
+                        .addComponent(labelOpcoesFiltro)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(botaoAplicarFiltros)
+                .addGap(42, 42, 42))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -292,6 +350,8 @@ public class CadastroSelecao extends javax.swing.JPanel {
 
     private void botaoSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSalvarActionPerformed
         // TODO add your handling code here:
+        
+       //Pega índices das linhas selecionadas pelo usuário
        int[] indexesDaTabela = tabelaJogs.getSelectedRows(); //Pega indexes selecionados na GUI
        for(int i = 0; i < indexesDaTabela.length; i++){     //Converte indexes selecionados para a referencia no Modelo Base
            indexesDaTabela[i] = tabelaJogs.convertRowIndexToModel(indexesDaTabela[i]);
@@ -300,8 +360,48 @@ public class CadastroSelecao extends javax.swing.JPanel {
        List<Integer> indicesRefRegisto = new ArrayList<>(); //Instancia a Lista a ser passada para atualização dos Registros
        for(int i = 0; i < indexesDaTabela.length; i++){     //Constroi a Lista com indices correspondentes no registros
            indicesRefRegisto.add(indices.get(indexesDaTabela[i]));
-       }      
+       }  
+       /* 
+       //Da desvinculação da equipe antiga
+        if(isEditing && tamTime > 0){
+            tabelaJogs.clearSelection(); //Desfaz seleção do usuário
+            tabelaJogs.setRowSelectionInterval(0, tamTime-1); //Seleciona os membros
+            
+            //Pega índices dos membros do time no registro
+            int[] indexesMembros = tabelaJogs.getSelectedRows(); //Pega indexes selecionados na GUI
+            for(int i = 0; i < indexesMembros.length; i++){     //Converte indexes selecionados para a referencia no Modelo Base
+                indexesMembros[i] = tabelaJogs.convertRowIndexToModel(indexesMembros[i]);
+            }       
+
+            List<Integer> indicesMembros = new ArrayList<>(); //Instancia a Lista a ser passada para atualização dos Registros
+            for(int i = 0; i < indexesMembros.length; i++){     //Constroi a Lista com indices correspondentes no registros
+                indicesMembros.add(indices.get(indexesMembros[i]));
+            }  
+            
+            //Repete processo para o Tecnico
+            List<Integer> indiceTecnico = new ArrayList<>();
+            List<Tecnico> tecnicoMod = IOTecnico.getMemTecnicos(Tecnico -> Tecnico.getNome().equalsIgnoreCase(tecAux.getNome()), indiceTecnico);
+            
+            //Instancia os membros na memória
+            try{
+                List<Jogador> membros = IOJogador.getMult(indicesMembros); //Resgata membros do registro
+                for(Jogador membro : membros){//Desvincula todos os jogadores do time
+                    membro.setNomeSelecao(null);
+                }
+                tecnicoMod.getFirst().setNomeSelecao(null); //Desvincula técnico
+                
+                //Atuliza registro jogadores
+                IOJogador.insertMult(membros, indicesMembros); //Atualiza membros selecionados no Registro jogadores.jsonl
+                IOTecnico.insert(tecnicoMod.getFirst(), indiceTecnico.getFirst());
+            }
+            catch (IOException e){
+                JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO!", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }*/
        
+       //Da vinculação da nova equipe
+       //Precisa de garantir a atomicidade do procedimento abaixo. Está na gambiarra
        boolean wasTecnicoAppended = false;
        boolean wasSelecaoAppended = false;
        try{
@@ -317,7 +417,7 @@ public class CadastroSelecao extends javax.swing.JPanel {
             IOTecnico.appendTecnico(tecnico); //Adiciona tecnico ao registro
             
             IOSelecao.appendSelecao(selecao); //Adiciona selecao ao registro selecoes.jsonl
-           
+            
             IOJogador.insertMult(selecionados, indicesRefRegisto); //Atualiza jogadores selecionados no Registro jogadores.jsonl
             JOptionPane.showMessageDialog(null, "Operação realizada com sucesso");
             SwingUtilities.getWindowAncestor(this).dispose();
@@ -331,12 +431,46 @@ public class CadastroSelecao extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtInputFiltroNumActionPerformed
 
+    private void botaoAplicarFiltrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoAplicarFiltrosActionPerformed
+        // TODO add your handling code here:
+        //Cria classe filtro 
+        DefaultTableModel modelo = (DefaultTableModel) tabelaJogs.getModel();
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
+
+            //Cria filtro and customizado
+            String posicao = comboBoxPosicao.getSelectedItem().toString();
+            
+            try{
+                RowFilter<DefaultTableModel, Object> filtro1 = RowFilter.regexFilter(posicao);
+                String str = txtInputFiltroNum.getText().trim();
+                int i;
+                if(!str.equals(".*") && (i = Integer.parseInt(str)) <= 0){
+                    throw new IllegalArgumentException("Números devem ser números positivos.");
+                }
+                RowFilter<DefaultTableModel, Object> filtro2 = RowFilter.regexFilter(str);
+                List<RowFilter<DefaultTableModel, Object>> lista = new ArrayList<>();   //Caramba. Conversao dupla??!!
+                lista.add(filtro1);
+                lista.add(filtro2);
+                RowFilter<DefaultTableModel, Object> filtros = RowFilter.andFilter(lista);
+                sorter.setRowFilter(filtros); //Filtra tabela  
+                tabelaJogs.setRowSorter(sorter);
+            }
+            catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(null, "Número está vazio.", "Erro!", JOptionPane.ERROR_MESSAGE);
+                sorter.setRowFilter(null); //Filtra tabela
+            }
+            catch(IllegalArgumentException a){
+                 JOptionPane.showMessageDialog(null, a.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);              
+                 sorter.setRowFilter(null); //Filtra tabela
+            }      
+    }//GEN-LAST:event_botaoAplicarFiltrosActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoAplicarFiltros;
     private javax.swing.JButton botaoCancelar;
     private javax.swing.JButton botaoSalvar;
-    private javax.swing.JComboBox<Posicao> comboBoxPosicao;
+    private javax.swing.JComboBox<String> comboBoxPosicao;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelFiltroNum;

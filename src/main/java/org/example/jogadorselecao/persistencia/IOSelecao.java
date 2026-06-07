@@ -95,5 +95,32 @@ public class IOSelecao extends Permissao{
             System.err.println("Nao foi possivel deletar o arquivo.");
         }
     }
+
+    public static Selecao get(int index) throws IOException{
+        if(index == -1){return null;}
+        
+        File arquivo = new File("src/main/resources/selecoes.jsonl");
+        ObjectMapper mapper = new ObjectMapper();// Instancia Mapeamento padrao da biblioteca Jackson
+        String linha;
+        int cont = 0;
+        
+        try(BufferedReader leitura = new BufferedReader(new FileReader(arquivo))){            
+            while((linha = leitura.readLine()) != null){
+                if(cont == index){
+                    return mapper.readValue(linha, Selecao.class);
+                }
+                cont++;
+            }          
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        } 
+        
+        if(index < cont){
+            throw new IOException("Jogador não encontrado. Get não foi executado corretamente.");
+        }
+        
+        return null;
+    }
     
 }

@@ -39,7 +39,7 @@ public class CadastroJogador extends javax.swing.JPanel {
         comboBoxStatus.addItem(StatusJogador.LESIONADO);
         comboBoxStatus.addItem(StatusJogador.SUSPENSO);        
     }
-    public CadastroJogador(boolean isEditing, int index){
+    public CadastroJogador(int index){
         initComponents();
         
         this.isEditing = true;

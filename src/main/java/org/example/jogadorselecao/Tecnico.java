@@ -39,7 +39,7 @@ public class Tecnico {
         return nomeSelecao;
     }
 
-    protected void setSelecao(String nomeSelecao) {
+    public void setNomeSelecao(String nomeSelecao) {
         this.nomeSelecao = nomeSelecao;
     }
 

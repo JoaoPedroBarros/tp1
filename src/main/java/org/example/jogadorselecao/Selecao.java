@@ -78,7 +78,7 @@ public final class Selecao {
                     " já está afiliado à selecao do(a) " + tecnico.getNomeSelecao() + ".");
         }
         this.tecnico = tecnico;
-        tecnico.setSelecao(this.getPais());
+        tecnico.setNomeSelecao(this.getPais());
     }
 
     public List<Jogador> getTime() {
@@ -92,7 +92,7 @@ public final class Selecao {
             }
             return;
         }
-        
+
         if(time == null){return;}
         
         //Impede set com tamanhos inadequados de time
@@ -108,12 +108,7 @@ public final class Selecao {
             }
         }    
         
-        if(this.time != null){ //Para substituir a equipe inteira
-          for(Jogador jogador : this.time){
-                jogador.setNomeSelecao(null);
-                this.time.remove(jogador);
-            }     
-        }
+
 
         //Vincula cada jogador da HashSet à atual instância de seleção
         for(Jogador jogador : time){

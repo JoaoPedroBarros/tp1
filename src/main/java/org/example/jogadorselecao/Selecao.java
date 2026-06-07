@@ -1,8 +1,6 @@
 package org.example.jogadorselecao;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -143,30 +141,6 @@ public final class Selecao {
 
     
     //Metodos personalizados
-    public void convocar(Jogador jogador){
-        if (time.size() == MAX_MEMBROS){
-            throw new IllegalStateException("Não é possível convocar " + jogador.getNome() + ". Pois a"
-                    + " seleção do(a) " + this.getPais() +
-                    " possui o limite máximo de " + MAX_MEMBROS + " membros.");
-        }
-        jogador.setNomeSelecao(pais);   //Vincula jogador
-        time.add(jogador);
-    }
-    
-    public void dispensar(Jogador jogador){
-        if(time.contains(jogador)){
-            if(time.size() == MIN_MEMBROS){
-                throw new IllegalStateException("Não é possível dispensar " + jogador.getNome() + "pois a seleção do(a) "
-                        + this.getPais() + " atingiu o número mínimo de " + MIN_MEMBROS + " membros. Contrate um substituto"
-                                + " ou exclua a seleção manualmente.");
-            }
-            else{
-                jogador.setNomeSelecao(null);   //Desvincula jogador
-                time.remove(jogador);
-            }
-        }
-    }
-    
     public boolean podeJogar(){
         for (Jogador jogador : time){
             if(jogador.getStatus() == StatusJogador.LESIONADO || jogador.getStatus() == StatusJogador.SUSPENSO){
@@ -178,13 +152,50 @@ public final class Selecao {
     }
  
     //Métodos personalizados
-    public void atualizaEstat(int v, int d, int e) throws IllegalArgumentException{
-        if (v < 0 || d < 0 || e < 0){
-            throw new IllegalArgumentException("Dados estatísticos não podem ser negativos.");
+    public void atualizaEstat(int[][] estatJogadores, int[] estatSelecao) throws IllegalArgumentException{
+        //Valida se todos os jogadores foram contemplados
+        if(estatJogadores.length != time.size()){
+            throw new IllegalArgumentException("O vetor de estatísticas dos Jogadores tem tamanho indevido");
         }
-        this.vitorias += v;
-        this.derrotas += d;
-        this.empates += e;
+        
+        //Valida se cada linha contempla todas as estatísticas de cada jogador
+        for(int i = 0; i < estatJogadores.length; i++){
+            if(estatJogadores[i].length != 5){
+                throw new IllegalArgumentException("As estatísticas do jogador " + i + "não foram devidas fornecidas.");
+            }
+        }
+        
+        //Valida se todas as estaíticas da seleção foram contempladas
+        if(estatSelecao.length != 3){
+            throw new IllegalArgumentException("O vetor de estatísticas da Seleção tem tamanho indevido");
+        }
+       
+        //Valida se alguma estatística de Seleção é negativa
+        for(int i = 0; i < estatSelecao.length; i++){
+            if(estatSelecao[i] < 0){
+                String msg = "O número de ";
+                switch(i){
+                    case 0:
+                        msg += "vitórias";
+                    case 1:
+                        msg += "derrotas";
+                    case 2:
+                        msg += "empates";
+                }
+                msg += " não pode ser negativo.";
+                throw new IllegalArgumentException(msg);
+            }
+        }        
+        
+        //Atualiza estatísticas dos membros do time
+        for (int i = 0; i < estatJogadores.length; i++){
+            time.get(i).atualizaEstat(estatJogadores[i]);
+        }
+        
+        //Atualiza estatísticas próprias da seleção.
+        this.vitorias += estatSelecao[0];
+        this.derrotas += estatSelecao[1];
+        this.empates += estatSelecao[2];
     }
     
     @Override

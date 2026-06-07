@@ -1,6 +1,5 @@
 package org.example.jogadorselecao;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -139,15 +138,17 @@ public final class Jogador{
     }
     
     //Métodos personalizados
-    public void atualizaEstat(int a, int v, int p, int asst, int g) throws IllegalArgumentException{
-        if (a < 0 || v < 0 || p < 0 || asst < 0 || g < 0){
-            throw new IllegalArgumentException("Dados estatísticos não podem ser negativos.");
+    public void atualizaEstat(int[] estatisticas) throws IllegalArgumentException{
+        for(int i = 0; i < estatisticas.length; i++){
+            if(estatisticas[i] < 0){ return;}
         }
-        this.amarelos += a;
-        this.vermelhos += v;
-        this.passes += p;
-        this.assistencias += asst;
-        this.gols += g;
+        
+        //Atualiza atributos estatísticos
+        this.amarelos += estatisticas[0];
+        this.vermelhos += estatisticas[1];
+        this.passes += estatisticas[2];
+        this.assistencias += estatisticas[3];
+        this.gols += estatisticas[4];
     }
 
     @Override

@@ -8,7 +8,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-import java.util.ListIterator;
 import org.example.administracao.Permissao;
 import org.example.jogadorselecao.Jogador;
 import org.example.jogadorselecao.Selecao;

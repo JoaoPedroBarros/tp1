@@ -151,20 +151,27 @@ public final class Selecao {
         
     }
  
-    //Métodos personalizados
-    public void atualizaEstat(int[][] estatJogadores, int[] estatSelecao) throws IllegalArgumentException{
-        //Valida se todos os jogadores foram contemplados
-        if(estatJogadores.length != time.size()){
-            throw new IllegalArgumentException("O vetor de estatísticas dos Jogadores tem tamanho indevido");
+    
+    /*Sugestão de procedimento (passo a passo) completo para modificação das estatísticas, mantendo a persistência de dados.
+        //Para modificar a seleção da Alemanha
+        int indice = IOSelecao.contains("Alemanha"); //Método é caseSensitive
+        Selecao selecao = IOSelecao().get(indice);  //Resgata seleção da memória
+        selecao.atualizaEstat(dadosSelecao); //Atualiza estatísticas da selecao
+        PersistenciaDeDados.insert(selecao, indice); //Atualiza registro da selecao
+    
+        List<Integer> indicesNoRegistro = new ArrayList<>();
+        List<Jogador> membros = IOJogador.getMemJogadores(Jogador -> selecao.getPais().equals(Jogador.getNomeSelecao(),
+                                                          indicesNoRegistro));
+          
+        for (int i = 0; i < dadosJogadores.length; i++){ //Atualiza instâncias de membros do time
+            membros.get(i).atualizaEstat(dadosJogadores[i]);
         }
         
-        //Valida se cada linha contempla todas as estatísticas de cada jogador
-        for(int i = 0; i < estatJogadores.length; i++){
-            if(estatJogadores[i].length != 5){
-                throw new IllegalArgumentException("As estatísticas do jogador " + i + "não foram devidas fornecidas.");
-            }
-        }
-        
+        IOJogador.insertMult(membros, indicesNoRegistro); //Atualiza registros de membros do time
+    */
+    
+    
+    public void atualizaEstat(int[] estatSelecao) throws IllegalArgumentException{
         //Valida se todas as estaíticas da seleção foram contempladas
         if(estatSelecao.length != 3){
             throw new IllegalArgumentException("O vetor de estatísticas da Seleção tem tamanho indevido");
@@ -186,11 +193,6 @@ public final class Selecao {
                 throw new IllegalArgumentException(msg);
             }
         }        
-        
-        //Atualiza estatísticas dos membros do time
-        for (int i = 0; i < estatJogadores.length; i++){
-            time.get(i).atualizaEstat(estatJogadores[i]);
-        }
         
         //Atualiza estatísticas próprias da seleção.
         this.vitorias += estatSelecao[0];

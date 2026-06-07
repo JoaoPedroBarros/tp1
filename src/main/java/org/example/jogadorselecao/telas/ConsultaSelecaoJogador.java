@@ -33,6 +33,7 @@ import org.example.jogadorselecao.persistencia.ElementoDuplicado;
 import org.example.jogadorselecao.persistencia.IOJogador;
 import org.example.jogadorselecao.persistencia.IOSelecao;
 import org.example.jogadorselecao.persistencia.IOTecnico;
+import org.example.jogadorselecao.persistencia.PersistenciaDeDados;
 
 
 /**
@@ -250,6 +251,47 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
 
     private void botaoVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoVoltarActionPerformed
         // TODO add your handling code here:
+        /*int[] dadosSelecao = {1,0,0};
+        int[][] dadosJogadores = {{1,0,0,0,0},
+                                  {0,1,0,0,0},
+                                  {0,0,1,0,0},
+                                  {0,0,0,1,0},
+                                  {0,0,0,0,1},
+                                  {1,0,0,0,0},
+                                  {0,1,0,0,0},
+                                  {0,0,1,0,0},
+                                  {0,0,0,1,0},
+                                  {0,0,0,0,1},
+                                  {1,0,0,0,0},
+                                  {0,1,0,0,0},
+                                  {0,0,1,0,0},
+                                  {0,0,0,1,0},
+                                  {0,0,0,0,1},
+                                  {1,0,0,0,0},
+                                  {0,1,0,0,0},
+                                  {0,0,1,0,0}};
+        
+        try{
+            int indice = IOSelecao.containsSelecao("Brasil"); //Método é caseSensitive
+            Selecao selecao = IOSelecao.get(indice);  //Resgata seleção da memória
+            selecao.atualizaEstat(dadosSelecao); //Atualiza estatísticas da selecao
+            PersistenciaDeDados.insert(selecao, indice); //Atualiza registro da selecao
+
+            List<Integer> indicesNoRegistro = new ArrayList<>();
+            List<Jogador> membros = IOJogador.getMemJogadores(Jogador -> selecao.getPais().equals(Jogador.getNomeSelecao()), 
+                                                              indicesNoRegistro);
+
+            for (int i = 0; i < dadosJogadores.length; i++){ //Atualiza instâncias de membros do time
+                membros.get(i).atualizaEstat(dadosJogadores[i]);
+            }
+
+            IOJogador.insertMult(membros, indicesNoRegistro); //Atualiza registros de membros do time        
+        }
+        catch (IOException e){
+            //Tratamento do erro.
+            e.printStackTrace();
+        }*/
+        
         SwingUtilities.getWindowAncestor(this).dispose();
     }//GEN-LAST:event_botaoVoltarActionPerformed
 

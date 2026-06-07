@@ -33,7 +33,7 @@ public class IOJogador extends Permissao{
         File arquivo = new File("src/main/resources/jogadores.jsonl");
         ObjectMapper mapper = new ObjectMapper();// Instancia Mapeamento padrao da biblioteca Jackson
         String linha;
-        int index = 1;
+        int index = 0;
         
         try(BufferedReader leitura = new BufferedReader(new FileReader(arquivo))){
             String jsonStr = mapper.writeValueAsString(jogador); // Conversão da classe jogador para string de Json
@@ -256,7 +256,6 @@ public class IOJogador extends Permissao{
         }
     }
 
-    
     public static Jogador get(int index) throws IOException{
         if(index == -1){return null;}
         
@@ -317,23 +316,11 @@ public class IOJogador extends Permissao{
         return jogadores;        
     }
     
-    
     //Função extra (mais para legibilidade)
     //Guarda todos os novos jogadores distintos no arquivo de persistência
     public static void adicionarJogadores(List<Jogador> jogadores) throws ElementoDuplicado{
         for(var jogador : jogadores){
             appendJogador(jogador);
         }
-    }
-    
-    //Métodos não escalonáveis
-    //Mantive esses métodos para discutir depois a real praticidade e impacto de usar procedimenro não escalonáveis
-    //NE significa Não Escalonável
-    public static void appendJogNE(Jogador jogador){
-        
-    }
-    
-    public static void atualizaJogsNE(HashSet<Jogador> jogadores){
-        
-    }
+    }   
 }

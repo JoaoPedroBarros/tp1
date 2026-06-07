@@ -48,6 +48,29 @@ public class IOSelecao extends Permissao{
         } 
         return -1; //Retorno default
     }
+
+    public static int containsSelecao(String pais){
+        File arquivo = new File("src/main/resources/selecoes.jsonl");
+        String linha;
+        int index = 0;
+        String comparador = "{\"pais\":\"" + pais + "\"";
+        
+        try(BufferedReader leitura = new BufferedReader(new FileReader(arquivo))){            
+            while((linha = leitura.readLine()) != null){
+                //Compara somente os nomes dos jogadores
+                if(linha.substring(0, linha.indexOf(",")).equals(comparador)){ //Compara somente os países do Selecoes
+                    break;
+                }
+                index++;
+            }
+            
+            return linha == null ? -1 : index;            
+        }
+        catch(IOException e){
+            System.err.println("Ocorreu um erro inesperado na leitura do arquivo.");
+        } 
+        return -1; //Retorno default
+    }
     
     //Append jogadores no arquivo jogadores.jsonl
     public static boolean appendSelecao(Selecao selecao){

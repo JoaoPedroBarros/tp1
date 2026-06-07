@@ -75,7 +75,7 @@ public class IOSelecao extends Permissao{
         try (BufferedReader leitura = new BufferedReader(new FileReader(arquivoOriginal));
              BufferedWriter escrita = new BufferedWriter(new FileWriter(arquivoTemp))){
 
-            String comparador = "{\"nome\":\"" + pais + "\"";
+            String comparador = "{\"pais\":\"" + pais + "\"";
                     
             //Atualiza arquivo temporário com todos os dados, exceto o deletado
             while((linha = leitura.readLine()) != null){

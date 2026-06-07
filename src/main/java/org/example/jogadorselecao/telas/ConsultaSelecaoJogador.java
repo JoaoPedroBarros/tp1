@@ -28,8 +28,11 @@ import org.example.jogadorselecao.Jogador;
 import org.example.jogadorselecao.Posicao;
 import org.example.jogadorselecao.Selecao;
 import org.example.jogadorselecao.StatusJogador;
+import org.example.jogadorselecao.Tecnico;
 import org.example.jogadorselecao.persistencia.ElementoDuplicado;
 import org.example.jogadorselecao.persistencia.IOJogador;
+import org.example.jogadorselecao.persistencia.IOSelecao;
+import org.example.jogadorselecao.persistencia.IOTecnico;
 
 
 /**
@@ -195,23 +198,57 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
 
     private void botaoExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoExcluirActionPerformed
         // TODO add your handling code here:
+        if(consultaTable.getSelectedRowCount() == 0){
+            JOptionPane.showMessageDialog(null, "Nenhum valor selecionado.", "Erro!", JOptionPane.ERROR_MESSAGE);              
+            return;
+        }
+        
         int res = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja prosseguir?", "Atenção!", JOptionPane.YES_NO_OPTION);
         if (res == JOptionPane.YES_OPTION){
             
             DefaultTableModel modelo = (DefaultTableModel) consultaTable.getModel();
+            //consultaTable.getSelectedRows(); //PEGA INDICES
+            //CONVERSÃO DE LOOPS
+            //APLICA DELECAO EM LOOP
+                //MODULE AS FUNCOES DELETEJOG E DELETESEL
+            //int[] indices = consultaTable.convertColumnIndexToModel(consultaTable.getSelectedRows());
             int indice = consultaTable.getSelectedRow();
-            try{
-                IOJogador.deleteJogador((String) consultaTable.getValueAt(indice, 0));
-                JOptionPane.showMessageDialog(null, "Exclusão realizada com sucesso.");
-                modelo.removeRow(indice);
-            }
-            catch (IOException e){
-                JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);              
-            }
-            
-            
             boolean isSelecaoSelected = txtInputGrupo.isEnabled() && !comboBoxPosicao.isEnabled() && !comboBoxStatus.isEnabled();
-            
+            if(!isSelecaoSelected){
+                try{
+                    if(consultaTable.getValueAt(indice, 4) == null){
+                        IOJogador.deleteJogador((String) consultaTable.getValueAt(indice, 0));
+                        JOptionPane.showMessageDialog(null, "Exclusão realizada com sucesso.");
+                        modelo.removeRow(indice);
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null, "Jogador está vinculado a uma seleção.\nEle deve ser dispensado primeiro.", "Erro!", JOptionPane.ERROR_MESSAGE);
+                    }
+
+                }
+                catch (IOException e){
+                    JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);              
+                }    
+            }
+            else{
+                int indiceReg = consultaTable.convertRowIndexToModel(consultaTable.getSelectedRow());
+                try{
+                    Selecao aux = IOSelecao.get(indiceReg);
+                    
+                    List<Integer> indicesMembros = new ArrayList<>();
+                    List<Jogador> membros = IOJogador.getMemJogadores(Jogador -> aux.getPais().equals(Jogador.getNomeSelecao()), indicesMembros);
+                    
+                    for(Jogador membro : membros){
+                        membro.setNomeSelecao(null); //Desvincula membros
+                    }
+                    IOJogador.insertMult(membros, indicesMembros); //Atualiza registro dos antigos membros
+                    IOTecnico.deleteTecnico(aux.getTecnico().getNome()); //Desvincula tecnico o excluindo do registro*/
+                    IOSelecao.deleteSelecao(aux.getPais()); //Exclui efetivamente a selecao
+                }
+                catch (IOException e){
+                    JOptionPane.showMessageDialog(null, e.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);              
+                }             
+            }
             consultaTable.clearSelection();
             consultaTable.setRowSorter(null);
             atualizaTabela(isSelecaoSelected);

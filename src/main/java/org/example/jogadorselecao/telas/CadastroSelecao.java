@@ -53,6 +53,7 @@ public class CadastroSelecao extends javax.swing.JPanel {
     
     public CadastroSelecao() {
         initComponents();
+        
         jogadores = IOJogador.getMemJogadores(Jogador -> Jogador.getStatus().equals(StatusJogador.ATIVO)
                                               && Jogador.getNomeSelecao() == null, indices);
         
@@ -106,17 +107,6 @@ public class CadastroSelecao extends javax.swing.JPanel {
             txtInputPais.setText(aux.getPais());
             txtInputGrupo.setText(Integer.toString(aux.getGrupo()));
             txtInputTecnico.setText(aux.getTecnico().getNome());
-            
-            //Inicializa filtros
-            txtInputFiltroNum.setText(".*");
-            
-            //Adiciona posicoes
-            comboBoxPosicao.addItem(".*");
-            comboBoxPosicao.addItem(Posicao.GOLEIRO.toString());
-            comboBoxPosicao.addItem(Posicao.DEFENSOR.toString());
-            comboBoxPosicao.addItem(Posicao.MEIO_CAMPISTA.toString());
-            comboBoxPosicao.addItem(Posicao.ATACANTE.toString());
-            comboBoxPosicao.setSelectedItem(".*");
             
             //Configura tabela.
             tamTime = aux.getTime().size(); //Pega tamanho do time
@@ -216,13 +206,6 @@ public class CadastroSelecao extends javax.swing.JPanel {
         botaoCancelar = new javax.swing.JButton();
         labelSelecioneJog = new javax.swing.JLabel();
         txtInputTecnico = new javax.swing.JTextField();
-        jPanel1 = new javax.swing.JPanel();
-        comboBoxPosicao = new javax.swing.JComboBox<>();
-        labelFiltroNum = new javax.swing.JLabel();
-        labelFiltroPosicao = new javax.swing.JLabel();
-        labelOpcoesFiltro = new javax.swing.JLabel();
-        botaoAplicarFiltros = new javax.swing.JButton();
-        txtInputFiltroNum = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabelaJogs = new javax.swing.JTable();
         labelContagemSelecionados = new javax.swing.JLabel();
@@ -240,62 +223,6 @@ public class CadastroSelecao extends javax.swing.JPanel {
         botaoCancelar.addActionListener(this::botaoCancelarActionPerformed);
 
         labelSelecioneJog.setText("Selecione 18 a 26 jogadores.");
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createCompoundBorder(null, javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
-
-        labelFiltroNum.setText("Número:");
-
-        labelFiltroPosicao.setText("Posição:");
-
-        labelOpcoesFiltro.setText("Opções de Filtragem");
-
-        botaoAplicarFiltros.setText("Aplicar filtros");
-        botaoAplicarFiltros.addActionListener(this::botaoAplicarFiltrosActionPerformed);
-
-        txtInputFiltroNum.addActionListener(this::txtInputFiltroNumActionPerformed);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelFiltroPosicao)
-                            .addComponent(labelFiltroNum))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtInputFiltroNum)
-                            .addComponent(comboBoxPosicao, 0, 116, Short.MAX_VALUE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(labelOpcoesFiltro)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(botaoAplicarFiltros)
-                .addGap(42, 42, 42))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(11, 11, 11)
-                .addComponent(labelOpcoesFiltro)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelFiltroNum)
-                    .addComponent(txtInputFiltroNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(comboBoxPosicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelFiltroPosicao))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
-                .addComponent(botaoAplicarFiltros)
-                .addContainerGap())
-        );
 
         tabelaJogs.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -332,8 +259,7 @@ public class CadastroSelecao extends javax.swing.JPanel {
                                     .addComponent(txtInputTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(labelSelecioneJog)
                             .addComponent(labelContagemSelecionados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(33, 33, 33)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(botaoSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -344,27 +270,23 @@ public class CadastroSelecao extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(labelPais)
-                            .addComponent(txtInputPais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(labelGrupo)
-                            .addComponent(txtInputGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(9, 9, 9)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtInputTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelTecnico))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(labelSelecioneJog, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(labelContagemSelecionados, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelPais)
+                    .addComponent(txtInputPais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelGrupo)
+                    .addComponent(txtInputGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtInputTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelTecnico))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelSelecioneJog, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelContagemSelecionados, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(9, 9, 9)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -396,7 +318,6 @@ public class CadastroSelecao extends javax.swing.JPanel {
        for(int i = 0; i < indexesDaTabela.length; i++){     //Constroi a Lista com indices correspondentes no registros
            indicesRefRegisto.add(indices.get(indexesDaTabela[i]));
        }
-        System.out.println(indicesRefRegisto);
        
         //Adianta o processo para o Tecnico
         List<Integer> indiceTecnico = new ArrayList<>();
@@ -467,62 +388,17 @@ public class CadastroSelecao extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_botaoSalvarActionPerformed
 
-    private void txtInputFiltroNumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtInputFiltroNumActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtInputFiltroNumActionPerformed
-
-    private void botaoAplicarFiltrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoAplicarFiltrosActionPerformed
-        // TODO add your handling code here:
-        //Cria classe filtro 
-        DefaultTableModel modelo = (DefaultTableModel) tabelaJogs.getModel();
-        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelo);
-
-            //Cria filtro and customizado
-            String posicao = comboBoxPosicao.getSelectedItem().toString();
-            
-            try{
-                RowFilter<DefaultTableModel, Object> filtro1 = RowFilter.regexFilter(posicao);
-                String str = txtInputFiltroNum.getText().trim();
-                int i;
-                if(!str.equals(".*") && (i = Integer.parseInt(str)) <= 0){
-                    throw new IllegalArgumentException("Números devem ser números positivos.");
-                }
-                RowFilter<DefaultTableModel, Object> filtro2 = RowFilter.regexFilter(str);
-                List<RowFilter<DefaultTableModel, Object>> lista = new ArrayList<>();   //Caramba. Conversao dupla??!!
-                lista.add(filtro1);
-                lista.add(filtro2);
-                RowFilter<DefaultTableModel, Object> filtros = RowFilter.andFilter(lista);
-                sorter.setRowFilter(filtros); //Filtra tabela  
-                tabelaJogs.setRowSorter(sorter);
-            }
-            catch(NumberFormatException e){
-                JOptionPane.showMessageDialog(null, "Número está vazio.", "Erro!", JOptionPane.ERROR_MESSAGE);
-                //sorter.setRowFilter(null); //Filtra tabela
-            }
-            catch(IllegalArgumentException a){
-                 JOptionPane.showMessageDialog(null, a.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);              
-                 //sorter.setRowFilter(null); //Filtra tabela
-            }      
-    }//GEN-LAST:event_botaoAplicarFiltrosActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton botaoAplicarFiltros;
     private javax.swing.JButton botaoCancelar;
     private javax.swing.JButton botaoSalvar;
-    private javax.swing.JComboBox<String> comboBoxPosicao;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelContagemSelecionados;
-    private javax.swing.JLabel labelFiltroNum;
-    private javax.swing.JLabel labelFiltroPosicao;
     private javax.swing.JLabel labelGrupo;
-    private javax.swing.JLabel labelOpcoesFiltro;
     private javax.swing.JLabel labelPais;
     private javax.swing.JLabel labelSelecioneJog;
     private javax.swing.JLabel labelTecnico;
     private javax.swing.JTable tabelaJogs;
-    private javax.swing.JTextField txtInputFiltroNum;
     private javax.swing.JTextField txtInputGrupo;
     private javax.swing.JTextField txtInputPais;
     private javax.swing.JTextField txtInputTecnico;

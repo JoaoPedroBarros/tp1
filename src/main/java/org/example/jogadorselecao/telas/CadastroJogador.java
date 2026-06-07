@@ -185,13 +185,20 @@ public class CadastroJogador extends javax.swing.JPanel {
     
         //Tratamento de inputs inválidos
         try{
-            Jogador jogador = new Jogador(txtInputNome.getText(),
-                    (Posicao)comboBoxPosicao.getSelectedItem(), Integer.parseInt(txtInputNumero.getText()),
-                    (StatusJogador)comboBoxStatus.getSelectedItem(), txtInputData.getText());
+
             if(isEditing){
+                Jogador jogador = IOJogador.get(indice);
+                jogador.setNome(txtInputNome.getText());
+                jogador.setPosicao((Posicao)comboBoxPosicao.getSelectedItem());
+                jogador.setNumero(Integer.parseInt(txtInputNumero.getText()));
+                jogador.setStatus((StatusJogador)comboBoxStatus.getSelectedItem());
+                jogador.setDataNascimento(txtInputData.getText());
                 IOJogador.insert(jogador, indice);
             }
             else{
+                Jogador jogador = new Jogador(txtInputNome.getText(),
+                    (Posicao)comboBoxPosicao.getSelectedItem(), Integer.parseInt(txtInputNumero.getText()),
+                    (StatusJogador)comboBoxStatus.getSelectedItem(), txtInputData.getText());
                 IOJogador.appendJogador(jogador);
             }
             JOptionPane.showMessageDialog(null, txtInputNome.getText() + " foi cadastrado com sucesso.");

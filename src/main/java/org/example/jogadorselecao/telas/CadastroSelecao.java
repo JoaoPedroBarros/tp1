@@ -351,7 +351,6 @@ public class CadastroSelecao extends javax.swing.JPanel {
                 IOTecnico.insert(tecnicoMod.getFirst(), indiceTecnico.getFirst());
             }
             catch (IOException e){
-                System.out.println("\nAqui");
                 JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO!", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -386,7 +385,6 @@ public class CadastroSelecao extends javax.swing.JPanel {
         }
         catch(ElementoDuplicado | IOException | IllegalArgumentException e){
             JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO!", JOptionPane.ERROR_MESSAGE);
-            System.out.println("\nFoi aqui na vdd");
         }
     }//GEN-LAST:event_botaoSalvarActionPerformed
 

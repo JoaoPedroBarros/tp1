@@ -5,7 +5,6 @@
 package org.example.jogadorselecao.telas;
 
 import java.io.IOException;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import org.example.jogadorselecao.Jogador;

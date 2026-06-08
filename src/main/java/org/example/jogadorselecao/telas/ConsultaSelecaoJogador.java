@@ -5,14 +5,11 @@
 package org.example.jogadorselecao.telas;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.awt.Frame;
-import java.awt.Window;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -25,15 +22,10 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import org.example.jogadorselecao.Jogador;
-import org.example.jogadorselecao.Posicao;
 import org.example.jogadorselecao.Selecao;
-import org.example.jogadorselecao.StatusJogador;
-import org.example.jogadorselecao.Tecnico;
-import org.example.jogadorselecao.persistencia.ElementoDuplicado;
 import org.example.jogadorselecao.persistencia.IOJogador;
 import org.example.jogadorselecao.persistencia.IOSelecao;
 import org.example.jogadorselecao.persistencia.IOTecnico;
-import org.example.jogadorselecao.persistencia.PersistenciaDeDados;
 
 
 /**

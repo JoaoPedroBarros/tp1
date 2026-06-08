@@ -8,23 +8,14 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import javax.swing.ListSelectionModel;
-import javax.swing.RowFilter;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
 import org.example.jogadorselecao.Jogador;
-import org.example.jogadorselecao.Posicao;
 import org.example.jogadorselecao.Selecao;
 import org.example.jogadorselecao.StatusJogador;
 import org.example.jogadorselecao.Tecnico;
@@ -33,7 +24,6 @@ import org.example.jogadorselecao.persistencia.PersistenciaDeDados;
 import org.example.jogadorselecao.persistencia.IOJogador;
 import org.example.jogadorselecao.persistencia.IOSelecao;
 import org.example.jogadorselecao.persistencia.IOTecnico;
-import org.example.jogadorselecao.persistencia.Par;
 
 /**
  *

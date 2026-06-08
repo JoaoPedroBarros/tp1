@@ -1,7 +1,6 @@
 package org.example.jogadorselecao.persistencia;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.jogadorselecao.Jogador;
 import org.example.jogadorselecao.Selecao;
 import com.fasterxml.jackson.core.JsonGenerator;
 import java.io.BufferedReader;

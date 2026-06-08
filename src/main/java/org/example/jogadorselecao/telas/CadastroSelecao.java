@@ -33,6 +33,7 @@ import org.example.jogadorselecao.persistencia.PersistenciaDeDados;
 import org.example.jogadorselecao.persistencia.IOJogador;
 import org.example.jogadorselecao.persistencia.IOSelecao;
 import org.example.jogadorselecao.persistencia.IOTecnico;
+import org.example.jogadorselecao.persistencia.Par;
 
 /**
  *
@@ -319,6 +320,7 @@ public class CadastroSelecao extends javax.swing.JPanel {
        for(int i = 0; i < indexesDaTabela.length; i++){     //Constroi a Lista com indices correspondentes no registros
            indicesRefRegisto.add(indices.get(indexesDaTabela[i]));
        }
+       indicesRefRegisto.sort(null); //Ordena índices no Registro
        
        //Da desvinculação da equipe antiga
         if(isEditing && tamTime > 0){ //Esse tamTime > 0 não é concebível, mas vai que
@@ -332,11 +334,12 @@ public class CadastroSelecao extends javax.swing.JPanel {
             for(int i = 0; i < indexesMembros.length; i++){     //Converte indexes selecionados para a referencia no Modelo Base
                 indexesMembros[i] = tabelaJogs.convertRowIndexToModel(indexesMembros[i]);
             }       
-
+            
             List<Integer> indicesMembros = new ArrayList<>(); //Instancia a Lista a ser passada para atualização dos Registros
             for(int i = 0; i < indexesMembros.length; i++){     //Constroi a Lista com indices correspondentes no registros
                 indicesMembros.add(indices.get(indexesMembros[i]));
             } 
+            indicesMembros.sort(null); //Ordena índices dos membros
             
             //Instancia os membros na memória
             try{
@@ -358,8 +361,7 @@ public class CadastroSelecao extends javax.swing.JPanel {
        
        //Da vinculação da nova equipe
        //Precisa de garantir a atomicidade do procedimento abaixo. Está na gambiarra
-       boolean wasTecnicoAppended = false;
-       boolean wasSelecaoAppended = false;
+       //boolean wasSelecaoSuccessful = false;
        try{
             List<Jogador> selecionados = IOJogador.getMult(indicesRefRegisto); //Resgata jogadores do registro
             
@@ -383,7 +385,7 @@ public class CadastroSelecao extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Operação realizada com sucesso");
             SwingUtilities.getWindowAncestor(this).dispose();
         }
-        catch(ElementoDuplicado | IOException | IllegalArgumentException e){
+        catch(ElementoDuplicado | IllegalArgumentException | IOException e){
             JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO!", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_botaoSalvarActionPerformed

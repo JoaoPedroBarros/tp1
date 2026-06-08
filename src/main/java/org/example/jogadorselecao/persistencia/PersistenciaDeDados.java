@@ -37,7 +37,7 @@ public class PersistenciaDeDados extends Permissao{
     }
     
     //Esse <T> é de Generics
-    public static <T> void insert(T objeto, int index) throws IOException{
+    public static <T> boolean insert(T objeto, int index) throws IOException{
         File arquivoOriginal = getFile(objeto);
         File arquivoTemp = new File("src/main/resources/temp.jsonl");
 
@@ -74,7 +74,9 @@ public class PersistenciaDeDados extends Permissao{
         }
         else{
             throw new IOException("Nao foi possivel deletar o arquivo.");
-        }     
+        }
+        
+        return true;
     }   
     
     public static <T> void insertMult(List<T> objetos, List<Integer> indices) throws IOException{

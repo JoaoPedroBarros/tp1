@@ -332,9 +332,6 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
     private void jRadioButtonJogadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonJogadorActionPerformed
         // TODO add your handling code here:
         txtInputGrupo.setEnabled(false);
-        if(txtInputGrupo.getText().isEmpty() || txtInputGrupo.getText().isBlank()){
-            txtInputGrupo.setText(".*");
-        }
         comboBoxPosicao.setEnabled(true);
         comboBoxStatus.setEnabled(true);
         criaTabelaJogador();
@@ -409,16 +406,17 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
         else{
             try{
                 String str = txtInputGrupo.getText().trim();
+                if(str.isEmpty() || str.isBlank()){str = ".*";}
                 int i;
                 if(!str.equals(".*") && (i = Integer.parseInt(str)) <= 0){
-                    throw new IllegalArgumentException("Grupos devem ser números positivos.");
+                    throw new IllegalArgumentException("Grupo deve ser números positivos.");
                 }
                 RowFilter<DefaultTableModel, Object> filtro = RowFilter.regexFilter(str);
                 sorter.setRowFilter(filtro); //Filtra tabela
                 consultaTable.setRowSorter(sorter);  
             }
             catch(NumberFormatException e){
-                JOptionPane.showMessageDialog(null, "Grupo está vazio.", "Erro!", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Grupo deve ser um número positivo.", "Erro!", JOptionPane.ERROR_MESSAGE);
                 sorter.setRowFilter(null); //Filtra tabela
             }
             catch(IllegalArgumentException a){

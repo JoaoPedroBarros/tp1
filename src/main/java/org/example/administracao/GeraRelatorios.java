@@ -4,13 +4,7 @@
  */
 package org.example.administracao;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.File;
-import java.io.IOException;
 import java.util.Map;
-import static org.example.administracao.AdministraUsuario.USUARIOS_FILE_PATH;
 
 /**
  *
@@ -23,56 +17,15 @@ public class GeraRelatorios extends Permissao {
         return "GERA_RELATORIOS";
     }
     
-    static public Map<String, Integer> contaUsuarios() {        
-        int[] vetorAuxiliar = {0, 0, 0, 0, 0};
+    static public int contaUsuariosTotal(PersistenciaUsuario persistenciaUsuario) {        
+        Map<String, Usuario> mapUsuarios = persistenciaUsuario.getMapUsuarios();
         
-        ObjectMapper mapper = new ObjectMapper();
-        File persistenciaUsuarios = new File(USUARIOS_FILE_PATH);
+        int resultado = 0;
         
-        
-        try {
-            Map<String, Usuario> mapUsuarios = mapper.readValue(persistenciaUsuarios, new TypeReference<Map<String, Usuario>>(){});
-            
-            for (Map.Entry<String, Usuario> entry : mapUsuarios.entrySet()) {
-                vetorAuxiliar[0]++;
-                
-                switch (entry.getValue().papel) {
-                    case Administrador u -> {
-                        vetorAuxiliar[1]++;
-                    }
-                    
-                    case Organizador u -> {
-                        vetorAuxiliar[2]++;
-                    }
-                    
-                    case Operador u -> {
-                        vetorAuxiliar[3]++;
-                    }
-                    
-                    default -> {
-                        // nao faz nada
-                    }
-                    
-                } 
-            }
+        for (Map.Entry<String, Usuario> entry : mapUsuarios.entrySet()) {
+            resultado++;
         }
         
-        catch (JsonMappingException e) {
-            System.err.println("Houve algum problema no mapeamento do JSON ao gerar relatórios de usuário");
-        }
-        
-        catch (IOException e) {
-            System.err.println("Houve algum problema ao manipular o arquivo ao gerar relatórios de usuário");
-        }
-        
-        Map<String, Integer> mapaUsuarios = Map.of (
-                "numTotalUsuarios", vetorAuxiliar[0],
-                "numAdministradores", vetorAuxiliar[1],
-                "numOrganizadores", vetorAuxiliar[2],
-                "numOperadores", vetorAuxiliar[3],
-                "numArbitros", vetorAuxiliar[4]
-        );
-        
-        return mapaUsuarios;
+        return resultado;
     }
 }

@@ -95,9 +95,7 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
 
         comboBoxStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { ".*", "ATIVO", "LESIONADO", "SUSPENSO" }));
 
-        comboBoxPosicao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { ".*", "GOLEIRO", "DEFENSOR", "MEIO-CAMPISTA", "ATACANTE" }));
-
-        txtInputGrupo.setText(".*");
+        comboBoxPosicao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { ".*", "GOLEIRO", "ZAGUEIRO", "LATERAL", "VOLANTE", "PONTA", "CENTROAVANTE", "RESERVA" }));
 
         botaoVoltar.setText("Voltar");
         botaoVoltar.addActionListener(this::botaoVoltarActionPerformed);

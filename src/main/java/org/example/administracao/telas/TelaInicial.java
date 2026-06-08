@@ -4,14 +4,18 @@
  */
 package org.example.administracao.telas;
 
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 import org.example.jogadorselecao.telas.*;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import org.example.administracao.UsuarioLogado;
+import org.example.administracao.*;
 import org.example.partidas.telas.*;
 import org.example.estadioArbitragem.*;
 import org.example.ingressos.*;
+import org.example.jogadorselecao.persistencia.IOJogador;
+import org.example.jogadorselecao.persistencia.IOSelecao;
 
 
 /**
@@ -22,15 +26,40 @@ import org.example.ingressos.*;
 public class TelaInicial extends javax.swing.JFrame {
     
     UsuarioLogado sessao;
+    PersistenciaUsuario persistenciaUsuario; // carrega apenas se a permissao de administrador for aferida
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaInicial.class.getName());
 
     /**
      * Creates new form TelaInicial
+     * @param sessao - o usuario que esta atualmente logado
      */
     public TelaInicial(UsuarioLogado sessao) {
         this.sessao = sessao;
+        
         initComponents();
+        desabilitaMenu();
+        
+        Supplier<Stream<? extends Permissao>> supplierPermissoes = () -> sessao.getUsuario().getPapel().getPermissoes().stream();
+        
+        if (supplierPermissoes.get().anyMatch(u -> u instanceof AdministraUsuario)) {
+            persistenciaUsuario = new PersistenciaUsuario();
+            menuAdministracao.setEnabled(true);
+        }
+        
+        if (supplierPermissoes.get().anyMatch(u -> u instanceof IOJogador) && supplierPermissoes.get().anyMatch(u -> u instanceof IOSelecao)) {
+            menuSelecoesJogadores.setEnabled(true);
+        }
+        
+   
+    }
+    
+    private void desabilitaMenu() { // o padrao eh que todos os menus estejam desabilitados, para que, com as permissoes do usuarios, sejam habilitados pouco a pouco
+        menuAdministracao.setEnabled(false);
+        menuEstadioArbitragem.setEnabled(false);
+        menuPartidas.setEnabled(false);
+        menuSelecoesJogadores.setEnabled(false);
+        menuPublicoIngressos.setEnabled(false);
     }
 
     /**
@@ -43,93 +72,93 @@ public class TelaInicial extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
-        jMenuItem8 = new javax.swing.JMenuItem();
-        jMenu5 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem9 = new javax.swing.JMenuItem();
-        jMenuItem10 = new javax.swing.JMenuItem();
-        jMenu7 = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem11 = new javax.swing.JMenuItem();
-        jMenuItem12 = new javax.swing.JMenuItem();
+        menuAdministracao = new javax.swing.JMenu();
+        gerenciaUsuarios = new javax.swing.JMenuItem();
+        relatorios = new javax.swing.JMenuItem();
+        menuSelecoesJogadores = new javax.swing.JMenu();
+        cadastraJogador = new javax.swing.JMenuItem();
+        cadastraSelecao = new javax.swing.JMenuItem();
+        consultaSelecaoJogador = new javax.swing.JMenuItem();
+        menuPartidas = new javax.swing.JMenu();
+        gerenciaPartidas = new javax.swing.JMenuItem();
+        menuEstadioArbitragem = new javax.swing.JMenu();
+        cadastraEstadio = new javax.swing.JMenuItem();
+        cadastraArbitro = new javax.swing.JMenuItem();
+        designaArbitro = new javax.swing.JMenuItem();
+        menuPublicoIngressos = new javax.swing.JMenu();
+        compraIngresso = new javax.swing.JMenuItem();
+        controlePublico = new javax.swing.JMenuItem();
+        relatorioFinanceiro = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jMenu1.setText("Administração");
+        menuAdministracao.setText("Administração");
 
-        jMenuItem1.setText("Gerenciar usuários...");
-        jMenuItem1.addActionListener(this::jMenuItem1ActionPerformed);
-        jMenu1.add(jMenuItem1);
+        gerenciaUsuarios.setText("Gerenciar usuários...");
+        gerenciaUsuarios.addActionListener(this::gerenciaUsuariosActionPerformed);
+        menuAdministracao.add(gerenciaUsuarios);
 
-        jMenuItem2.setText("Relatórios...");
-        jMenuItem2.addActionListener(this::jMenuItem2ActionPerformed);
-        jMenu1.add(jMenuItem2);
+        relatorios.setText("Relatórios...");
+        relatorios.addActionListener(this::relatoriosActionPerformed);
+        menuAdministracao.add(relatorios);
 
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(menuAdministracao);
 
-        jMenu2.setText("Seleções/Jogadores");
+        menuSelecoesJogadores.setText("Seleções/Jogadores");
 
-        jMenuItem5.setText("Cadastrar jogador...");
-        jMenuItem5.addActionListener(this::jMenuItem5ActionPerformed);
-        jMenu2.add(jMenuItem5);
+        cadastraJogador.setText("Cadastrar jogador...");
+        cadastraJogador.addActionListener(this::cadastraJogadorActionPerformed);
+        menuSelecoesJogadores.add(cadastraJogador);
 
-        jMenuItem6.setText("Cadastrar seleção...");
-        jMenuItem6.addActionListener(this::jMenuItem6ActionPerformed);
-        jMenu2.add(jMenuItem6);
+        cadastraSelecao.setText("Cadastrar seleção...");
+        cadastraSelecao.addActionListener(this::cadastraSelecaoActionPerformed);
+        menuSelecoesJogadores.add(cadastraSelecao);
 
-        jMenuItem7.setText("Consultar seleção/jogador...");
-        jMenuItem7.addActionListener(this::jMenuItem7ActionPerformed);
-        jMenu2.add(jMenuItem7);
+        consultaSelecaoJogador.setText("Consultar seleção/jogador...");
+        consultaSelecaoJogador.addActionListener(this::consultaSelecaoJogadorActionPerformed);
+        menuSelecoesJogadores.add(consultaSelecaoJogador);
 
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(menuSelecoesJogadores);
 
-        jMenu4.setText("Partidas");
+        menuPartidas.setText("Partidas");
 
-        jMenuItem8.setText("Gerenciar partidas...");
-        jMenuItem8.addActionListener(this::jMenuItem8ActionPerformed);
-        jMenu4.add(jMenuItem8);
+        gerenciaPartidas.setText("Gerenciar partidas...");
+        gerenciaPartidas.addActionListener(this::gerenciaPartidasActionPerformed);
+        menuPartidas.add(gerenciaPartidas);
 
-        jMenuBar1.add(jMenu4);
+        jMenuBar1.add(menuPartidas);
 
-        jMenu5.setText("Estádios/Arbitragem");
+        menuEstadioArbitragem.setText("Estádios/Arbitragem");
 
-        jMenuItem3.setText("Cadastrar estádio...");
-        jMenuItem3.addActionListener(this::jMenuItem3ActionPerformed);
-        jMenu5.add(jMenuItem3);
+        cadastraEstadio.setText("Cadastrar estádio...");
+        cadastraEstadio.addActionListener(this::cadastraEstadioActionPerformed);
+        menuEstadioArbitragem.add(cadastraEstadio);
 
-        jMenuItem9.setText("Cadastrar árbitro...");
-        jMenuItem9.addActionListener(this::jMenuItem9ActionPerformed);
-        jMenu5.add(jMenuItem9);
+        cadastraArbitro.setText("Cadastrar árbitro...");
+        cadastraArbitro.addActionListener(this::cadastraArbitroActionPerformed);
+        menuEstadioArbitragem.add(cadastraArbitro);
 
-        jMenuItem10.setText("Designar árbitro...");
-        jMenuItem10.addActionListener(this::jMenuItem10ActionPerformed);
-        jMenu5.add(jMenuItem10);
+        designaArbitro.setText("Designar árbitro...");
+        designaArbitro.addActionListener(this::designaArbitroActionPerformed);
+        menuEstadioArbitragem.add(designaArbitro);
 
-        jMenuBar1.add(jMenu5);
+        jMenuBar1.add(menuEstadioArbitragem);
 
-        jMenu7.setText("Públicos/Ingressos");
+        menuPublicoIngressos.setText("Públicos/Ingressos");
 
-        jMenuItem4.setText("Comprar ingresso...");
-        jMenuItem4.addActionListener(this::jMenuItem4ActionPerformed);
-        jMenu7.add(jMenuItem4);
+        compraIngresso.setText("Comprar ingresso...");
+        compraIngresso.addActionListener(this::compraIngressoActionPerformed);
+        menuPublicoIngressos.add(compraIngresso);
 
-        jMenuItem11.setText("Controle de público...");
-        jMenuItem11.addActionListener(this::jMenuItem11ActionPerformed);
-        jMenu7.add(jMenuItem11);
+        controlePublico.setText("Controle de público...");
+        controlePublico.addActionListener(this::controlePublicoActionPerformed);
+        menuPublicoIngressos.add(controlePublico);
 
-        jMenuItem12.setText("Relatórios financeiros...");
-        jMenuItem12.addActionListener(this::jMenuItem12ActionPerformed);
-        jMenu7.add(jMenuItem12);
+        relatorioFinanceiro.setText("Relatórios financeiros...");
+        relatorioFinanceiro.addActionListener(this::relatorioFinanceiroActionPerformed);
+        menuPublicoIngressos.add(relatorioFinanceiro);
 
-        jMenuBar1.add(jMenu7);
+        jMenuBar1.add(menuPublicoIngressos);
 
         setJMenuBar(jMenuBar1);
 
@@ -147,23 +176,23 @@ public class TelaInicial extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void gerenciaUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gerenciaUsuariosActionPerformed
         SwingUtilities.invokeLater(() -> {
-            GestaoUsuarios janelaGestaoUsuarios = new GestaoUsuarios();
+            GestaoUsuarios janelaGestaoUsuarios = new GestaoUsuarios(sessao, persistenciaUsuario);
             janelaGestaoUsuarios.setVisible(true);
             janelaGestaoUsuarios.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         });
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_gerenciaUsuariosActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void relatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relatoriosActionPerformed
         SwingUtilities.invokeLater(() -> {
             Relatorios janelaRelatorios = new Relatorios();
             janelaRelatorios.setVisible(true);
             janelaRelatorios.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         });
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_relatoriosActionPerformed
 
-    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+    private void cadastraJogadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastraJogadorActionPerformed
         CadastroJogador painelCadastroJogador = new CadastroJogador();
         JDialog dialogo = new JDialog(this, "Cadastro de Jogador", true);
         dialogo.getContentPane().add(painelCadastroJogador);
@@ -171,9 +200,9 @@ public class TelaInicial extends javax.swing.JFrame {
         dialogo.setResizable(false);
         dialogo.setLocationRelativeTo(this);
         dialogo.setVisible(true);
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
+    }//GEN-LAST:event_cadastraJogadorActionPerformed
 
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+    private void cadastraSelecaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastraSelecaoActionPerformed
         CadastroSelecao painelCadastroSelecao = new CadastroSelecao();
         JDialog dialogo = new JDialog(this, "Cadastro de Seleção", true);
         dialogo.getContentPane().add(painelCadastroSelecao);
@@ -181,9 +210,9 @@ public class TelaInicial extends javax.swing.JFrame {
         dialogo.setResizable(false);
         dialogo.setLocationRelativeTo(this);
         dialogo.setVisible(true);
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
+    }//GEN-LAST:event_cadastraSelecaoActionPerformed
 
-    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+    private void consultaSelecaoJogadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultaSelecaoJogadorActionPerformed
         ConsultaSelecaoJogador painelConsultaSelecaoJogador = new ConsultaSelecaoJogador();
         JDialog dialogo = new JDialog(this, "Consulta de jogadores/seleções", true);
         dialogo.getContentPane().add(painelConsultaSelecaoJogador);
@@ -191,63 +220,63 @@ public class TelaInicial extends javax.swing.JFrame {
         dialogo.setResizable(false);
         dialogo.setLocationRelativeTo(this);
         dialogo.setVisible(true);
-    }//GEN-LAST:event_jMenuItem7ActionPerformed
+    }//GEN-LAST:event_consultaSelecaoJogadorActionPerformed
 
-    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+    private void gerenciaPartidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gerenciaPartidasActionPerformed
         SwingUtilities.invokeLater(() -> {
             Partida janelaPartidas = new Partida();
             janelaPartidas.setVisible(true);
             janelaPartidas.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         });
-    }//GEN-LAST:event_jMenuItem8ActionPerformed
+    }//GEN-LAST:event_gerenciaPartidasActionPerformed
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    private void cadastraEstadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastraEstadioActionPerformed
         SwingUtilities.invokeLater(() -> {
             TelaCadastroEstadio janelaCadastroEstadio = new TelaCadastroEstadio();
             janelaCadastroEstadio.setVisible(true);
             janelaCadastroEstadio.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         });
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    }//GEN-LAST:event_cadastraEstadioActionPerformed
 
-    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+    private void cadastraArbitroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastraArbitroActionPerformed
         SwingUtilities.invokeLater(() -> {
             TelaCadastroArbitro janelaCadastroArbitro = new TelaCadastroArbitro();
             janelaCadastroArbitro.setVisible(true);
             janelaCadastroArbitro.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         });
-    }//GEN-LAST:event_jMenuItem9ActionPerformed
+    }//GEN-LAST:event_cadastraArbitroActionPerformed
 
-    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+    private void designaArbitroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_designaArbitroActionPerformed
         SwingUtilities.invokeLater(() -> {
             TelaDesignacaoArbitro janelaDesignacaoArbitro = new TelaDesignacaoArbitro();
             janelaDesignacaoArbitro.setVisible(true);
             janelaDesignacaoArbitro.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         });
-    }//GEN-LAST:event_jMenuItem10ActionPerformed
+    }//GEN-LAST:event_designaArbitroActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+    private void compraIngressoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compraIngressoActionPerformed
         SwingUtilities.invokeLater(() -> {
             TelaIngressoGUI janelaIngresso = new TelaIngressoGUI();
             janelaIngresso.setVisible(true);
             janelaIngresso.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         });
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+    }//GEN-LAST:event_compraIngressoActionPerformed
 
-    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+    private void controlePublicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_controlePublicoActionPerformed
         SwingUtilities.invokeLater(() -> {
             TelaControlePublicoGUI janelaPublico = new TelaControlePublicoGUI();
             janelaPublico.setVisible(true);
             janelaPublico.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         });
-    }//GEN-LAST:event_jMenuItem11ActionPerformed
+    }//GEN-LAST:event_controlePublicoActionPerformed
 
-    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+    private void relatorioFinanceiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relatorioFinanceiroActionPerformed
         SwingUtilities.invokeLater(() -> {
             TelaRelatorioFinanceiroGUI janelaRelatorioFinanceiro = new TelaRelatorioFinanceiroGUI();
             janelaRelatorioFinanceiro.setVisible(true);
             janelaRelatorioFinanceiro.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         });
-    }//GEN-LAST:event_jMenuItem12ActionPerformed
+    }//GEN-LAST:event_relatorioFinanceiroActionPerformed
 
     /**
      * @param args the command line arguments
@@ -277,23 +306,23 @@ public class TelaInicial extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenu jMenu7;
+    private javax.swing.JMenuItem cadastraArbitro;
+    private javax.swing.JMenuItem cadastraEstadio;
+    private javax.swing.JMenuItem cadastraJogador;
+    private javax.swing.JMenuItem cadastraSelecao;
+    private javax.swing.JMenuItem compraIngresso;
+    private javax.swing.JMenuItem consultaSelecaoJogador;
+    private javax.swing.JMenuItem controlePublico;
+    private javax.swing.JMenuItem designaArbitro;
+    private javax.swing.JMenuItem gerenciaPartidas;
+    private javax.swing.JMenuItem gerenciaUsuarios;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem11;
-    private javax.swing.JMenuItem jMenuItem12;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
-    private javax.swing.JMenuItem jMenuItem9;
+    private javax.swing.JMenu menuAdministracao;
+    private javax.swing.JMenu menuEstadioArbitragem;
+    private javax.swing.JMenu menuPartidas;
+    private javax.swing.JMenu menuPublicoIngressos;
+    private javax.swing.JMenu menuSelecoesJogadores;
+    private javax.swing.JMenuItem relatorioFinanceiro;
+    private javax.swing.JMenuItem relatorios;
     // End of variables declaration//GEN-END:variables
 }

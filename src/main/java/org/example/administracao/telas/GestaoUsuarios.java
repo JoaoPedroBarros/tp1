@@ -4,8 +4,20 @@
  */
 package org.example.administracao.telas;
 
+import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import org.example.administracao.AdministraUsuario;
+import org.example.administracao.Administrador;
+import org.example.administracao.Operador;
+import org.example.administracao.Organizador;
+import org.example.administracao.Papel;
+import org.example.administracao.PersistenciaUsuario;
+import org.example.administracao.Usuario;
+import org.example.administracao.UsuarioLogado;
+import org.example.administracao.excecoes.CamposEmBrancoException;
+import org.example.administracao.excecoes.SenhaInsuficienteException;
 
 /**
  *
@@ -14,13 +26,48 @@ import javax.swing.SwingUtilities;
 public class GestaoUsuarios extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GestaoUsuarios.class.getName());
+    
+    UsuarioLogado sessao;
+    PersistenciaUsuario persistenciaUsuario;
 
     /**
      * Creates new form GestaoUsuarios
-     */
-    public GestaoUsuarios() {
+     * @param sessao instancia de UsuarioLogado para verificar caracteristicas do usuario atual
+     * @param persistenciaUsuario instancia de PersistenciaUsuario para armazenar no arquivo a depender do ambiente
+     */ 
+    public GestaoUsuarios(UsuarioLogado sessao, PersistenciaUsuario persistenciaUsuario) {
+        this.sessao = sessao;
+        this.persistenciaUsuario = persistenciaUsuario;
         initComponents();
+        
+        desabilitaInputPesquisa();
     }
+    
+    private void preencheTabela(List<Usuario> listaUsuario) {
+        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tabelaUsuarios.getModel();
+        
+        modelo.setRowCount(0);
+        modelo.setColumnIdentifiers(new Object[]{"Nome", "ID", "Função", "País"});
+        
+        
+        for (Usuario e : listaUsuario) {
+            modelo.addRow(new Object[] {
+                e.getNome(),
+                e.getIdentificacao(),
+                e.getPapel(),
+                e.getPais()
+            });
+        }
+    }
+    
+    private void desabilitaInputPesquisa() {
+        checkInputNome.setEnabled(false);
+        checkInputEmail.setEnabled(false);
+        caixaCheckFuncao.setEnabled(false);
+        checkInputID.setEnabled(false);
+        checkInputPais.setEnabled(false);
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -34,314 +81,245 @@ public class GestaoUsuarios extends javax.swing.JFrame {
         grupoTipoUsuario = new javax.swing.ButtonGroup();
         grupoStatusUsuario = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jButton3 = new javax.swing.JButton();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jPasswordField2 = new javax.swing.JPasswordField();
-        jLabel8 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jLabel9 = new javax.swing.JLabel();
-        jRadioButton4 = new javax.swing.JRadioButton();
-        jRadioButton5 = new javax.swing.JRadioButton();
-        jRadioButton6 = new javax.swing.JRadioButton();
-        jRadioButton7 = new javax.swing.JRadioButton();
-        jButton6 = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jTextField1 = new javax.swing.JTextField();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jTextField6 = new javax.swing.JTextField();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jTextField7 = new javax.swing.JTextField();
-        jCheckBox5 = new javax.swing.JCheckBox();
-        jTextField9 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jButton4 = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tabelaEstadios = new javax.swing.JTable();
+        painelCadastraUsuario = new javax.swing.JPanel();
+        textoNome = new javax.swing.JLabel();
+        inputNome = new javax.swing.JTextField();
+        textoEmail = new javax.swing.JLabel();
+        inputEmail = new javax.swing.JTextField();
+        textoSenha = new javax.swing.JLabel();
+        textoTipoUsuario = new javax.swing.JLabel();
+        botaoSalvarUsuario = new javax.swing.JButton();
+        inputSenha = new javax.swing.JPasswordField();
+        textoPais = new javax.swing.JLabel();
+        inputPais = new javax.swing.JTextField();
+        textoStatus = new javax.swing.JLabel();
+        botaoFechar = new javax.swing.JButton();
+        caixaTipoUsuario = new javax.swing.JComboBox<>();
+        caixaStatusUsuario = new javax.swing.JComboBox<>();
+        painelPesquisaUsuario = new javax.swing.JPanel();
+        checkNome = new javax.swing.JCheckBox();
+        checkInputNome = new javax.swing.JTextField();
+        checkFuncao = new javax.swing.JCheckBox();
+        checkIdentificacao = new javax.swing.JCheckBox();
+        checkInputID = new javax.swing.JTextField();
+        checkEmail = new javax.swing.JCheckBox();
+        checkInputEmail = new javax.swing.JTextField();
+        checkPais = new javax.swing.JCheckBox();
+        checkInputPais = new javax.swing.JTextField();
+        botaoPesquisa = new javax.swing.JButton();
+        botaoLista = new javax.swing.JButton();
+        scrollUsuarios = new javax.swing.JScrollPane();
+        tabelaUsuarios = new javax.swing.JTable();
+        caixaCheckFuncao = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Nome completo: ");
+        textoNome.setText("Nome completo: ");
 
-        jLabel2.setText("E-mail:");
+        textoEmail.setText("E-mail:");
 
-        jLabel4.setText("Identificação:");
+        textoSenha.setText("Senha:");
 
-        jLabel5.setText("Senha:");
+        textoTipoUsuario.setText("Tipo de usuário:");
 
-        jLabel6.setText("Confirma senha: ");
+        botaoSalvarUsuario.setText("Salvar");
+        botaoSalvarUsuario.addActionListener(this::botaoSalvarUsuarioActionPerformed);
 
-        jLabel7.setText("Tipo de usuário:");
+        textoPais.setText("País:");
 
-        grupoTipoUsuario.add(jRadioButton1);
-        jRadioButton1.setText("Administrador");
+        textoStatus.setText("Status do usuário:");
 
-        grupoTipoUsuario.add(jRadioButton2);
-        jRadioButton2.setText("Organizador");
-        jRadioButton2.addActionListener(this::jRadioButton2ActionPerformed);
+        botaoFechar.setText("Fechar");
+        botaoFechar.addActionListener(this::botaoFecharActionPerformed);
 
-        jButton3.setText("Salvar");
-        jButton3.addActionListener(this::jButton3ActionPerformed);
+        caixaTipoUsuario.addItem(new Administrador());
+        caixaTipoUsuario.addItem(new Organizador());
+        caixaTipoUsuario.addItem(new Operador());
+        caixaTipoUsuario.addActionListener(this::caixaTipoUsuarioActionPerformed);
 
-        jLabel8.setText("País:");
+        caixaStatusUsuario.addItem(Usuario.StatusUsuario.ATIVO);
+        caixaStatusUsuario.addItem(Usuario.StatusUsuario.AFASTADO);
+        caixaStatusUsuario.addItem(Usuario.StatusUsuario.DESLIGADO);
+        caixaStatusUsuario.addActionListener(this::caixaStatusUsuarioActionPerformed);
 
-        grupoTipoUsuario.add(jRadioButton3);
-        jRadioButton3.setText("Operador");
-        jRadioButton3.addActionListener(this::jRadioButton3ActionPerformed);
-
-        jLabel9.setText("Status do usuário:");
-
-        grupoStatusUsuario.add(jRadioButton4);
-        jRadioButton4.setText("Ativo");
-        jRadioButton4.addActionListener(this::jRadioButton4ActionPerformed);
-
-        grupoStatusUsuario.add(jRadioButton5);
-        jRadioButton5.setText("Afastado");
-        jRadioButton5.addActionListener(this::jRadioButton5ActionPerformed);
-
-        grupoStatusUsuario.add(jRadioButton6);
-        jRadioButton6.setText("Desligado");
-        jRadioButton6.addActionListener(this::jRadioButton6ActionPerformed);
-
-        grupoTipoUsuario.add(jRadioButton7);
-        jRadioButton7.setText("Árbitro");
-        jRadioButton7.addActionListener(this::jRadioButton7ActionPerformed);
-
-        jButton6.setText("Fechar");
-        jButton6.addActionListener(this::jButton6ActionPerformed);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout painelCadastraUsuarioLayout = new javax.swing.GroupLayout(painelCadastraUsuario);
+        painelCadastraUsuario.setLayout(painelCadastraUsuarioLayout);
+        painelCadastraUsuarioLayout.setHorizontalGroup(
+            painelCadastraUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painelCadastraUsuarioLayout.createSequentialGroup()
+                .addGroup(painelCadastraUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painelCadastraUsuarioLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel9))
-                                .addGap(12, 12, 12)
-                                .addComponent(jRadioButton1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jRadioButton2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jRadioButton7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jRadioButton3))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(124, 124, 124)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jRadioButton4)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jRadioButton5)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jRadioButton6))
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                                    .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                                    .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(painelCadastraUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(textoNome)
+                            .addComponent(textoEmail)
+                            .addGroup(painelCadastraUsuarioLayout.createSequentialGroup()
+                                .addComponent(textoTipoUsuario)
+                                .addGap(23, 23, 23)
+                                .addGroup(painelCadastraUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(caixaTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(inputNome, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                                    .addComponent(inputEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                                    .addComponent(inputPais, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(inputSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(painelCadastraUsuarioLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton3)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton6)))
-                .addContainerGap(222, Short.MAX_VALUE))
+                        .addComponent(textoPais))
+                    .addGroup(painelCadastraUsuarioLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(textoSenha))
+                    .addGroup(painelCadastraUsuarioLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(painelCadastraUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(textoStatus)
+                            .addComponent(botaoSalvarUsuario))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(painelCadastraUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(botaoFechar)
+                            .addComponent(caixaStatusUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(295, Short.MAX_VALUE))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jPasswordField1, jPasswordField2, jTextField2, jTextField3, jTextField5, jTextField8});
+        painelCadastraUsuarioLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {inputEmail, inputNome, inputPais, inputSenha});
 
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        painelCadastraUsuarioLayout.setVerticalGroup(
+            painelCadastraUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painelCadastraUsuarioLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(painelCadastraUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textoNome)
+                    .addComponent(inputNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addGap(12, 12, 12)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addGap(21, 21, 21)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2)
-                    .addComponent(jRadioButton3)
-                    .addComponent(jRadioButton7))
+                .addGroup(painelCadastraUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(inputEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textoEmail))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel9)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jRadioButton4)
-                        .addComponent(jRadioButton5)
-                        .addComponent(jRadioButton6)))
+                .addGroup(painelCadastraUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(textoPais)
+                    .addComponent(inputPais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton6))
-                .addContainerGap(178, Short.MAX_VALUE))
+                .addGroup(painelCadastraUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(textoSenha)
+                    .addComponent(inputSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(painelCadastraUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textoTipoUsuario)
+                    .addComponent(caixaTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(painelCadastraUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textoStatus)
+                    .addComponent(caixaStatusUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(painelCadastraUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botaoSalvarUsuario)
+                    .addComponent(botaoFechar))
+                .addContainerGap(235, Short.MAX_VALUE))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jPasswordField1, jPasswordField2, jTextField2, jTextField3, jTextField5, jTextField8});
+        painelCadastraUsuarioLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {inputEmail, inputNome, inputPais, inputSenha});
 
-        jTabbedPane1.addTab("Criar usuário", jPanel1);
+        jTabbedPane1.addTab("Criar usuário", painelCadastraUsuario);
 
-        jCheckBox1.setText("Nome:  ");
-        jCheckBox1.addActionListener(this::jCheckBox1ActionPerformed);
+        checkNome.setText("Nome:  ");
+        checkNome.addActionListener(this::checkNomeActionPerformed);
 
-        jTextField1.addActionListener(this::jTextField1ActionPerformed);
+        checkInputNome.addActionListener(this::checkInputNomeActionPerformed);
 
-        jCheckBox2.setText("Função:  ");
-        jCheckBox2.addActionListener(this::jCheckBox2ActionPerformed);
+        checkFuncao.setText("Função:  ");
+        checkFuncao.addActionListener(this::checkFuncaoActionPerformed);
 
-        jCheckBox3.setText("Identificação");
-        jCheckBox3.addActionListener(this::jCheckBox3ActionPerformed);
+        checkIdentificacao.setText("Identificação");
+        checkIdentificacao.addActionListener(this::checkIdentificacaoActionPerformed);
 
-        jCheckBox4.setText("E-mail");
-        jCheckBox4.addActionListener(this::jCheckBox4ActionPerformed);
+        checkEmail.setText("E-mail");
+        checkEmail.addActionListener(this::checkEmailActionPerformed);
 
-        jCheckBox5.setText("País");
-        jCheckBox5.addActionListener(this::jCheckBox5ActionPerformed);
+        checkPais.setText("País");
+        checkPais.addActionListener(this::checkPaisActionPerformed);
 
-        jButton2.setText("Pesquisar...");
-        jButton2.addActionListener(this::jButton2ActionPerformed);
+        botaoPesquisa.setText("Pesquisar...");
+        botaoPesquisa.addActionListener(this::botaoPesquisaActionPerformed);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrador", "Árbitro", "Organizador", "Operador" }));
+        botaoLista.setText("Listar todos os usuários...");
+        botaoLista.addActionListener(this::botaoListaActionPerformed);
 
-        jButton4.setText("Listar todos os usuários...");
-        jButton4.addActionListener(this::jButton4ActionPerformed);
+        scrollUsuarios.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        jScrollPane2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollUsuarios.setViewportView(tabelaUsuarios);
 
-        tabelaEstadios.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+        caixaCheckFuncao.addItem(null);
+        caixaCheckFuncao.addItem(new Administrador());
+        caixaCheckFuncao.addItem(new Organizador());
+        caixaCheckFuncao.addItem(new Operador());
 
-            },
-            new String [] {
-                "Nome", "Identificação", "Tipo", "Status"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane2.setViewportView(tabelaEstadios);
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout painelPesquisaUsuarioLayout = new javax.swing.GroupLayout(painelPesquisaUsuario);
+        painelPesquisaUsuario.setLayout(painelPesquisaUsuarioLayout);
+        painelPesquisaUsuarioLayout.setHorizontalGroup(
+            painelPesquisaUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painelPesquisaUsuarioLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 713, Short.MAX_VALUE)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox1)
-                            .addComponent(jCheckBox2)
-                            .addComponent(jCheckBox3)
-                            .addComponent(jCheckBox4)
-                            .addComponent(jCheckBox5)
-                            .addComponent(jButton2))
+                .addGroup(painelPesquisaUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(scrollUsuarios, javax.swing.GroupLayout.DEFAULT_SIZE, 713, Short.MAX_VALUE)
+                    .addGroup(painelPesquisaUsuarioLayout.createSequentialGroup()
+                        .addGroup(painelPesquisaUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(checkNome)
+                            .addComponent(checkFuncao)
+                            .addComponent(checkIdentificacao)
+                            .addComponent(checkEmail)
+                            .addComponent(checkPais)
+                            .addComponent(botaoPesquisa))
                         .addGap(21, 21, 21)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4))
+                        .addGroup(painelPesquisaUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(checkInputNome, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                            .addComponent(checkInputID, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                            .addComponent(checkInputEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                            .addComponent(checkInputPais, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                            .addComponent(botaoLista)
+                            .addComponent(caixaCheckFuncao, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
-        jPanel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jComboBox1, jTextField1, jTextField6, jTextField7, jTextField9});
+        painelPesquisaUsuarioLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {checkInputEmail, checkInputID, checkInputNome, checkInputPais});
 
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        painelPesquisaUsuarioLayout.setVerticalGroup(
+            painelPesquisaUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painelPesquisaUsuarioLayout.createSequentialGroup()
                 .addGap(27, 27, 27)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(painelPesquisaUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(checkNome)
+                    .addComponent(checkInputNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox2)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(painelPesquisaUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(checkFuncao)
+                    .addComponent(caixaCheckFuncao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(19, 19, 19)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox3))
+                .addGroup(painelPesquisaUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(checkInputID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(checkIdentificacao))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jCheckBox4)
+                .addGroup(painelPesquisaUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painelPesquisaUsuarioLayout.createSequentialGroup()
+                        .addComponent(checkEmail)
                         .addGap(14, 14, 14))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelPesquisaUsuarioLayout.createSequentialGroup()
+                        .addComponent(checkInputEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBox5)
-                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(painelPesquisaUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(checkPais)
+                    .addComponent(checkInputPais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton2))
+                .addGroup(painelPesquisaUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botaoLista)
+                    .addComponent(botaoPesquisa))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                .addComponent(scrollUsuarios, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jComboBox1, jTextField1, jTextField6, jTextField7, jTextField9});
+        painelPesquisaUsuarioLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {checkInputEmail, checkInputID, checkInputNome, checkInputPais});
 
-        jTabbedPane1.addTab("Pesquisar usuário", jPanel3);
+        jTabbedPane1.addTab("Pesquisar usuário", painelPesquisaUsuario);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -361,73 +339,101 @@ public class GestaoUsuarios extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jRadioButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton6ActionPerformed
+    private void botaoSalvarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSalvarUsuarioActionPerformed
+        
+        String nome = inputNome.getText();
+        String id = AdministraUsuario.gerarId(persistenciaUsuario.getMapUsuarios());
+        String email = inputEmail.getText();
+        String senha = new String(inputSenha.getPassword());
+        String pais = inputPais.getText();
+        Papel papel = (Papel) caixaTipoUsuario.getSelectedItem();
+        Usuario.StatusUsuario status = (Usuario.StatusUsuario) caixaStatusUsuario.getSelectedItem();
+        
+        Usuario usuarioCadastro = new Usuario(nome, id, email, pais, senha, status, papel);
+        
+        try {
+            AdministraUsuario.criaUsuario(usuarioCadastro, persistenciaUsuario);
+            JOptionPane.showMessageDialog(rootPane, "Usuário cadastrado com sucesso! Seu ID é: " + usuarioCadastro.getIdentificacao());
+        }
+        
+        catch (CamposEmBrancoException | SenhaInsuficienteException e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage());
+        }
+             
+    }//GEN-LAST:event_botaoSalvarUsuarioActionPerformed
 
-    private void jRadioButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton5ActionPerformed
-
-    private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton4ActionPerformed
-
-    private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton3ActionPerformed
-
-    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton2ActionPerformed
-
-    private void jRadioButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton7ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void botaoFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoFecharActionPerformed
         this.dispose();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_botaoFecharActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void botaoListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoListaActionPerformed
+        List<Usuario> listaUsuario = AdministraUsuario.listaUsuario(persistenciaUsuario);
+        preencheTabela(listaUsuario);
+    }//GEN-LAST:event_botaoListaActionPerformed
+
+    private void botaoPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPesquisaActionPerformed
+        String nome = checkInputNome.getText();
+        String email = checkInputEmail.getText();
+        Papel papel = (Papel) caixaCheckFuncao.getSelectedItem();
+        String pais = checkInputPais.getText();
+        String id = checkInputID.getText();
+        
+        List<Usuario> resultadoPesquisa = AdministraUsuario.pesquisaUsuario(nome, id, email, pais, papel, persistenciaUsuario);
+        
+        preencheTabela(resultadoPesquisa);   
+    }//GEN-LAST:event_botaoPesquisaActionPerformed
+
+    private void checkPaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkPaisActionPerformed
+        if (checkPais.isSelected() == false) {
+            checkInputPais.setText("");
+            checkInputPais.setEnabled(false);
+        }
+        else checkInputPais.setEnabled(true);
+    }//GEN-LAST:event_checkPaisActionPerformed
+
+    private void checkEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkEmailActionPerformed
+        if (checkEmail.isSelected() == false) {
+            checkInputEmail.setText("");
+            checkInputEmail.setEnabled(false);
+        }
+        else checkInputEmail.setEnabled(true);
+    }//GEN-LAST:event_checkEmailActionPerformed
+
+    private void checkIdentificacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkIdentificacaoActionPerformed
+        if (checkIdentificacao.isSelected() == false) {
+            checkInputID.setText("");
+            checkInputID.setEnabled(false);
+        }
+        else checkInputID.setEnabled(true);
+    }//GEN-LAST:event_checkIdentificacaoActionPerformed
+
+    private void checkFuncaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkFuncaoActionPerformed
+        if (checkFuncao.isSelected() == false) {
+            caixaCheckFuncao.setSelectedIndex(0);
+            caixaCheckFuncao.setEnabled(false);
+        }
+        else caixaCheckFuncao.setEnabled(true);
+    }//GEN-LAST:event_checkFuncaoActionPerformed
+
+    private void checkInputNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkInputNomeActionPerformed
+        // T
+    }//GEN-LAST:event_checkInputNomeActionPerformed
+
+    private void checkNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkNomeActionPerformed
+        if (checkNome.isSelected() == false) {
+            checkInputNome.setText("");
+            checkInputNome.setEnabled(false);
+        }
+        else checkInputNome.setEnabled(true);
+    }//GEN-LAST:event_checkNomeActionPerformed
+
+    private void caixaTipoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_caixaTipoUsuarioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_caixaTipoUsuarioActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void caixaStatusUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_caixaStatusUsuarioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        SwingUtilities.invokeLater(() -> {
-            TelaUsuario janelaTelaUsuario = new TelaUsuario();
-            janelaTelaUsuario.setVisible(true);
-            janelaTelaUsuario.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        });
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jCheckBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox5ActionPerformed
-
-    private void jCheckBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox4ActionPerformed
-
-    private void jCheckBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox3ActionPerformed
-
-    private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox2ActionPerformed
-
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+    }//GEN-LAST:event_caixaStatusUsuarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -451,52 +457,42 @@ public class GestaoUsuarios extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new GestaoUsuarios().setVisible(true));
+        //java.awt.EventQueue.invokeLater(() -> new GestaoUsuarios().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botaoFechar;
+    private javax.swing.JButton botaoLista;
+    private javax.swing.JButton botaoPesquisa;
+    private javax.swing.JButton botaoSalvarUsuario;
+    private javax.swing.JComboBox<Papel> caixaCheckFuncao;
+    private javax.swing.JComboBox<Usuario.StatusUsuario> caixaStatusUsuario;
+    private javax.swing.JComboBox<Papel> caixaTipoUsuario;
+    private javax.swing.JCheckBox checkEmail;
+    private javax.swing.JCheckBox checkFuncao;
+    private javax.swing.JCheckBox checkIdentificacao;
+    private javax.swing.JTextField checkInputEmail;
+    private javax.swing.JTextField checkInputID;
+    private javax.swing.JTextField checkInputNome;
+    private javax.swing.JTextField checkInputPais;
+    private javax.swing.JCheckBox checkNome;
+    private javax.swing.JCheckBox checkPais;
     private javax.swing.ButtonGroup grupoStatusUsuario;
     private javax.swing.ButtonGroup grupoTipoUsuario;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JPasswordField jPasswordField2;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
-    private javax.swing.JRadioButton jRadioButton5;
-    private javax.swing.JRadioButton jRadioButton6;
-    private javax.swing.JRadioButton jRadioButton7;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField inputEmail;
+    private javax.swing.JTextField inputNome;
+    private javax.swing.JTextField inputPais;
+    private javax.swing.JPasswordField inputSenha;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
-    private javax.swing.JTable tabelaEstadios;
+    private javax.swing.JPanel painelCadastraUsuario;
+    private javax.swing.JPanel painelPesquisaUsuario;
+    private javax.swing.JScrollPane scrollUsuarios;
+    private javax.swing.JTable tabelaUsuarios;
+    private javax.swing.JLabel textoEmail;
+    private javax.swing.JLabel textoNome;
+    private javax.swing.JLabel textoPais;
+    private javax.swing.JLabel textoSenha;
+    private javax.swing.JLabel textoStatus;
+    private javax.swing.JLabel textoTipoUsuario;
     // End of variables declaration//GEN-END:variables
 }

@@ -151,7 +151,7 @@ public class CadastroSelecao extends javax.swing.JPanel {
                     case 0:
                         return String.class;
                     case 1:
-                        return String.class;
+                        return Integer.class;
                     case 2:
                         return String.class;
                     default:

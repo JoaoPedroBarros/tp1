@@ -13,9 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.example.administracao.excecoes.CamposEmBrancoException;
 import org.example.administracao.excecoes.SenhaInsuficienteException;
 
@@ -89,15 +87,15 @@ public class AdministraUsuario extends Permissao {
             // funciona, mas pensar depois meios pra deixar o codigo mais bonito
             
             if (nome != null && nome.isEmpty() == false) {
-                retornaListaUsuarios = retornaListaUsuarios.stream().filter(u -> u.getNome().equals(nome)).collect(Collectors.toList());
+                retornaListaUsuarios = retornaListaUsuarios.stream().filter(u -> u.getNome().contains(nome)).collect(Collectors.toList());
             }
             
             if (email != null && email.isEmpty() == false) {
-                retornaListaUsuarios = retornaListaUsuarios.stream().filter(u -> u.getEmail().equals(email)).collect(Collectors.toList());
+                retornaListaUsuarios = retornaListaUsuarios.stream().filter(u -> u.getEmail().contains(email)).collect(Collectors.toList());
             }
             
             if (pais.isEmpty() == false) {
-                retornaListaUsuarios = retornaListaUsuarios.stream().filter(u -> u.getPais().equals(pais)).collect(Collectors.toList());
+                retornaListaUsuarios = retornaListaUsuarios.stream().filter(u -> u.getPais().contains(pais)).collect(Collectors.toList());
             }
             
             if (papel != null) {

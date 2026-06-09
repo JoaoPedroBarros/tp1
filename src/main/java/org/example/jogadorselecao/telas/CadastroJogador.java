@@ -184,7 +184,7 @@ public class CadastroJogador extends javax.swing.JPanel {
     
         //Tratamento de inputs inválidos
         try{
-
+            String aux;
             if(isEditing){
                 Jogador jogador = IOJogador.get(indice);
                 jogador.setNome(txtInputNome.getText());
@@ -193,19 +193,25 @@ public class CadastroJogador extends javax.swing.JPanel {
                 jogador.setStatus((StatusJogador)comboBoxStatus.getSelectedItem());
                 jogador.setDataNascimento(txtInputData.getText());
                 IOJogador.insert(jogador, indice);
+                aux = " foi editado com sucesso.";
             }
             else{
                 Jogador jogador = new Jogador(txtInputNome.getText(),
                     (Posicao)comboBoxPosicao.getSelectedItem(), Integer.parseInt(txtInputNumero.getText()),
                     (StatusJogador)comboBoxStatus.getSelectedItem(), txtInputData.getText());
                 IOJogador.appendJogador(jogador);
+                aux = " foi cadastrado com sucesso.";
             }
-            JOptionPane.showMessageDialog(null, txtInputNome.getText() + " foi cadastrado com sucesso.");
+            JOptionPane.showMessageDialog(null, txtInputNome.getText() + aux);
             SwingUtilities.getWindowAncestor(this).dispose();
+        }
+        catch(NumberFormatException n){
+            JOptionPane.showMessageDialog(null, "Número deve conter um número inteiro positivo.", "ERRO!", JOptionPane.ERROR_MESSAGE);
         }
         catch(IllegalArgumentException | ElementoDuplicado | IOException e){
             JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO!", JOptionPane.ERROR_MESSAGE);
         }
+
     }//GEN-LAST:event_botaoSalvarActionPerformed
 
 

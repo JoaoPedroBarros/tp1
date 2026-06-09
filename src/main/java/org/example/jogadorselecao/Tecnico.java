@@ -4,40 +4,48 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Tecnico {
     private String nome;
-    @JsonIgnore
-    private Selecao selecao = null;
+    private String nomeSelecao;
     
     
-        // danilo: jackson precisa de um construtor vazio
-      public Tecnico() {
-}
+    // danilo: jackson precisa de um construtor vazio
+    public Tecnico() {
+    }
+    
     //Construtor
     public Tecnico(String nome) {
-    setNome(nome);
-}
+        setNome(nome);
+    }
     
-
+    
     //Getters e Setters
 
     public String getNome() {
         return nome;
     }
 
-    public final void setNome(String nome){
-        if(nome.matches(".*\\d.*") || nome.matches(".*[^a-zA-Z0-9 ].*")){
-           throw new IllegalArgumentException("Nome não pode conter números ou símbolos especiais.");
+    public final void setNome(String nome) throws IllegalArgumentException{
+        if(nome.isBlank() || nome.isEmpty()){
+            throw new IllegalArgumentException("O Campo Técnico não foi preenchido.");  
         }
-        this.nome = nome;
+        else if(nome.matches("^[\\p{L}\\s]+$")){
+            this.nome = nome;
+        }
+        else{
+           throw new IllegalArgumentException("Nome do técnico não pode conter números ou símbolos especiais.");
+        }
     }
 
-    public Selecao getSelecao() {
-        return selecao;
+    public String getNomeSelecao() {
+        return nomeSelecao;
     }
 
-    protected void setSelecao(Selecao selecao) {
-        this.selecao = selecao;
+    public void setNomeSelecao(String nomeSelecao) {
+        this.nomeSelecao = nomeSelecao;
     }
 
-  
-
+    public void mostra(){
+        System.out.println("\nNome: " + nome);
+        System.out.println("Seleção: " + nomeSelecao);
+    }
+    
 }

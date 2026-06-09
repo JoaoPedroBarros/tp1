@@ -1,6 +1,5 @@
 package org.example.jogadorselecao;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -15,8 +14,7 @@ public final class Jogador{
     private int numero;
     private StatusJogador status;
     private String dataNascimento;
-    @JsonIgnore
-    private Selecao selecao;
+    private String nomeSelecao;
     
     //Atributos estatísticos
     private int amarelos = 0;
@@ -46,10 +44,15 @@ public final class Jogador{
     }
 
     public final void setNome(String nome){
-        if(nome.matches(".*\\d.*") || nome.matches(".*[^a-zA-Z0-9 ].*")){
+        if(nome.isBlank() || nome.isEmpty()){
+            throw new IllegalArgumentException("O campo Nome não foi preenchido.");  
+        }
+        else if(nome.matches("^[\\p{L}\\s]+$")){
+            this.nome = nome;
+        }
+        else{
            throw new IllegalArgumentException("Nome não pode conter números ou símbolos especiais.");
         }
-        this.nome = nome;
     }
 
     public Posicao getPosicao() {
@@ -84,6 +87,10 @@ public final class Jogador{
     }
 
     public void setDataNascimento(String dataNascimento) {
+        if(dataNascimento.isEmpty()){
+            throw new IllegalArgumentException("O campo Data de Nascimento não foi preenchido.");
+        }
+        
         String formatoData = "dd/MM/uuuu";
         DateTimeFormatter formato = DateTimeFormatter
         .ofPattern(formatoData)
@@ -102,12 +109,12 @@ public final class Jogador{
         }
     }
 
-    public Selecao getSelecao() {
-        return selecao;
+    public String getNomeSelecao() {
+        return nomeSelecao;
     }
 
-    protected void setSelecao(Selecao selecao) {
-        this.selecao = selecao;
+    public void setNomeSelecao(String nomeSelecao) {
+        this.nomeSelecao = nomeSelecao;
     }
 
     public int getAmarelos() {
@@ -131,15 +138,17 @@ public final class Jogador{
     }
     
     //Métodos personalizados
-    public void atualizaEstat(int a, int v, int p, int asst, int g) throws IllegalArgumentException{
-        if (a < 0 || v < 0 || p < 0 || asst < 0 || g < 0){
-            throw new IllegalArgumentException("Dados estatísticos não podem ser negativos.");
+    public void atualizaEstat(int[] estatisticas) throws IllegalArgumentException{
+        for(int i = 0; i < estatisticas.length; i++){
+            if(estatisticas[i] < 0){ return;}
         }
-        this.amarelos += a;
-        this.vermelhos += v;
-        this.passes += p;
-        this.assistencias += asst;
-        this.gols += g;
+        
+        //Atualiza atributos estatísticos
+        this.amarelos += estatisticas[0];
+        this.vermelhos += estatisticas[1];
+        this.passes += estatisticas[2];
+        this.assistencias += estatisticas[3];
+        this.gols += estatisticas[4];
     }
 
     @Override
@@ -147,7 +156,7 @@ public final class Jogador{
         if(this == o) return true;
         if(o == null || getClass() != o.getClass()) return false;
         Jogador j = (Jogador) o;
-        return Objects.equals(nome, j.getNome());
+        return Objects.equals(nome.toLowerCase(), j.getNome().toLowerCase());
     }
     
     @Override
@@ -160,8 +169,14 @@ public final class Jogador{
         System.out.println("Posicao: " + getPosicao());
         System.out.println("Numero: " + getNumero());
         System.out.println("Status: " + getStatus());
-        System.out.println("Data de Nascimento: " + getDataNascimento());   
+        System.out.println("Data de Nascimento: " + getDataNascimento());
+        System.out.println("Nome da Selecao: " + getNomeSelecao());
         System.out.println("-------------------------------------------");
-    }
-    
+        System.out.println("Amarelos: " + amarelos);
+        System.out.println("Vermelhos: " + vermelhos);
+        System.out.println("Passes: " + passes);
+        System.out.println("Assitencias: " + assistencias);
+        System.out.println("Gols" + gols);
+        System.out.println("-------------------------------------------");
+    }    
 }

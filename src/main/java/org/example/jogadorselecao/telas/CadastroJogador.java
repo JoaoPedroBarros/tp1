@@ -4,8 +4,14 @@
  */
 package org.example.jogadorselecao.telas;
 
+import java.io.IOException;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import org.example.jogadorselecao.Jogador;
+import org.example.jogadorselecao.Posicao;
+import org.example.jogadorselecao.StatusJogador;
+import org.example.jogadorselecao.persistencia.ElementoDuplicado;
+import org.example.jogadorselecao.persistencia.IOJogador;
 
 /**
  *
@@ -13,13 +19,55 @@ import javax.swing.SwingUtilities;
  */
 public class CadastroJogador extends javax.swing.JPanel {
 
+    private boolean isEditing;
+    private int indice;
     /**
      * Creates new form CadastroJogador
      */
     public CadastroJogador() {
         initComponents();
+        
+        //Adiciona posicoes
+        comboBoxPosicao.addItem(Posicao.GOLEIRO);
+        comboBoxPosicao.addItem(Posicao.DEFENSOR);
+        comboBoxPosicao.addItem(Posicao.MEIO_CAMPISTA);
+        comboBoxPosicao.addItem(Posicao.ATACANTE);
+        
+        //Adiciona Status
+        comboBoxStatus.addItem(StatusJogador.ATIVO);
+        comboBoxStatus.addItem(StatusJogador.LESIONADO);
+        comboBoxStatus.addItem(StatusJogador.SUSPENSO);        
     }
-
+    public CadastroJogador(int index){
+        initComponents();
+        
+        this.isEditing = true;
+        this.indice = index;
+        
+        //Adiciona posicoes
+        comboBoxPosicao.addItem(Posicao.GOLEIRO);
+        comboBoxPosicao.addItem(Posicao.DEFENSOR);
+        comboBoxPosicao.addItem(Posicao.MEIO_CAMPISTA);
+        comboBoxPosicao.addItem(Posicao.ATACANTE);
+        
+        //Adiciona Status
+        comboBoxStatus.addItem(StatusJogador.ATIVO);
+        comboBoxStatus.addItem(StatusJogador.LESIONADO);
+        comboBoxStatus.addItem(StatusJogador.SUSPENSO);   
+        
+        try{
+            Jogador aux = IOJogador.get(index);
+            txtInputNome.setText(aux.getNome());
+            comboBoxPosicao.setSelectedItem(aux.getPosicao());
+            txtInputNumero.setText(Integer.toString(aux.getNumero()));
+            comboBoxStatus.setSelectedItem(aux.getStatus());
+            txtInputData.setText(aux.getDataNascimento());
+        }
+        catch(IOException e){
+            JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO!", JOptionPane.ERROR_MESSAGE);            
+        }
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -34,12 +82,12 @@ public class CadastroJogador extends javax.swing.JPanel {
         labelNumero = new javax.swing.JLabel();
         labelStatus = new javax.swing.JLabel();
         txtInputNumero = new javax.swing.JTextField();
-        txtInputPosicao = new javax.swing.JTextField();
         txtInputNome = new javax.swing.JTextField();
         labelData = new javax.swing.JLabel();
         txtInputData = new javax.swing.JTextField();
         botaoSalvar = new javax.swing.JButton();
         botaoCancelar = new javax.swing.JButton();
+        comboBoxPosicao = new javax.swing.JComboBox<>();
         comboBoxStatus = new javax.swing.JComboBox<>();
 
         labelNome.setText("Nome:");
@@ -57,8 +105,6 @@ public class CadastroJogador extends javax.swing.JPanel {
 
         botaoCancelar.setText("Cancelar");
         botaoCancelar.addActionListener(this::botaoCancelarActionPerformed);
-
-        comboBoxStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ATIVO", "LESIONADO", "SUSPENSO" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -78,9 +124,9 @@ public class CadastroJogador extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txtInputNome, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-                                    .addComponent(txtInputPosicao)
                                     .addComponent(txtInputNumero)
-                                    .addComponent(comboBoxStatus, 0, 270, Short.MAX_VALUE))))
+                                    .addComponent(comboBoxPosicao, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(comboBoxStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -102,9 +148,9 @@ public class CadastroJogador extends javax.swing.JPanel {
                     .addComponent(labelNome)
                     .addComponent(txtInputNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(labelPosicao)
-                    .addComponent(txtInputPosicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboBoxPosicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelNumero)
@@ -135,15 +181,39 @@ public class CadastroJogador extends javax.swing.JPanel {
 
     private void botaoSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSalvarActionPerformed
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null, "Operação realizada com sucesso");
-        SwingUtilities.getWindowAncestor(this).dispose();
+    
+        //Tratamento de inputs inválidos
+        try{
+
+            if(isEditing){
+                Jogador jogador = IOJogador.get(indice);
+                jogador.setNome(txtInputNome.getText());
+                jogador.setPosicao((Posicao)comboBoxPosicao.getSelectedItem());
+                jogador.setNumero(Integer.parseInt(txtInputNumero.getText()));
+                jogador.setStatus((StatusJogador)comboBoxStatus.getSelectedItem());
+                jogador.setDataNascimento(txtInputData.getText());
+                IOJogador.insert(jogador, indice);
+            }
+            else{
+                Jogador jogador = new Jogador(txtInputNome.getText(),
+                    (Posicao)comboBoxPosicao.getSelectedItem(), Integer.parseInt(txtInputNumero.getText()),
+                    (StatusJogador)comboBoxStatus.getSelectedItem(), txtInputData.getText());
+                IOJogador.appendJogador(jogador);
+            }
+            JOptionPane.showMessageDialog(null, txtInputNome.getText() + " foi cadastrado com sucesso.");
+            SwingUtilities.getWindowAncestor(this).dispose();
+        }
+        catch(IllegalArgumentException | ElementoDuplicado | IOException e){
+            JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO!", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_botaoSalvarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoCancelar;
     private javax.swing.JButton botaoSalvar;
-    private javax.swing.JComboBox<String> comboBoxStatus;
+    private javax.swing.JComboBox<Posicao> comboBoxPosicao;
+    private javax.swing.JComboBox<StatusJogador> comboBoxStatus;
     private javax.swing.JLabel labelData;
     private javax.swing.JLabel labelNome;
     private javax.swing.JLabel labelNumero;
@@ -152,6 +222,5 @@ public class CadastroJogador extends javax.swing.JPanel {
     private javax.swing.JTextField txtInputData;
     private javax.swing.JTextField txtInputNome;
     private javax.swing.JTextField txtInputNumero;
-    private javax.swing.JTextField txtInputPosicao;
     // End of variables declaration//GEN-END:variables
 }

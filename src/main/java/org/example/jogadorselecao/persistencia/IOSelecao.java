@@ -1,7 +1,6 @@
 package org.example.jogadorselecao.persistencia;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.jogadorselecao.Jogador;
 import org.example.jogadorselecao.Selecao;
 import com.fasterxml.jackson.core.JsonGenerator;
 import java.io.BufferedReader;
@@ -48,10 +47,33 @@ public class IOSelecao extends Permissao{
         } 
         return -1; //Retorno default
     }
+
+    public static int containsSelecao(String pais){
+        File arquivo = new File("src/main/resources/selecoes.jsonl");
+        String linha;
+        int index = 0;
+        String comparador = "{\"pais\":\"" + pais + "\"";
+        
+        try(BufferedReader leitura = new BufferedReader(new FileReader(arquivo))){            
+            while((linha = leitura.readLine()) != null){
+                //Compara somente os nomes dos jogadores
+                if(linha.substring(0, linha.indexOf(",")).equals(comparador)){ //Compara somente os países do Selecoes
+                    break;
+                }
+                index++;
+            }
+            
+            return linha == null ? -1 : index;            
+        }
+        catch(IOException e){
+            System.err.println("Ocorreu um erro inesperado na leitura do arquivo.");
+        } 
+        return -1; //Retorno default
+    }
     
     //Append jogadores no arquivo jogadores.jsonl
-    public static void appendSelecao(Selecao selecao){
-        if (containsSelecao(selecao) != -1){return;}
+    public static boolean appendSelecao(Selecao selecao){
+        if (containsSelecao(selecao) != -1){return false;}
         
         ObjectMapper mapper = new ObjectMapper();          // Instancia Mapeamento padrao da biblioteca Jackson
         mapper.configure(JsonGenerator.Feature.AUTO_CLOSE_TARGET, false);
@@ -59,36 +81,33 @@ public class IOSelecao extends Permissao{
         try (FileOutputStream os = new FileOutputStream("src/main/resources/selecoes.jsonl", true)) {
             mapper.writeValue(os, selecao);
             os.write("\n".getBytes());
+            return true;
         } catch (IOException e) {
-            System.err.println("Nao foi possivel adicionar a selecao ao arquivo de persistencia.");
+           return false;
         }
     }
     
     //Apaga jogador do arquivo de persistencia
-    public static void deleteSelecao(Selecao selecao){
+    public static void deleteSelecao(String pais) throws IOException {
         File arquivoOriginal = new File("src/main/resources/selecoes.jsonl");
         File arquivoTemp = new File("src/main/resources/temp.jsonl");
 
-        ObjectMapper mapper = new ObjectMapper();// Instancia Mapeamento padrao da biblioteca Jackson
-        String linha; //String auxiliar para leitura    
-        int cont = 1;
+        String linha; //String auxiliar para leitura 
         
         try (BufferedReader leitura = new BufferedReader(new FileReader(arquivoOriginal));
              BufferedWriter escrita = new BufferedWriter(new FileWriter(arquivoTemp))){
 
-            String jsonStr = mapper.writeValueAsString(selecao); // Conversão da classe jogador para string de Json
-            
+            String comparador = "{\"pais\":\"" + pais + "\"";
+                    
             //Atualiza arquivo temporário com todos os dados, exceto o deletado
             while((linha = leitura.readLine()) != null){
-                if(jsonStr.equals(linha)){
-                    cont++;
+                if(linha.substring(0, linha.indexOf(",")).equals(comparador)){ //Compara somente os nomes do Jogadores
                     continue; //Não escreve a linha que se deseja apagar
                 }
                 escrita.write(linha + "\n"); //Escreve linha no arquivo temporário
-                cont++;
             }
         } catch (IOException e) {
-            System.err.println("Nao foi possivel abrir o arqiuivo para deleção.");
+            throw new IOException("Nao foi possivel abrir o arqiuivo para deleção.");
         }
         
         if(arquivoOriginal.delete()){
@@ -97,6 +116,33 @@ public class IOSelecao extends Permissao{
         else{
             System.err.println("Nao foi possivel deletar o arquivo.");
         }
+    }
+
+    public static Selecao get(int index) throws IOException{
+        if(index == -1){return null;}
+        
+        File arquivo = new File("src/main/resources/selecoes.jsonl");
+        ObjectMapper mapper = new ObjectMapper();// Instancia Mapeamento padrao da biblioteca Jackson
+        String linha;
+        int cont = 0;
+        
+        try(BufferedReader leitura = new BufferedReader(new FileReader(arquivo))){            
+            while((linha = leitura.readLine()) != null){
+                if(cont == index){
+                    return mapper.readValue(linha, Selecao.class);
+                }
+                cont++;
+            }          
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        } 
+        
+        if(index < cont){
+            throw new IOException("Jogador não encontrado. Get não foi executado corretamente.");
+        }
+        
+        return null;
     }
     
 }

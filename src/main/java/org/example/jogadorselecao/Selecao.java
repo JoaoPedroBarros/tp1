@@ -1,24 +1,31 @@
 package org.example.jogadorselecao;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Selecao {
+public final class Selecao {
     private String pais;
     private int grupo;
     private Tecnico tecnico;
-    private HashSet<Jogador> time = new HashSet<>();
+    private List<Jogador> time = new ArrayList<>();
     private static final int MAX_MEMBROS = 26;
     private static final int MIN_MEMBROS = 18;
+    private boolean isCopying;  //Define estado de transferência de dados do Registro para a JTable
+    
+    //Estatísticas
+    private int vitorias;
+    private int derrotas;
+    private int empates;
     
 // danilo: jackson precisa de um construtor vazio
     public Selecao() {
-}
+        this.isCopying = true;
+    }
     
     //Construtor
-    public Selecao(String pais, int grupo, Tecnico tecnico, HashSet<Jogador> time) throws IllegalArgumentException {
+    public Selecao(String pais, int grupo, Tecnico tecnico, List<Jogador> time) throws IllegalArgumentException {
+        this.isCopying = false;
         setPais(pais);
         setGrupo(grupo);
         setTecnico(tecnico);
@@ -26,17 +33,21 @@ public class Selecao {
     }
 
     
-    
     //Getters e Setters
     public String getPais() {
         return pais;
     }
 
-    public final void setPais(String pais) {
-        if(pais.matches(".*\\d.*") || pais.matches(".*[^a-zA-Z0-9 ].*")){
-           throw new IllegalArgumentException("Nome do país não pode conter números ou símbolos especiais.");
+    public final void setPais(String pais){
+        if(pais.isBlank() || pais.isEmpty()){
+            throw new IllegalArgumentException("O campo Nome não foi preenchido.");  
         }
-        this.pais = pais;
+        else if(pais.matches("^[\\p{L}\\s]+$")){
+            this.pais = pais;
+        }
+        else{
+           throw new IllegalArgumentException("Nome não pode conter números ou símbolos especiais.");
+        }
     }
 
     public int getGrupo() {
@@ -45,7 +56,7 @@ public class Selecao {
 
     public final void setGrupo(int grupo) {
         if (grupo <= 0){
-            throw new IllegalArgumentException("O número do jogador deve ser maior que 0.");
+            throw new IllegalArgumentException("O grupo da seleção deve ser maior que 0.");
         }
         this.grupo = grupo;
     }
@@ -55,19 +66,33 @@ public class Selecao {
     }
 
     public final void setTecnico(Tecnico tecnico) {
-        if(tecnico.getSelecao() != null){
+        if(isCopying){
+            this.tecnico = tecnico;
+            return;
+        }
+        
+        if(tecnico.getNomeSelecao() != null){
             throw new IllegalArgumentException(tecnico.getNome() + 
-                    " já está afiliado a selecao do(a) " + tecnico.getSelecao().getPais() + ".");
+                    " já está afiliado à selecao do(a) " + tecnico.getNomeSelecao() + ".");
         }
         this.tecnico = tecnico;
-        tecnico.setSelecao(this);
+        tecnico.setNomeSelecao(this.getPais());
     }
 
-    public HashSet<Jogador> getTime() {
+    public List<Jogador> getTime() {
         return time;
     }
 
-    public void setTime(HashSet<Jogador> time) {
+    public void setTime(List<Jogador> time) {
+        if(isCopying){
+            for(Jogador jogador : time){
+                this.time.add(jogador);
+            }
+            return;
+        }
+
+        if(time == null){return;}
+        
         //Impede set com tamanhos inadequados de time
         if(time.size() < MIN_MEMBROS || time.size() > MAX_MEMBROS){
             throw new IllegalArgumentException("Quantidade inadequada de membros no time.");
@@ -75,51 +100,47 @@ public class Selecao {
    
         //Garante que um jogador não poderá estar vinculado a duas seleções
         for(Jogador jogador : time){
-            if(jogador.getSelecao() != null){
+            if(jogador.getNomeSelecao() != null){
                 throw new IllegalArgumentException("O jogador " + jogador.getNome() +
-                        " já está afiliada à seleção do(a) " + jogador.getSelecao().getPais() + ".");
+                        " já está afiliada à seleção do(a) " + jogador.getNomeSelecao() + ".");
             }
-        }
+        }    
         
-        if(this.time != null){ //Para substituir a equipe inteira
-          for(Jogador jogador : this.time){
-                jogador.setSelecao(null);
-                this.time.remove(jogador);
-            }     
-        }
-  
+
+
         //Vincula cada jogador da HashSet à atual instância de seleção
         for(Jogador jogador : time){
-            jogador.setSelecao(this);
+            jogador.setNomeSelecao(this.getPais());
             this.time.add(jogador);
         } 
     }    
 
+    public int getVitorias() {
+        return vitorias;
+    }
+
+    public void setVitorias(int vitorias) {
+        this.vitorias = vitorias;
+    }
+
+    public int getDerrotas() {
+        return derrotas;
+    }
+
+    public void setDerrotas(int derrotas) {
+        this.derrotas = derrotas;
+    }
+
+    public int getEmpates() {
+        return empates;
+    }
+
+    public void setEmpates(int empates) {
+        this.empates = empates;
+    }
+
+    
     //Metodos personalizados
-    public void convocar(Jogador jogador){
-        if (time.size() == MAX_MEMBROS){
-            throw new IllegalStateException("Não é possível convocar " + jogador.getNome() + ". Pois a"
-                    + " seleção do(a) " + this.getPais() +
-                    " possui o limite máximo de " + MAX_MEMBROS + " membros.");
-        }
-        jogador.setSelecao(this);   //Vincula jogador
-        time.add(jogador);
-    }
-    
-    public void dispensar(Jogador jogador){
-        if(time.contains(jogador)){
-            if(time.size() == MIN_MEMBROS){
-                throw new IllegalStateException("Não é possível dispensar " + jogador.getNome() + "pois a seleção do(a) "
-                        + this.getPais() + " atingiu o número mínimo de " + MIN_MEMBROS + " membros. Contrate um substituto"
-                                + " ou exclua a seleção manualmente.");
-            }
-            else{
-                jogador.setSelecao(null);   //Desvincula jogador
-                time.remove(jogador);
-            }
-        }
-    }
-    
     public boolean podeJogar(){
         for (Jogador jogador : time){
             if(jogador.getStatus() == StatusJogador.LESIONADO || jogador.getStatus() == StatusJogador.SUSPENSO){
@@ -128,6 +149,66 @@ public class Selecao {
         }
         return true;
         
+    }
+ 
+    
+    /*Sugestão de procedimento (passo a passo) completo para modificação das estatísticas, mantendo a persistência de dados.
+        //Para modificar a seleção com nome "nomeSelecao"
+        int[] dadosSelecao; //Vetor de vitorias, derrotas e empates (Nessa ordem obrigatoriamente)
+        int[][] dadosJogadores; //Matriz de dados de cada jogador. Deve ter tamanhoTime linhas e 5 colunas, com os
+                                // valores amarelos, vermelhos, passes, assistências e gols (Nessa ordem obrigatoriamente)
+        
+        try{
+            int indice = IOSelecao.containsSelecao("nomeSelecao"); //Método é caseSensitive
+            Selecao selecao = IOSelecao.get(indice);  //Resgata seleção da memória
+            selecao.atualizaEstat(dadosSelecao); //Atualiza estatísticas da selecao
+
+            for (int i = 0; i < dadosJogadores.length; i++){ //Atualiza instâncias de membros do time
+                selecao.getTime().get(i).atualizaEstat(dadosJogadores[i]);
+                selecao.getTime().get(i).mostra();
+            }
+            
+            PersistenciaDeDados.insert(selecao, indice); //Atualiza registro da selecao
+
+            List<Integer> indicesNoRegistro = new ArrayList<>();
+            IOJogador.getMemJogadores(Jogador -> selecao.getPais().equals(Jogador.getNomeSelecao()), 
+                                                              indicesNoRegistro);
+            System.out.println("Indices no Reg: " + indicesNoRegistro);
+            IOJogador.insertMult(selecao.getTime(), indicesNoRegistro); //Atualiza registros de membros do time        
+        }
+        catch (IOException e){
+            //Tratamento do erro.
+        }
+    */
+    
+    
+    public void atualizaEstat(int[] estatSelecao) throws IllegalArgumentException{
+        //Valida se todas as estaíticas da seleção foram contempladas
+        if(estatSelecao.length != 3){
+            throw new IllegalArgumentException("O vetor de estatísticas da Seleção tem tamanho indevido");
+        }
+       
+        //Valida se alguma estatística de Seleção é negativa
+        for(int i = 0; i < estatSelecao.length; i++){
+            if(estatSelecao[i] < 0){
+                String msg = "O número de ";
+                switch(i){
+                    case 0:
+                        msg += "vitórias";
+                    case 1:
+                        msg += "derrotas";
+                    case 2:
+                        msg += "empates";
+                }
+                msg += " não pode ser negativo.";
+                throw new IllegalArgumentException(msg);
+            }
+        }        
+        
+        //Atualiza estatísticas próprias da seleção.
+        this.vitorias += estatSelecao[0];
+        this.derrotas += estatSelecao[1];
+        this.empates += estatSelecao[2];
     }
     
     @Override
@@ -148,7 +229,9 @@ public class Selecao {
         System.out.println("Grupo: " + getGrupo());
         System.out.println("Tecnico: " + getTecnico().getNome());
         for (Jogador jogador : time){
-            jogador.mostra();
+            //jogador.mostra();
+            System.out.print("[ " + jogador.getNome() + ",");
+            System.out.println(" ]");
         }
     }
     

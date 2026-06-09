@@ -236,6 +236,13 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
             consultaTable.setRowSorter(null);
             atualizaTabela(isSelecaoSelected);
             consultaTable.setAutoCreateRowSorter(true);
+
+            //Centraliza os conteudos das colunas
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+            for (int i = 0; i < consultaTable.getColumnCount(); i++){
+                consultaTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+            }  
         }
     }//GEN-LAST:event_botaoExcluirActionPerformed
 
@@ -267,7 +274,7 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
                     case 0:
                         return String.class;
                     case 1:
-                        return Integer.class;
+                        return String.class;
                     case 2:
                         return String.class;
                     default:
@@ -280,6 +287,14 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
         consultaTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         atualizaTabela(true);
         aplicaFiltro();
+
+        //Centraliza os conteudos das colunas
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        for (int i = 0; i < consultaTable.getColumnCount(); i++){
+            consultaTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+        
     }//GEN-LAST:event_jRadioButtonSelecaoActionPerformed
 
     private void criaTabelaJogador(){
@@ -317,6 +332,13 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
         consultaTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         atualizaTabela(false);
         aplicaFiltro();
+    
+        //Centraliza os conteudos das colunas
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        for (int i = 0; i < consultaTable.getColumnCount(); i++){
+            consultaTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
     }
     
     private void jRadioButtonJogadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonJogadorActionPerformed
@@ -397,17 +419,13 @@ public class ConsultaSelecaoJogador extends javax.swing.JPanel {
             try{
                 String str = txtInputGrupo.getText().trim();
                 if(str.isEmpty() || str.isBlank()){str = ".*";}
-                int i;
-                if(!str.equals(".*") && (i = Integer.parseInt(str)) <= 0){
-                    throw new IllegalArgumentException("Grupo deve ser números positivos.");
+                
+                if(!str.equals(".*") && (str.length() > 1 || !Character.isUpperCase(str.charAt(0)))){
+                    throw new IllegalArgumentException("Grupo deve ser uma letra maiúscula.");
                 }
-                RowFilter<DefaultTableModel, Object> filtro = RowFilter.regexFilter(str);
+                RowFilter<DefaultTableModel, Object> filtro = RowFilter.regexFilter(str, 1);
                 sorter.setRowFilter(filtro); //Filtra tabela
                 consultaTable.setRowSorter(sorter);  
-            }
-            catch(NumberFormatException e){
-                JOptionPane.showMessageDialog(null, "Grupo deve ser um número positivo.", "Erro!", JOptionPane.ERROR_MESSAGE);
-                sorter.setRowFilter(null); //Filtra tabela
             }
             catch(IllegalArgumentException a){
                  JOptionPane.showMessageDialog(null, a.getMessage(), "Erro!", JOptionPane.ERROR_MESSAGE);              

@@ -97,7 +97,7 @@ public class CadastroSelecao extends javax.swing.JPanel {
             
             tecAux = aux.getTecnico();
             txtInputPais.setText(aux.getPais());
-            txtInputGrupo.setText(Integer.toString(aux.getGrupo()));
+            txtInputGrupo.setText(aux.getGrupo());
             txtInputTecnico.setText(aux.getTecnico().getNome());
             
             //Configura tabela.
@@ -151,7 +151,7 @@ public class CadastroSelecao extends javax.swing.JPanel {
                     case 0:
                         return String.class;
                     case 1:
-                        return Integer.class;
+                        return String.class;
                     case 2:
                         return String.class;
                     default:
@@ -358,7 +358,7 @@ public class CadastroSelecao extends javax.swing.JPanel {
             Tecnico tecnico = new Tecnico(txtInputTecnico.getText()); //Instancia tecnico
 
             Selecao selecao = new Selecao(txtInputPais.getText(), 
-                                          Integer.parseInt(txtInputGrupo.getText()),
+                                          txtInputGrupo.getText(),
                                           tecnico,
                                           selecionados); //Instancia a selecao
             if(isEditing){

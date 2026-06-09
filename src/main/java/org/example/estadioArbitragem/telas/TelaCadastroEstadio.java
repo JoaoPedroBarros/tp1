@@ -2,13 +2,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package org.example.estadioArbitragem;
+package org.example.estadioArbitragem.telas;
 
+import java.awt.HeadlessException;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import org.example.estadioArbitragem.Estadio;
+import org.example.estadioArbitragem.GerenciadorEstadioJSON;
+import org.example.estadioArbitragem.OrganizaEstadio;
 
 /**
  *
@@ -217,7 +221,7 @@ public class TelaCadastroEstadio extends javax.swing.JFrame {
     }//GEN-LAST:event_txtLocalizacaoEstActionPerformed
 
     private void btnSalvarCadEstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarCadEstActionPerformed
-        
+
         if(txtNomeEst.getText().equals("")
                 || txtLocalizacaoEst.getText().equals("")
                 || txtCapacidadeEst.getText().equals("")){
@@ -229,33 +233,37 @@ public class TelaCadastroEstadio extends javax.swing.JFrame {
                 String localizacao = txtLocalizacaoEst.getText();
                 int capacidade = Integer.parseInt(txtCapacidadeEst.getText());
                 
+                OrganizaEstadio organiza = new OrganizaEstadio();
+
                 DefaultTableModel dtmTabela = (DefaultTableModel)tabelaEstadios.getModel();
                 
-                if(editar == false){
-                    Estadio estadio = new Estadio(nome, localizacao, capacidade);
-                    dtmTabela.addRow(new Object[]{estadio.getNome(), estadio.getLocalizacao(), estadio.getCapacidade()});
-                    JOptionPane.showMessageDialog(rootPane, "Estádio " + estadio.getNome() + " cadastrado com sucesso!");  
+                if(editar == false){             
+                    organiza.CadastrarNovoEstadio(nome, localizacao, capacidade, dtmTabela);  
+                    JOptionPane.showMessageDialog(rootPane, "Estádio " + nome + " cadastrado com sucesso!");  
                     
                 } else {
                     int linhaVisual = tabelaEstadios.getSelectedRow();
-                    int linhaReal = tabelaEstadios.convertColumnIndexToView(linhaVisual);
-                    
-                    dtmTabela.setValueAt(nome, linhaReal, 0);
-                    dtmTabela.setValueAt(localizacao, linhaReal, 1);
-                    dtmTabela.setValueAt(capacidade, linhaReal, 2);
+                    if (linhaVisual == -1){
+                        JOptionPane.showMessageDialog(rootPane, "Selecione um estádio na tabela para editar.");
+                        return;
+                    }
+                    int linhaReal = tabelaEstadios.convertRowIndexToView(linhaVisual);
+                    organiza.EditarEstadio(WIDTH, linhaReal, nome, localizacao, capacidade, dtmTabela);
                     JOptionPane.showMessageDialog(rootPane, "Atualizado com sucesso!");
                     
                 }
-                
-                atualizarArquivoJSON();
+
                 estadoInicial();
                 
             } catch(NumberFormatException e){
                 JOptionPane.showMessageDialog(rootPane, "A capacidade deve conter apenas números inteiros!", "Erro de Formatação", JOptionPane.ERROR_MESSAGE);
+            } catch(IllegalArgumentException e){
+                JOptionPane.showMessageDialog(rootPane, "Erro de validação!");
             }
             
         }
         
+    //GEN-LAST:event_btnSalvarCadEstActionPerformed    
     }//GEN-LAST:event_btnSalvarCadEstActionPerformed
 
     private void limparCampos(){
@@ -279,25 +287,32 @@ public class TelaCadastroEstadio extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditarCadEstActionPerformed
 
     private void btnExcluirCadEstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirCadEstActionPerformed
+        int linhaSelecionada = tabelaEstadios.getSelectedRow();
+        
         if(tabelaEstadios.getSelectedRow() == -1){
             JOptionPane.showMessageDialog(rootPane, "Nenhuma linha selecionada!");
         } else {
-                int op = JOptionPane.showConfirmDialog(rootPane, "Tem certeza que deseja excluir esse estadio?", "ATENÇÃO", JOptionPane.YES_NO_OPTION);
+            
+            int op = JOptionPane.showConfirmDialog(rootPane, "Tem certeza que deseja excluir esse estadio?", "ATENÇÃO", JOptionPane.YES_NO_OPTION);
 
-                if(op == JOptionPane.YES_OPTION){
-                    int linhaVisual = tabelaEstadios.getSelectedRow();
-                    int linhaReal = tabelaEstadios.convertRowIndexToModel(linhaVisual);
-                    
+            if(op == JOptionPane.YES_OPTION){
+                try{
+                    int indexReal = tabelaEstadios.convertColumnIndexToModel(linhaSelecionada);
                     DefaultTableModel dtmTabela = (DefaultTableModel) tabelaEstadios.getModel();
-                    dtmTabela.removeRow(linhaReal);
+                    OrganizaEstadio organiza = new OrganizaEstadio();
+                    organiza.ExcluirEstadio(linhaSelecionada, indexReal, dtmTabela);
                     
-                    atualizarArquivoJSON();
+                    JOptionPane.showMessageDialog(rootPane, "Estadio excluído com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                     estadoInicial();
-                    
+                } catch (Exception e){
+                    JOptionPane.showMessageDialog(this, "Erro ao excluir o estadio: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                 }
                 
+
+
+            }
+                
         }
-        
     }//GEN-LAST:event_btnExcluirCadEstActionPerformed
 
     private void btnFecharCadEstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharCadEstActionPerformed

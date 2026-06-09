@@ -4,48 +4,51 @@
  */
 package org.example.estadioArbitragem;
 
-public class Arbitro {
-    private String nome;
-    private String nacionalidade;
+import java.util.List;
+import org.example.administracao.Papel;
+import org.example.administracao.Permissao;
+
+public class Arbitro extends Papel{
+    
+    private final static List<? extends Permissao> listaPermissoes = List.of(new DesignacaoArbitro());
     private int experiencia;
 
     public Arbitro(String nome, String nacionalidade, int experiencia) {
-        this.nome = nome;
-        this.nacionalidade = nacionalidade;
+       
         this.experiencia = experiencia;
+        this.nomePapel = "ARBITRO";
     }
     
     public Arbitro(){
-        
+        this.experiencia = experiencia;
+        this.nomePapel = "ARBITRO";
     }
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getNacionalidade() {
-        return nacionalidade;
-    }
-
-    public void setNacionalidade(String nacionalidade) {
-        this.nacionalidade = nacionalidade;
-    }
-
+  
     public int getExperiencia() {
         return experiencia;
     }
 
     public void setExperiencia(int experiencia) {
+        if (experiencia < 0 || experiencia > 30){
+            throw new IllegalArgumentException("Experiencia inválida.");
+        }
         this.experiencia = experiencia;
+        
+        
     }
     
-    public void validarNacionalidadePartida(String nacionalidadeSelecao1, String nacionalidadeSelecao2) {
-        if (this.nacionalidade.equalsIgnoreCase(nacionalidadeSelecao1) || 
-            this.nacionalidade.equalsIgnoreCase(nacionalidadeSelecao2)) {
-            throw new IllegalArgumentException("Regra violada: O árbitro não pode atuar em partidas de sua própria nacionalidade.");
-        }
+    @Override
+    public String getNomePapel(){
+        return nomePapel;
+    }
+    
+    @Override
+    public List<? extends Permissao> getPermissoes(){
+        return listaPermissoes;
+    }
+    
+    @Override
+    public String toString(){
+        return "Árbitro";
     }
 }

@@ -2,10 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package org.example.estadioArbitragem;
+package org.example.estadioArbitragem.telas;
 
 import java.util.List;
 import javax.swing.JOptionPane;
+import org.example.estadioArbitragem.Arbitro;
+import org.example.estadioArbitragem.GerenciadorArbitroJSON;
 
 /**
  *

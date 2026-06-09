@@ -227,7 +227,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="caixaFuncaoActionPerformed"/>
       </Events>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="caixaFuncao.addItem(new Administrador());&#xa;caixaFuncao.addItem(new Organizador());&#xa;caixaFuncao.addItem(new Operador());"/>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="caixaFuncao.addItem(new Administrador());&#xa;caixaFuncao.addItem(new Organizador());&#xa;caixaFuncao.addItem(new Operador());&#xa;caixaFuncao.addItem(new Arbitro());"/>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Papel&gt;"/>
       </AuxValues>
     </Component>

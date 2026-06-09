@@ -4,7 +4,9 @@
  */
 package org.example.estadioArbitragem;
 
-public class DesignacaoArbitro {
+import org.example.administracao.Permissao;
+
+public class DesignacaoArbitro extends Permissao {
     private Arbitro arbitro;
     private FuncaoArbitragem funcao;
 
@@ -29,4 +31,11 @@ public class DesignacaoArbitro {
         this.funcao = funcao;
     }
     
+    public DesignacaoArbitro(){}
+   
+    
+    @Override
+    public String getNome(){
+        return "DESIGNA_ARBITRO";
+    }
 }

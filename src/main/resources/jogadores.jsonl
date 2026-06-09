@@ -34,7 +34,7 @@
 {"nome":"Zlatan Ibrahimović","posicao":"ATACANTE","numero":33,"status":"ATIVO","dataNascimento":"03/10/1981","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Luiz Henrique","posicao":"ATACANTE","numero":43,"status":"ATIVO","dataNascimento":"02/03/1998","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Matheus Cunha","posicao":"ATACANTE","numero":45,"status":"ATIVO","dataNascimento":"02/03/1998","nomeSelecao":"Brasil","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Neymar","posicao":"ATACANTE","numero":10,"status":"ATIVO","dataNascimento":"05/02/1992","nomeSelecao":"Brasil","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Neymar","posicao":"ATACANTE","numero":10,"status":"LESIONADO","dataNascimento":"05/02/1992","nomeSelecao":"Brasil","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Raphinha","posicao":"ATACANTE","numero":34,"status":"ATIVO","dataNascimento":"02/03/1998","nomeSelecao":"Brasil","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Rayan","posicao":"ATACANTE","numero":15,"status":"ATIVO","dataNascimento":"02/03/1998","nomeSelecao":"Brasil","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Vinícius Júnior","posicao":"ATACANTE","numero":10,"status":"ATIVO","dataNascimento":"12/07/2000","nomeSelecao":"Brasil","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}

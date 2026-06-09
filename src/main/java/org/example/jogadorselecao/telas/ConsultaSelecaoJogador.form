@@ -207,15 +207,12 @@
         <Component class="javax.swing.JComboBox" name="comboBoxPosicao">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="8">
+              <StringArray count="5">
                 <StringItem index="0" value=".*"/>
                 <StringItem index="1" value="GOLEIRO"/>
-                <StringItem index="2" value="ZAGUEIRO"/>
-                <StringItem index="3" value="LATERAL"/>
-                <StringItem index="4" value="VOLANTE"/>
-                <StringItem index="5" value="PONTA"/>
-                <StringItem index="6" value="CENTROAVANTE"/>
-                <StringItem index="7" value="RESERVA"/>
+                <StringItem index="2" value="DEFENSOR"/>
+                <StringItem index="3" value="MEIO-CAMPISTA"/>
+                <StringItem index="4" value="ATACANTE"/>
               </StringArray>
             </Property>
           </Properties>

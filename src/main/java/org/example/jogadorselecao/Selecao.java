@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public final class Selecao {
     private String pais;
-    private int grupo;
+    private String grupo;
     private Tecnico tecnico;
     private List<Jogador> time = new ArrayList<>();
     private static final int MAX_MEMBROS = 26;
@@ -24,7 +24,7 @@ public final class Selecao {
     }
     
     //Construtor
-    public Selecao(String pais, int grupo, Tecnico tecnico, List<Jogador> time) throws IllegalArgumentException {
+    public Selecao(String pais, String grupo, Tecnico tecnico, List<Jogador> time) throws IllegalArgumentException {
         this.isCopying = false;
         setPais(pais);
         setGrupo(grupo);
@@ -50,13 +50,13 @@ public final class Selecao {
         }
     }
 
-    public int getGrupo() {
+    public String getGrupo() {
         return grupo;
     }
 
-    public final void setGrupo(int grupo) {
-        if (grupo <= 0){
-            throw new IllegalArgumentException("O grupo da seleção deve ser maior que 0.");
+    public final void setGrupo(String grupo) {
+        if (grupo.length() > 1 || grupo.isEmpty() || grupo.isBlank() || !Character.isUpperCase(grupo.charAt(0))){
+            throw new IllegalArgumentException("O grupo deve ser uma letra maiúscula.");
         }
         this.grupo = grupo;
     }

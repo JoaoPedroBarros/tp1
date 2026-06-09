@@ -209,7 +209,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="caixaTipoUsuarioActionPerformed"/>
               </Events>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="caixaTipoUsuario.addItem(new Administrador());&#xa;caixaTipoUsuario.addItem(new Organizador());&#xa;caixaTipoUsuario.addItem(new Operador());"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="caixaTipoUsuario.addItem(new Administrador());&#xa;caixaTipoUsuario.addItem(new Organizador());&#xa;caixaTipoUsuario.addItem(new Operador());&#xa;caixaTipoUsuario.addItem(new Arbitro());"/>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Papel&gt;"/>
               </AuxValues>
             </Component>

@@ -4,6 +4,7 @@
  */
 package org.example.administracao.telas;
 
+import org.example.estadioArbitragem.Arbitro;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -135,6 +136,7 @@ public class GestaoUsuarios extends javax.swing.JFrame {
         caixaTipoUsuario.addItem(new Administrador());
         caixaTipoUsuario.addItem(new Organizador());
         caixaTipoUsuario.addItem(new Operador());
+        caixaTipoUsuario.addItem(new Arbitro());
         caixaTipoUsuario.addActionListener(this::caixaTipoUsuarioActionPerformed);
 
         caixaStatusUsuario.addItem(Usuario.StatusUsuario.ATIVO);

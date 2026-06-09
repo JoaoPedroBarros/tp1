@@ -4,6 +4,9 @@
  */
 package org.example.administracao.telas;
 
+import org.example.estadioArbitragem.telas.TelaDesignacaoArbitro;
+import org.example.estadioArbitragem.telas.TelaCadastroEstadio;
+import org.example.estadioArbitragem.telas.TelaCadastroArbitro;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 import org.example.jogadorselecao.telas.*;
@@ -11,8 +14,9 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import org.example.administracao.*;
+import org.example.estadioArbitragem.DesignacaoArbitro;
+import org.example.estadioArbitragem.OrganizaEstadio;
 import org.example.partidas.telas.*;
-import org.example.estadioArbitragem.*;
 import org.example.ingressos.*;
 import org.example.jogadorselecao.persistencia.IOJogador;
 import org.example.jogadorselecao.persistencia.IOSelecao;
@@ -51,7 +55,11 @@ public class TelaInicial extends javax.swing.JFrame {
             menuSelecoesJogadores.setEnabled(true);
         }
         
-   
+        if (supplierPermissoes.get().anyMatch(u -> u instanceof OrganizaEstadio) && supplierPermissoes.get().anyMatch(u -> u instanceof DesignacaoArbitro)) {
+            menuEstadioArbitragem.setEnabled(true);
+        }
+        
+        
     }
     
     private void desabilitaMenu() { // o padrao eh que todos os menus estejam desabilitados, para que, com as permissoes do usuarios, sejam habilitados pouco a pouco

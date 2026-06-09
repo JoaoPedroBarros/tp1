@@ -1,12 +1,13 @@
 package org.example.administracao;
 
 import java.util.List;
+import org.example.estadioArbitragem.OrganizaEstadio;
 import org.example.jogadorselecao.persistencia.IOJogador;
 import org.example.jogadorselecao.persistencia.IOSelecao;
 
 public class Organizador extends Papel{
     
-    private final static List<? extends Permissao> listaPermissoes = List.of(new IOJogador(), new IOSelecao());
+    private final static List<? extends Permissao> listaPermissoes = List.of(new IOJogador(), new IOSelecao(), new OrganizaEstadio());
     
     public Organizador() {
         this.nomePapel = "ORGANIZADOR";

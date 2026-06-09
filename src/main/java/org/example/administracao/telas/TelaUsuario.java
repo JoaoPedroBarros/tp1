@@ -6,6 +6,7 @@ package org.example.administracao.telas;
 
 import javax.swing.JOptionPane;
 import org.example.administracao.*;
+import org.example.estadioArbitragem.Arbitro;
 
 /**
  *
@@ -101,6 +102,7 @@ public class TelaUsuario extends javax.swing.JFrame {
         caixaFuncao.addItem(new Administrador());
         caixaFuncao.addItem(new Organizador());
         caixaFuncao.addItem(new Operador());
+        caixaFuncao.addItem(new Arbitro());
         caixaFuncao.addActionListener(this::caixaFuncaoActionPerformed);
 
         caixaStatus.addItem(Usuario.StatusUsuario.ATIVO);

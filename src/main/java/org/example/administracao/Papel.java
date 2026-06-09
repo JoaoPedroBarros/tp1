@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.util.List;
 import java.util.Objects;
+import org.example.estadioArbitragem.Arbitro;
 
 /**
  *
@@ -36,7 +37,8 @@ import java.util.Objects;
 @JsonSubTypes({
     @JsonSubTypes.Type(value = Administrador.class, name = "ADMINISTRADOR"),
     @JsonSubTypes.Type(value = Organizador.class, name = "ORGANIZADOR"),
-    @JsonSubTypes.Type(value = Operador.class, name = "OPERADOR")
+    @JsonSubTypes.Type(value = Operador.class, name = "OPERADOR"),
+    @JsonSubTypes.Type(value = Arbitro.class, name = "ARBITRO")
 })
 public abstract class Papel {
     

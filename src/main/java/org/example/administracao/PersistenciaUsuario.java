@@ -58,13 +58,15 @@ public class PersistenciaUsuario {
         }
     }
     
-    public void salvarPersistencia() {
+    public boolean salvarPersistencia() {
         try {
             mapper.writeValue(arquivoUsuarios, mapUsuarios);
+            return true;
         }
                 
         catch (IOException e) {
             System.err.println("Erro ao salvar dados no arquivo");
+            return false;
         }
     }
 

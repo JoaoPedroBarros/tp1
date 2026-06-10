@@ -230,7 +230,10 @@ public class TelaUsuario extends javax.swing.JFrame {
     private void botaoSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSalvarActionPerformed
         Usuario usuarioSalvar = new Usuario(inputNome.getText(), inputID.getText(), inputEmail.getText(), inputPais.getText(), inputSenha.getText(), (Usuario.StatusUsuario) caixaStatus.getSelectedItem(), (Papel) caixaFuncao.getSelectedItem());
         persistenciaUsuario.getMapUsuarios().put(usuarioSalvar.getIdentificacao(), usuarioSalvar);
-        persistenciaUsuario.salvarPersistencia();
+        if (persistenciaUsuario.salvarPersistencia()) JOptionPane.showMessageDialog(rootPane, usuarioSalvar.getNome() + " foi editado com sucesso!");
+        else JOptionPane.showMessageDialog(rootPane, usuarioSalvar.getNome() + "não pôde ser editado.");
+        this.dispose();
+        
     }//GEN-LAST:event_botaoSalvarActionPerformed
 
     private void botaoExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoExcluirActionPerformed

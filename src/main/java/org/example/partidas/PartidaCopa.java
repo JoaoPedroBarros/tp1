@@ -1,8 +1,9 @@
 package org.example.partidas;
 
+import org.example.administracao.Permissao;
 import org.example.jogadorselecao.Selecao;
 
-public class PartidaCopa {
+public class PartidaCopa extends Permissao {
 
     private int numero;
 
@@ -135,5 +136,10 @@ public class PartidaCopa {
 
     public void setVencedor(String vencedor) {
         this.vencedor = vencedor;
+    }
+
+    @Override
+    public String getNome() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

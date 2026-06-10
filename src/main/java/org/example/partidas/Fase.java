@@ -1,8 +1,9 @@
 package org.example.partidas;
 
 import java.util.List;
+import org.example.administracao.Permissao;
 
-public abstract class Fase {
+public abstract class Fase extends Permissao {
 
     protected String arquivoPartidas;
 
@@ -50,5 +51,63 @@ public abstract class Fase {
     public abstract List<PartidaCopa> listarPartidas()
             throws Exception;
     
+    public String mostrarPartidas() throws Exception {
+
+        StringBuilder sb = new StringBuilder();
+
+        for (PartidaCopa p : listarPartidas()) {
+
+            sb.append("Partida ")
+              .append(p.getNumero())
+              .append("\n");
+
+            sb.append(p.getSelecao1().getPais())
+              .append(" ");
+
+            sb.append(
+                    p.getGolsSelecao1() == null
+                    ? "-"
+                    : p.getGolsSelecao1());
+
+            sb.append(" x ");
+
+            sb.append(
+                    p.getGolsSelecao2() == null
+                    ? "-"
+                    : p.getGolsSelecao2());
+
+            sb.append(" ");
+
+            sb.append(
+                    p.getSelecao2().getPais());
+
+            sb.append("\n");
+
+            if (p.getVencedor() != null) {
+
+                sb.append("Vencedor: ")
+                  .append(p.getVencedor())
+                  .append("\n");
+            }
+
+            sb.append("\n");
+        }
+
+        return sb.toString();
+    }
+    
+    public PartidaCopa buscarPartida(int numero) throws Exception {
+
+        for (PartidaCopa p :
+                listarPartidas()) {
+
+            if (p.getNumero() == numero) {
+
+                return p;
+            }
+        }
+
+        return null;
+    }
     
 }

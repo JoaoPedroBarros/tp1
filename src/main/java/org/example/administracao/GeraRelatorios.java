@@ -4,7 +4,9 @@
  */
 package org.example.administracao;
 
+import java.io.IOException;
 import java.util.Map;
+import org.apache.pdfbox.pdmodel.PDDocument;
 
 /**
  *
@@ -27,5 +29,17 @@ public class GeraRelatorios extends Permissao {
         }
         
         return resultado;
+    }
+    
+    static public void geraPDF() {
+        PDDocument document = new PDDocument();
+        
+        try {
+            document.save("Src/");
+        }
+        
+        catch (IOException e) {
+            System.out.println("Erro no pdf");
+        }
     }
 }

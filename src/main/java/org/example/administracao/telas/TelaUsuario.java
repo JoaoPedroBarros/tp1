@@ -37,7 +37,14 @@ public class TelaUsuario extends javax.swing.JFrame {
         inputPais.setText(usuario.getPais());
         inputSenha.setText(usuario.getSenha());
         caixaFuncao.setSelectedItem(usuario.getPapel());
-        caixaStatus.setSelectedItem(usuario.getStatus());  
+        caixaStatus.setSelectedItem(usuario.getStatus());
+        
+        Papel papel = usuario.getPapel();
+        
+        if (papel instanceof Arbitro arbitro) {
+            caixaExperiencia.setSelectedIndex(arbitro.getExperiencia() - 1);
+        }
+        
     }
 
     /**
@@ -66,6 +73,8 @@ public class TelaUsuario extends javax.swing.JFrame {
         inputSenha = new javax.swing.JTextField();
         caixaFuncao = new javax.swing.JComboBox<>();
         caixaStatus = new javax.swing.JComboBox<>();
+        caixaExperiencia = new javax.swing.JComboBox<>();
+        textoExperiencia = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -109,6 +118,10 @@ public class TelaUsuario extends javax.swing.JFrame {
         caixaStatus.addItem(Usuario.StatusUsuario.AFASTADO);
         caixaStatus.addItem(Usuario.StatusUsuario.DESLIGADO);
 
+        caixaExperiencia.setModel(new javax.swing.DefaultComboBoxModel<>(new Integer[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}));
+
+        textoExperiencia.setText("Experiência");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -116,47 +129,37 @@ public class TelaUsuario extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(jLabel3))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(textoNome)))
-                        .addGap(59, 59, 59)
-                        .addComponent(inputNome, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel3))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(textoNome))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(botaoSalvar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(botaoExcluir))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(textoStatus)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(caixaStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(textoFuncao)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(caixaFuncao, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(textoPais)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(inputPais, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(textoSenha)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(inputSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(textoEmail)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(inputEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(textoID)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(inputID, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                            .addComponent(textoExperiencia)
+                            .addComponent(textoStatus)
+                            .addComponent(textoFuncao)
+                            .addComponent(textoPais)
+                            .addComponent(textoSenha)
+                            .addComponent(textoEmail)
+                            .addComponent(textoID))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(caixaExperiencia, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(inputPais, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(inputID, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(inputEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(inputNome, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(inputSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(caixaFuncao, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(caixaStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(103, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(botaoSalvar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(botaoExcluir)
                 .addContainerGap(75, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -193,7 +196,11 @@ public class TelaUsuario extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(textoStatus)
                     .addComponent(caixaStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(82, 82, 82)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(caixaExperiencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textoExperiencia))
+                .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botaoSalvar)
                     .addComponent(botaoExcluir))
@@ -224,13 +231,29 @@ public class TelaUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_inputSenhaActionPerformed
 
     private void caixaFuncaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_caixaFuncaoActionPerformed
-        // TODO add your handling code here:
+        Papel papel = (Papel) caixaFuncao.getSelectedItem();
+        
+        if (papel instanceof Arbitro) {
+            caixaExperiencia.setVisible(true);
+            textoExperiencia.setVisible(true);
+        }
+        
+        else {
+            caixaExperiencia.setVisible(false);
+            textoExperiencia.setVisible(false);
+        }
     }//GEN-LAST:event_caixaFuncaoActionPerformed
 
     private void botaoSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSalvarActionPerformed
         Usuario usuarioSalvar = new Usuario(inputNome.getText(), inputID.getText(), inputEmail.getText(), inputPais.getText(), inputSenha.getText(), (Usuario.StatusUsuario) caixaStatus.getSelectedItem(), (Papel) caixaFuncao.getSelectedItem());
+        if (usuarioSalvar.getPapel() instanceof Arbitro arbitro) {
+            arbitro.setExperiencia((int) caixaExperiencia.getSelectedItem());
+        } 
         persistenciaUsuario.getMapUsuarios().put(usuarioSalvar.getIdentificacao(), usuarioSalvar);
-        persistenciaUsuario.salvarPersistencia();
+        if (persistenciaUsuario.salvarPersistencia()) JOptionPane.showMessageDialog(rootPane, usuarioSalvar.getNome() + " foi editado com sucesso!");
+        else JOptionPane.showMessageDialog(rootPane, usuarioSalvar.getNome() + "não pôde ser editado.");
+        this.dispose();
+        
     }//GEN-LAST:event_botaoSalvarActionPerformed
 
     private void botaoExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoExcluirActionPerformed
@@ -270,6 +293,7 @@ public class TelaUsuario extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoExcluir;
     private javax.swing.JButton botaoSalvar;
+    private javax.swing.JComboBox<Integer> caixaExperiencia;
     private javax.swing.JComboBox<Papel> caixaFuncao;
     private javax.swing.JComboBox<Usuario.StatusUsuario> caixaStatus;
     private javax.swing.JTextField inputEmail;
@@ -279,6 +303,7 @@ public class TelaUsuario extends javax.swing.JFrame {
     private javax.swing.JTextField inputSenha;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel textoEmail;
+    private javax.swing.JLabel textoExperiencia;
     private javax.swing.JLabel textoFuncao;
     private javax.swing.JLabel textoID;
     private javax.swing.JLabel textoNome;

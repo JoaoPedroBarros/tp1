@@ -64,26 +64,42 @@
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="textoNome" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="textoEmail" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
                                       <Component id="textoTipoUsuario" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="caixaTipoUsuario" min="-2" max="-2" attributes="0"/>
-                                          <Component id="inputNome" linkSize="1" alignment="0" pref="300" max="32767" attributes="0"/>
-                                          <Component id="inputEmail" linkSize="1" alignment="0" pref="300" max="32767" attributes="0"/>
-                                          <Component id="inputPais" linkSize="1" alignment="0" min="-2" pref="300" max="-2" attributes="0"/>
-                                          <Component id="inputSenha" linkSize="1" alignment="0" min="-2" pref="300" max="-2" attributes="0"/>
+                                          <Component id="textoStatus" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="botaoSalvarUsuario" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="textoExperiencia" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="inputNome" linkSize="1" alignment="0" pref="300" max="32767" attributes="0"/>
+                                  <Component id="inputEmail" linkSize="1" alignment="0" pref="300" max="32767" attributes="0"/>
+                                  <Component id="inputPais" linkSize="1" alignment="0" min="-2" pref="300" max="-2" attributes="0"/>
+                                  <Component id="inputSenha" linkSize="1" alignment="0" min="-2" pref="300" max="-2" attributes="0"/>
+                                  <Component id="caixaTipoUsuario" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="caixaStatusUsuario" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="caixaExperiencia" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="130" pref="130" max="-2" attributes="0"/>
+                              <Component id="botaoFechar" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="textoPais" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                              <Component id="textoEmail" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                              <Component id="textoNome" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
@@ -91,15 +107,7 @@
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="textoStatus" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="botaoSalvarUsuario" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="botaoFechar" min="-2" max="-2" attributes="0"/>
-                                  <Component id="caixaStatusUsuario" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="textoPais" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace pref="295" max="32767" attributes="0"/>
@@ -141,10 +149,15 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="textoExperiencia" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="caixaExperiencia" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="botaoSalvarUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="botaoFechar" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="235" max="32767" attributes="0"/>
+                      <EmptySpace pref="180" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -225,6 +238,24 @@
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="caixaStatusUsuario.addItem(Usuario.StatusUsuario.ATIVO);&#xa;caixaStatusUsuario.addItem(Usuario.StatusUsuario.AFASTADO);&#xa;caixaStatusUsuario.addItem(Usuario.StatusUsuario.DESLIGADO);"/>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Usuario.StatusUsuario&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JLabel" name="textoExperiencia">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Experi&#xea;ncia:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="caixaExperiencia">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new Integer[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 })" type="code"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="caixaExperienciaActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Integer&gt;"/>
               </AuxValues>
             </Component>
           </SubComponents>
@@ -413,7 +444,7 @@
             </Container>
             <Component class="javax.swing.JComboBox" name="caixaCheckFuncao">
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="caixaCheckFuncao.addItem(null);&#xa;caixaCheckFuncao.addItem(new Administrador());&#xa;caixaCheckFuncao.addItem(new Organizador());&#xa;caixaCheckFuncao.addItem(new Operador());"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="caixaCheckFuncao.addItem(null);&#xa;caixaCheckFuncao.addItem(new Administrador());&#xa;caixaCheckFuncao.addItem(new Organizador());&#xa;caixaCheckFuncao.addItem(new Operador());&#xa;caixaCheckFuncao.addItem(new Arbitro());"/>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Papel&gt;"/>
               </AuxValues>
             </Component>

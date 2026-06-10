@@ -20,6 +20,7 @@ import org.example.partidas.telas.*;
 import org.example.ingressos.*;
 import org.example.jogadorselecao.persistencia.IOJogador;
 import org.example.jogadorselecao.persistencia.IOSelecao;
+import org.example.partidas.PartidaCopa;
 
 
 /**
@@ -57,6 +58,10 @@ public class TelaInicial extends javax.swing.JFrame {
         
         if (supplierPermissoes.get().anyMatch(u -> u instanceof OrganizaEstadio) && supplierPermissoes.get().anyMatch(u -> u instanceof DesignacaoArbitro)) {
             menuEstadioArbitragem.setEnabled(true);
+        }
+        
+        if (supplierPermissoes.get().anyMatch(u -> u instanceof PartidaCopa)) {
+            menuPartidas.setEnabled(true);
         }
         
         

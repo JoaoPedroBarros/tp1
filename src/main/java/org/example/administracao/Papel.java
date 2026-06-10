@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.util.List;
+import java.util.Objects;
+import org.example.estadioArbitragem.Arbitro;
 
 /**
  *
@@ -35,7 +37,8 @@ import java.util.List;
 @JsonSubTypes({
     @JsonSubTypes.Type(value = Administrador.class, name = "ADMINISTRADOR"),
     @JsonSubTypes.Type(value = Organizador.class, name = "ORGANIZADOR"),
-    @JsonSubTypes.Type(value = Operador.class, name = "OPERADOR")
+    @JsonSubTypes.Type(value = Operador.class, name = "OPERADOR"),
+    @JsonSubTypes.Type(value = Arbitro.class, name = "ARBITRO")
 })
 public abstract class Papel {
     
@@ -47,4 +50,27 @@ public abstract class Papel {
     
     public Papel() {} // construtor padrao para o Jackson
 
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 89 * hash + Objects.hashCode(this.nomePapel);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Papel other = (Papel) obj;
+        return Objects.equals(this.nomePapel, other.nomePapel);
+    }
+
+    
 }

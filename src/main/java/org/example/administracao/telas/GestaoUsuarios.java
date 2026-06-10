@@ -4,6 +4,7 @@
  */
 package org.example.administracao.telas;
 
+import org.example.estadioArbitragem.Arbitro;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -135,6 +136,7 @@ public class GestaoUsuarios extends javax.swing.JFrame {
         caixaTipoUsuario.addItem(new Administrador());
         caixaTipoUsuario.addItem(new Organizador());
         caixaTipoUsuario.addItem(new Operador());
+        caixaTipoUsuario.addItem(new Arbitro());
         caixaTipoUsuario.addActionListener(this::caixaTipoUsuarioActionPerformed);
 
         caixaStatusUsuario.addItem(Usuario.StatusUsuario.ATIVO);
@@ -244,7 +246,17 @@ public class GestaoUsuarios extends javax.swing.JFrame {
         botaoLista.addActionListener(this::botaoListaActionPerformed);
 
         scrollUsuarios.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                scrollUsuariosMouseClicked(evt);
+            }
+        });
 
+        tabelaUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaUsuariosMouseClicked(evt);
+            }
+        });
         scrollUsuarios.setViewportView(tabelaUsuarios);
 
         caixaCheckFuncao.addItem(null);
@@ -434,6 +446,26 @@ public class GestaoUsuarios extends javax.swing.JFrame {
     private void caixaStatusUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_caixaStatusUsuarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_caixaStatusUsuarioActionPerformed
+
+    private void scrollUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_scrollUsuariosMouseClicked
+
+    }//GEN-LAST:event_scrollUsuariosMouseClicked
+
+    private void tabelaUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaUsuariosMouseClicked
+        if (evt.getClickCount() == 1) {
+            int linhaSelecionada = tabelaUsuarios.getSelectedRow();
+            
+            if (linhaSelecionada != -1) {
+                String id = tabelaUsuarios.getValueAt(linhaSelecionada, 1).toString();
+                
+                SwingUtilities.invokeLater(() -> {
+                    TelaUsuario janelaUsuario = new TelaUsuario(id, persistenciaUsuario);
+                    janelaUsuario.setVisible(true);
+                    janelaUsuario.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                });    
+            }    
+        }
+    }//GEN-LAST:event_tabelaUsuariosMouseClicked
 
     /**
      * @param args the command line arguments

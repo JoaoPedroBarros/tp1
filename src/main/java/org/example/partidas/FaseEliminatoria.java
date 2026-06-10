@@ -8,7 +8,7 @@ import java.util.List;
 
 public abstract class FaseEliminatoria extends Fase {
 
-    @Override
+        @Override
     public void criarPartida(
             PartidaCopa partida)
             throws Exception {
@@ -89,6 +89,18 @@ public abstract class FaseEliminatoria extends Fase {
     public void gerarClassificados()
             throws Exception {
 
-        // grava vencedores para próxima fase
+        List<String> classificados =
+                new ArrayList<>();
+
+        for (PartidaCopa p :
+                listarPartidas()) {
+
+            classificados.add(
+                    p.getVencedor());
+        }
+
+        JsonUtil.salvar(
+                arquivoClassificados,
+                classificados);
     }
 }

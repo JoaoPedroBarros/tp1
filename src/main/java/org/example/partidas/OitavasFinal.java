@@ -13,4 +13,9 @@ public class OitavasFinal extends FaseEliminatoria {
                 "classificados_quartas.json";
     }
 
+    @Override
+    public String getNome() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }

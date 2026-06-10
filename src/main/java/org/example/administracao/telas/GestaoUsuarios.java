@@ -42,6 +42,8 @@ public class GestaoUsuarios extends javax.swing.JFrame {
         initComponents();
         
         desabilitaInputPesquisa();
+        caixaExperiencia.setVisible(false);
+        textoExperiencia.setVisible(false);
     }
     
     private void preencheTabela(List<Usuario> listaUsuario) {
@@ -69,7 +71,6 @@ public class GestaoUsuarios extends javax.swing.JFrame {
         checkInputPais.setEnabled(false);
     }
     
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -97,6 +98,8 @@ public class GestaoUsuarios extends javax.swing.JFrame {
         botaoFechar = new javax.swing.JButton();
         caixaTipoUsuario = new javax.swing.JComboBox<>();
         caixaStatusUsuario = new javax.swing.JComboBox<>();
+        textoExperiencia = new javax.swing.JLabel();
+        caixaExperiencia = new javax.swing.JComboBox<>();
         painelPesquisaUsuario = new javax.swing.JPanel();
         checkNome = new javax.swing.JCheckBox();
         checkInputNome = new javax.swing.JTextField();
@@ -144,6 +147,11 @@ public class GestaoUsuarios extends javax.swing.JFrame {
         caixaStatusUsuario.addItem(Usuario.StatusUsuario.DESLIGADO);
         caixaStatusUsuario.addActionListener(this::caixaStatusUsuarioActionPerformed);
 
+        textoExperiencia.setText("Experiência:");
+
+        caixaExperiencia.setModel(new javax.swing.DefaultComboBoxModel<>(new Integer[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }));
+        caixaExperiencia.addActionListener(this::caixaExperienciaActionPerformed);
+
         javax.swing.GroupLayout painelCadastraUsuarioLayout = new javax.swing.GroupLayout(painelCadastraUsuario);
         painelCadastraUsuario.setLayout(painelCadastraUsuarioLayout);
         painelCadastraUsuarioLayout.setHorizontalGroup(
@@ -151,34 +159,40 @@ public class GestaoUsuarios extends javax.swing.JFrame {
             .addGroup(painelCadastraUsuarioLayout.createSequentialGroup()
                 .addGroup(painelCadastraUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(painelCadastraUsuarioLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
                         .addGroup(painelCadastraUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(textoNome)
-                            .addComponent(textoEmail)
                             .addGroup(painelCadastraUsuarioLayout.createSequentialGroup()
-                                .addComponent(textoTipoUsuario)
-                                .addGap(23, 23, 23)
+                                .addGap(6, 6, 6)
+                                .addComponent(textoTipoUsuario))
+                            .addGroup(painelCadastraUsuarioLayout.createSequentialGroup()
+                                .addContainerGap()
                                 .addGroup(painelCadastraUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(caixaTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(inputNome, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                                    .addComponent(inputEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                                    .addComponent(inputPais, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(inputSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(textoStatus)
+                                    .addComponent(botaoSalvarUsuario)
+                                    .addComponent(textoExperiencia))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(painelCadastraUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(inputNome, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                            .addComponent(inputEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                            .addComponent(inputPais, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(inputSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(caixaTipoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(caixaStatusUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(caixaExperiencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(painelCadastraUsuarioLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(textoPais))
+                        .addGap(130, 130, 130)
+                        .addComponent(botaoFechar))
+                    .addGroup(painelCadastraUsuarioLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(textoEmail))
+                    .addGroup(painelCadastraUsuarioLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(textoNome))
                     .addGroup(painelCadastraUsuarioLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(textoSenha))
                     .addGroup(painelCadastraUsuarioLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(painelCadastraUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(textoStatus)
-                            .addComponent(botaoSalvarUsuario))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(painelCadastraUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(botaoFechar)
-                            .addComponent(caixaStatusUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(textoPais)))
                 .addContainerGap(295, Short.MAX_VALUE))
         );
 
@@ -213,9 +227,13 @@ public class GestaoUsuarios extends javax.swing.JFrame {
                     .addComponent(caixaStatusUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(painelCadastraUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textoExperiencia)
+                    .addComponent(caixaExperiencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
+                .addGroup(painelCadastraUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botaoSalvarUsuario)
                     .addComponent(botaoFechar))
-                .addContainerGap(235, Short.MAX_VALUE))
+                .addContainerGap(180, Short.MAX_VALUE))
         );
 
         painelCadastraUsuarioLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {inputEmail, inputNome, inputPais, inputSenha});
@@ -263,6 +281,7 @@ public class GestaoUsuarios extends javax.swing.JFrame {
         caixaCheckFuncao.addItem(new Administrador());
         caixaCheckFuncao.addItem(new Organizador());
         caixaCheckFuncao.addItem(new Operador());
+        caixaCheckFuncao.addItem(new Arbitro());
 
         javax.swing.GroupLayout painelPesquisaUsuarioLayout = new javax.swing.GroupLayout(painelPesquisaUsuario);
         painelPesquisaUsuario.setLayout(painelPesquisaUsuarioLayout);
@@ -359,7 +378,14 @@ public class GestaoUsuarios extends javax.swing.JFrame {
         String senha = new String(inputSenha.getPassword());
         String pais = inputPais.getText();
         Papel papel = (Papel) caixaTipoUsuario.getSelectedItem();
+        
         Usuario.StatusUsuario status = (Usuario.StatusUsuario) caixaStatusUsuario.getSelectedItem();
+        
+        if (papel instanceof Arbitro arbitro) {
+            Integer experiencia = (Integer) caixaExperiencia.getSelectedItem();
+            
+            arbitro.setExperiencia(experiencia);   
+        }
         
         Usuario usuarioCadastro = new Usuario(nome, id, email, pais, senha, status, papel);
         
@@ -440,7 +466,17 @@ public class GestaoUsuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_checkNomeActionPerformed
 
     private void caixaTipoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_caixaTipoUsuarioActionPerformed
-        // TODO add your handling code here:
+        Papel papel = (Papel) caixaTipoUsuario.getSelectedItem();
+        
+        if (papel instanceof Arbitro) {
+            caixaExperiencia.setVisible(true);
+            textoExperiencia.setVisible(true);
+        }
+        
+        else {
+            caixaExperiencia.setVisible(false);
+            textoExperiencia.setVisible(false);
+        }
     }//GEN-LAST:event_caixaTipoUsuarioActionPerformed
 
     private void caixaStatusUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_caixaStatusUsuarioActionPerformed
@@ -466,6 +502,10 @@ public class GestaoUsuarios extends javax.swing.JFrame {
             }    
         }
     }//GEN-LAST:event_tabelaUsuariosMouseClicked
+
+    private void caixaExperienciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_caixaExperienciaActionPerformed
+        
+    }//GEN-LAST:event_caixaExperienciaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -498,6 +538,7 @@ public class GestaoUsuarios extends javax.swing.JFrame {
     private javax.swing.JButton botaoPesquisa;
     private javax.swing.JButton botaoSalvarUsuario;
     private javax.swing.JComboBox<Papel> caixaCheckFuncao;
+    private javax.swing.JComboBox<Integer> caixaExperiencia;
     private javax.swing.JComboBox<Usuario.StatusUsuario> caixaStatusUsuario;
     private javax.swing.JComboBox<Papel> caixaTipoUsuario;
     private javax.swing.JCheckBox checkEmail;
@@ -521,6 +562,7 @@ public class GestaoUsuarios extends javax.swing.JFrame {
     private javax.swing.JScrollPane scrollUsuarios;
     private javax.swing.JTable tabelaUsuarios;
     private javax.swing.JLabel textoEmail;
+    private javax.swing.JLabel textoExperiencia;
     private javax.swing.JLabel textoNome;
     private javax.swing.JLabel textoPais;
     private javax.swing.JLabel textoSenha;

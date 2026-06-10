@@ -54,7 +54,7 @@ public final class Selecao {
         return grupo;
     }
 
-    public final void setGrupo(String grupo) {
+    public final void setGrupo(String grupo) throws IllegalArgumentException{
         if (grupo.length() > 1 || grupo.isEmpty() || grupo.isBlank() || !Character.isUpperCase(grupo.charAt(0))){
             throw new IllegalArgumentException("O grupo deve ser uma letra maiúscula.");
         }

@@ -72,8 +72,8 @@ public class IOSelecao extends Permissao{
     }
     
     //Append jogadores no arquivo jogadores.jsonl
-    public static boolean appendSelecao(Selecao selecao){
-        if (containsSelecao(selecao) != -1){return false;}
+    public static void appendSelecao(Selecao selecao) throws IOException{
+        if (containsSelecao(selecao) != -1){return;}
         
         ObjectMapper mapper = new ObjectMapper();          // Instancia Mapeamento padrao da biblioteca Jackson
         mapper.configure(JsonGenerator.Feature.AUTO_CLOSE_TARGET, false);
@@ -81,9 +81,8 @@ public class IOSelecao extends Permissao{
         try (FileOutputStream os = new FileOutputStream("src/main/resources/selecoes.jsonl", true)) {
             mapper.writeValue(os, selecao);
             os.write("\n".getBytes());
-            return true;
         } catch (IOException e) {
-           return false;
+            throw new IOException("Não foi possível atualizar o registro.");
         }
     }
     

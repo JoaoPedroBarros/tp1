@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -351,7 +352,6 @@ public class CadastroSelecao extends javax.swing.JPanel {
        
        //Da vinculação da nova equipe
        //Precisa de garantir a atomicidade do procedimento abaixo. Está na gambiarra
-       boolean wasSelecaoSuccessful = false;
        try{
             List<Jogador> selecionados = IOJogador.getMult(indicesRefRegisto); //Resgata jogadores do registro
             
@@ -363,11 +363,11 @@ public class CadastroSelecao extends javax.swing.JPanel {
                                           selecionados); //Instancia a selecao
             if(isEditing){
                 PersistenciaDeDados.insert(tecnico, indiceTecnico.getFirst()); //Adiciona tecnico ao registro
-                wasSelecaoSuccessful = PersistenciaDeDados.insert(selecao, indice); //Adiciona selecao ao registro selecoes.jsonl //Implementar insertSelecao
+                PersistenciaDeDados.insert(selecao, indice); //Adiciona selecao ao registro selecoes.jsonl //Implementar insertSelecao
             }
             else{
                 IOTecnico.appendTecnico(tecnico); //Adiciona tecnico ao registro
-                wasSelecaoSuccessful = IOSelecao.appendSelecao(selecao); //Adiciona selecao ao registro selecoes.jsonl               
+                IOSelecao.appendSelecao(selecao); //Adiciona selecao ao registro selecoes.jsonl               
             }
 
             
@@ -375,15 +375,8 @@ public class CadastroSelecao extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Operação realizada com sucesso");
             SwingUtilities.getWindowAncestor(this).dispose();
         }
-        catch(ElementoDuplicado | IllegalArgumentException | IOException e){
+        catch(NoSuchElementException | ElementoDuplicado | IllegalArgumentException | IOException e){
             JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO!", JOptionPane.ERROR_MESSAGE);
-            if(!wasSelecaoSuccessful){
-                try {
-                    IOTecnico.deleteTecnico(txtInputTecnico.getText());
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(null, ex.getMessage() + "\n Integridade do registro comprometida.", "ERRO!", JOptionPane.ERROR_MESSAGE);
-                }
-            }
         }
     }//GEN-LAST:event_botaoSalvarActionPerformed
 

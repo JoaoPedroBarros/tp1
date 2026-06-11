@@ -19,7 +19,6 @@ public class AdministraUsuario extends Permissao {
     // todos os metodos serao booleanos para retornar o resultado da operacao
     // a verificacao de permissao estara nas telas, segundo o RBAC. Isso evita compilacao ciclica
     
-    public static String USUARIOS_FILE_PATH =  "abc";
     
     @Override
     public String getNome() {

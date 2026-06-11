@@ -4,6 +4,12 @@
  */
 package org.example.administracao.telas;
 
+import java.util.List;
+import org.example.administracao.AdministraUsuario;
+import org.example.administracao.GeraRelatorios;
+import org.example.administracao.PersistenciaUsuario;
+import org.example.administracao.Usuario;
+
 /**
  *
  * @author arkham
@@ -11,11 +17,14 @@ package org.example.administracao.telas;
 public class Relatorios extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Relatorios.class.getName());
+    PersistenciaUsuario persistencia;
 
     /**
      * Creates new form Relatorios
+     * @param persistencia - referencia para o arquivo de usuarios
      */
-    public Relatorios() {
+    public Relatorios(PersistenciaUsuario persistencia) {
+        this.persistencia = persistencia;
         initComponents();
     }
 
@@ -46,7 +55,7 @@ public class Relatorios extends javax.swing.JFrame {
         jTextField7 = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jTextField8 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        pdfUsuarios = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jTextField9 = new javax.swing.JTextField();
@@ -134,7 +143,8 @@ public class Relatorios extends javax.swing.JFrame {
         jTextField8.setEditable(false);
         jTextField8.setText("0");
 
-        jButton1.setText("Baixar arquivo detalhado...");
+        pdfUsuarios.setText("Baixar arquivo detalhado...");
+        pdfUsuarios.addActionListener(this::pdfUsuariosActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -177,7 +187,7 @@ public class Relatorios extends javax.swing.JFrame {
                         .addComponent(jLabel6))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton1)))
+                        .addComponent(pdfUsuarios)))
                 .addContainerGap(316, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -216,7 +226,7 @@ public class Relatorios extends javax.swing.JFrame {
                     .addComponent(jLabel8)
                     .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(pdfUsuarios)
                 .addGap(51, 51, 51))
         );
 
@@ -560,6 +570,13 @@ public class Relatorios extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void pdfUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pdfUsuariosActionPerformed
+        List<Usuario> listaUsuarios = AdministraUsuario.listaUsuario(persistencia);
+        
+        GeraRelatorios geraRelatorio = new GeraRelatorios(persistencia);
+        geraRelatorio.geraRelatorioUsuario(listaUsuarios);
+    }//GEN-LAST:event_pdfUsuariosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -582,11 +599,10 @@ public class Relatorios extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new Relatorios().setVisible(true));
+        //java.awt.EventQueue.invokeLater(() -> new Relatorios().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -622,7 +638,6 @@ public class Relatorios extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
@@ -650,5 +665,6 @@ public class Relatorios extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JButton pdfUsuarios;
     // End of variables declaration//GEN-END:variables
 }

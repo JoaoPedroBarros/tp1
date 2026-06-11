@@ -4,9 +4,21 @@
  */
 package org.example.administracao;
 
-import java.io.IOException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import org.apache.pdfbox.pdmodel.PDDocument;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.example.estadioArbitragem.Arbitro;
+
 
 /**
  *
@@ -19,27 +31,93 @@ public class GeraRelatorios extends Permissao {
         return "GERA_RELATORIOS";
     }
     
-    /*static public int contaUsuariosTotal(PersistenciaUsuario persistenciaUsuario) {        
+    PersistenciaUsuario persistencia;
+    
+    public GeraRelatorios(PersistenciaUsuario persistencia) {
+        this.persistencia = persistencia;
+    }
+    
+    private Map<String, Integer> contaUsuariosTotal(PersistenciaUsuario persistenciaUsuario) {
         Map<String, Usuario> mapUsuarios = persistenciaUsuario.getMapUsuarios();
         
-        int resultado = 0;
+        int[] atualizaVetor = {0,0,0,0,0,0,0,0};
+        
         
         for (Map.Entry<String, Usuario> entry : mapUsuarios.entrySet()) {
-            resultado++;
+            Papel papel = entry.getValue().getPapel();
+            Usuario.StatusUsuario status = entry.getValue().getStatus();
+            
+            
+            if (papel instanceof Administrador) {
+                atualizaVetor[0]++;
+            }
+            
+            else if (papel instanceof Organizador) {
+                atualizaVetor[1]++;
+            }
+            
+            else if (papel instanceof Arbitro) {
+                atualizaVetor[2]++;
+            }
+            
+            else if (papel instanceof Operador) {
+                atualizaVetor[3]++;
+            }
+            
+            if (null != status) switch (status) {
+                case ATIVO -> atualizaVetor[4]++;
+                case AFASTADO -> atualizaVetor[5]++;
+                case DESLIGADO -> atualizaVetor[6]++;
+            }
+            
+            atualizaVetor[7]++;    
         }
         
-        return resultado;
-    } */
+        Map<String, Integer> parametros = Map.of("numAdministradores", atualizaVetor[0], "numOrganizadores", atualizaVetor[1], "numArbitros", atualizaVetor[2], "numOperadores", atualizaVetor[3],
+                                                  "numAtivos", atualizaVetor[4], "numAfastados", atualizaVetor[5], "numDesligados", atualizaVetor[6], "numTotal", atualizaVetor[7]);
+        
+        return parametros;
+        
+    }
     
-    static public void geraPDF() {
-        PDDocument document = new PDDocument();
-        
+    public void geraRelatorioUsuario(List<Usuario> listaUsuarios) {
         try {
-            document.save("Src/");
-        }
-        
-        catch (IOException e) {
-            System.out.println("Erro no pdf");
+            System.out.println(1);
+            
+            File file = new File("src/main/resources/relatorioUsuarios.jrxml");
+            
+            try{
+                InputStream layoutRelatorio = new FileInputStream(file);
+                
+            
+                System.out.println(2);
+                JasperReport jasperReport = JasperCompileManager.compileReport(layoutRelatorio);
+
+                System.out.println(3);
+                JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(listaUsuarios);
+
+                Map<String, Object> parametros = new HashMap<>(contaUsuariosTotal(persistencia));
+
+                System.out.println(4);
+                JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, dataSource);
+
+                System.out.println(5);
+                JasperExportManager.exportReportToPdfFile(jasperPrint, "relatorioUsuarios.pdf");     
+            }
+            
+            catch (FileNotFoundException e) {
+                System.out.println("arquivo nao encontrado");
+            }
+                   
+            } catch (net.sf.jasperreports.engine.JRException e) {
+                System.err.println("--- DETALHES DO ERRO NO FILL REPORT ---");
+                // O getCause() vai direto na ferida e te mostra o erro original do Java
+                if (e.getCause() != null) {
+                    System.err.println("Causa real: " + e.getCause().getMessage());
+                    e.getCause().printStackTrace();
+                } else {
+                    e.printStackTrace();
+            }
         }
     }
 }

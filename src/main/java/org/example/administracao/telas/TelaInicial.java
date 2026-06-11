@@ -202,7 +202,7 @@ public class TelaInicial extends javax.swing.JFrame {
 
     private void relatoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relatoriosActionPerformed
         SwingUtilities.invokeLater(() -> {
-            Relatorios janelaRelatorios = new Relatorios();
+            Relatorios janelaRelatorios = new Relatorios(persistenciaUsuario);
             janelaRelatorios.setVisible(true);
             janelaRelatorios.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         });

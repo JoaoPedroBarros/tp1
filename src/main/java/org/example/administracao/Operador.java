@@ -12,9 +12,14 @@ import java.util.List;
  */
 public class Operador extends Papel {
     
+    
+    public Operador() {
+        this.nomePapel = "OPERADOR";
+    }
+    
     @Override
     public String getNomePapel() {
-        return "Operador";
+        return nomePapel;
     }
     
     @Override

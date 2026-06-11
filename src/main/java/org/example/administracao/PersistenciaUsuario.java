@@ -8,7 +8,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,7 +28,7 @@ public class PersistenciaUsuario {
     private Map<String, Usuario> mapUsuarios; // hash map onde os usuarios serao armazenados
     
     public PersistenciaUsuario() {
-        this.arquivoUsuarios = new File("usuarios_ext.json"); 
+        this.arquivoUsuarios = new File("src/main/resources/usuarios.json"); 
         this.mapper = new ObjectMapper();
         this.mapUsuarios = new HashMap<>();
         
@@ -38,20 +37,8 @@ public class PersistenciaUsuario {
     
     private void carregarDados() {
         try {
-            if (arquivoUsuarios.exists()) {
-                mapUsuarios = mapper.readValue(arquivoUsuarios, new TypeReference<Map<String, Usuario>>(){});
-            }
-            
-            else {
-                try (InputStream is = PersistenciaUsuario.class.getResourceAsStream("/usuarios.json")) {
-                    if (is != null) {
-                        mapUsuarios = mapper.readValue(is, new TypeReference<Map<String, Usuario>>(){});
-                    }
-                }
-                salvarPersistencia();
-            }
+            mapUsuarios = mapper.readValue(arquivoUsuarios, new TypeReference<Map<String, Usuario>>(){});
         }
-        
         catch (IOException e) {
             System.err.println("Erro ao carregar persistência de usuários");
             System.err.println(e.getMessage());

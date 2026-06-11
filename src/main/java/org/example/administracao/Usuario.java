@@ -7,6 +7,8 @@ public class Usuario {
         ATIVO, AFASTADO, DESLIGADO
     }
     
+    public static int idController = 0;
+    
     protected String nome;
     protected String identificacao;
     protected String email;

@@ -251,7 +251,7 @@ public class TelaUsuario extends javax.swing.JFrame {
         } 
         persistenciaUsuario.getMapUsuarios().put(usuarioSalvar.getIdentificacao(), usuarioSalvar);
         if (persistenciaUsuario.salvarPersistencia()) JOptionPane.showMessageDialog(rootPane, usuarioSalvar.getNome() + " foi editado com sucesso!");
-        else JOptionPane.showMessageDialog(rootPane, usuarioSalvar.getNome() + "não pôde ser editado.");
+        else JOptionPane.showMessageDialog(rootPane, usuarioSalvar.getNome() + " não pôde ser editado.");
         this.dispose();
         
     }//GEN-LAST:event_botaoSalvarActionPerformed
@@ -261,7 +261,9 @@ public class TelaUsuario extends javax.swing.JFrame {
         if (op == JOptionPane.YES_OPTION) {
             String idExcluir = usuario.getIdentificacao();
             persistenciaUsuario.getMapUsuarios().remove(idExcluir);
-            persistenciaUsuario.salvarPersistencia();
+            if (persistenciaUsuario.salvarPersistencia()) JOptionPane.showMessageDialog(rootPane, usuario.getNome() + " foi excluído com sucesso!");
+            else JOptionPane.showMessageDialog(rootPane, usuario.getNome() + " não pôde ser excluído.");
+            this.dispose();
         }
     }//GEN-LAST:event_botaoExcluirActionPerformed
 

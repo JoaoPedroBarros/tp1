@@ -28,7 +28,7 @@ public class PersistenciaUsuario {
     private Map<String, Usuario> mapUsuarios; // hash map onde os usuarios serao armazenados
     
     public PersistenciaUsuario() {
-        this.arquivoUsuarios = new File("/home/arkham/Documentos/studying/java/tp1/trabalho_tp1/src/main/resources/usuarios.json"); 
+        this.arquivoUsuarios = new File("src/main/resources/usuarios.json"); 
         this.mapper = new ObjectMapper();
         this.mapUsuarios = new HashMap<>();
         

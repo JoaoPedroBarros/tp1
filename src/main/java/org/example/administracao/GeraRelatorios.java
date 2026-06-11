@@ -19,7 +19,7 @@ public class GeraRelatorios extends Permissao {
         return "GERA_RELATORIOS";
     }
     
-    static public int contaUsuariosTotal(PersistenciaUsuario persistenciaUsuario) {        
+    /*static public int contaUsuariosTotal(PersistenciaUsuario persistenciaUsuario) {        
         Map<String, Usuario> mapUsuarios = persistenciaUsuario.getMapUsuarios();
         
         int resultado = 0;
@@ -29,7 +29,7 @@ public class GeraRelatorios extends Permissao {
         }
         
         return resultado;
-    }
+    } */
     
     static public void geraPDF() {
         PDDocument document = new PDDocument();

@@ -49,6 +49,7 @@ public class TelaInicial extends javax.swing.JFrame {
         
         if (supplierPermissoes.get().anyMatch(u -> u instanceof AdministraUsuario)) {
             persistenciaUsuario = new PersistenciaUsuario();
+            AdministraUsuario.setStaticId(persistenciaUsuario.getMapUsuarios());
             menuAdministracao.setEnabled(true);
         }
         
@@ -63,6 +64,8 @@ public class TelaInicial extends javax.swing.JFrame {
         if (supplierPermissoes.get().anyMatch(u -> u instanceof PartidaCopa)) {
             menuPartidas.setEnabled(true);
         }
+        
+        
         
         
     }

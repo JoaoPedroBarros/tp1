@@ -373,7 +373,7 @@ public class GestaoUsuarios extends javax.swing.JFrame {
     private void botaoSalvarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSalvarUsuarioActionPerformed
         
         String nome = inputNome.getText();
-        String id = AdministraUsuario.gerarId(persistenciaUsuario.getMapUsuarios());
+        String id = String.valueOf(Usuario.idController++);
         String email = inputEmail.getText();
         String senha = new String(inputSenha.getPassword());
         String pais = inputPais.getText();
@@ -396,6 +396,7 @@ public class GestaoUsuarios extends javax.swing.JFrame {
         
         catch (CamposEmBrancoException | SenhaInsuficienteException e) {
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
+            Usuario.idController--;
         }
              
     }//GEN-LAST:event_botaoSalvarUsuarioActionPerformed

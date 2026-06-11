@@ -4,15 +4,9 @@
  */
 package org.example.administracao;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.stream.Collectors;
 import org.example.administracao.excecoes.CamposEmBrancoException;
 import org.example.administracao.excecoes.SenhaInsuficienteException;
@@ -58,12 +52,6 @@ public class AdministraUsuario extends Permissao {
         return listaRetorno;   
     }
     
-    static public boolean editaUsuario (Usuario usuario) {
-        //  ao entrar na tela de editar, instanciar um usuario com a mesma id e copiar os valores editados para a persistencia
-       
-        return true;
-    }
-    
     static public List<Usuario> pesquisaUsuario(String nome, String identificacao, String email, String pais, Papel papel, PersistenciaUsuario persistencia) {
         // TODO: provavelmente nao vai ser elegante criar um poliformismo por overloading.
         // aqui, vou cuidar para, na tela, receber os argumentos. Se ele estiver desabilitado, vou receber como null
@@ -106,38 +94,16 @@ public class AdministraUsuario extends Permissao {
         return retornaListaUsuarios;
     }
     
-    static public boolean excluiUsuario(Usuario usuario) {
-        ObjectMapper mapper = new ObjectMapper();
-        File persistenciaUsuarios = new File(USUARIOS_FILE_PATH);
-        
-        try {
-            Map<String,Usuario> mapUsuarios = mapper.readValue(persistenciaUsuarios, new TypeReference<Map<String,Usuario>>(){});
-            mapUsuarios.remove(usuario.getIdentificacao());
-            mapper.writeValue(persistenciaUsuarios, mapUsuarios);
-        }
-        
-        catch (JsonMappingException e) {
-            System.err.println("Houve algum problema no mapeamento do JSON ao excluir usuário");
-            return false;
-        }
-        
-        catch (IOException e) {
-            System.err.println("Houve algum problema ao manipular o arquivo ao excluir usuário");
-            return false;
-        }
-        return true;
-    }
     
-    static public String gerarId(Map<String, Usuario> persistenciaUsuario) {
-        Random rand = new Random();
-        String id;
+    static public void setStaticId(Map<String, Usuario> persistenciaUsuario) {
+        int maior = 0;
         
-        do {
-            int n = rand.nextInt(40000);
-            n += 260000;
-            id = Integer.toString(n);
-        } while (persistenciaUsuario.containsKey(id) == true);
+        for (Map.Entry<String, Usuario> u : persistenciaUsuario.entrySet()) {
+            int idNum = Integer.parseInt(u.getValue().getIdentificacao());
+            
+            if (idNum > maior) maior = idNum;
+        }
         
-        return id;
+        Usuario.idController = maior + 1;
     }
 }

@@ -103,6 +103,7 @@ public class CadastroSelecao extends javax.swing.JPanel {
             
             //Configura tabela.
             tamTime = aux.getTime().size(); //Pega tamanho do time
+            System.out.println("Tamaho do time = " + tamTime);
             
             //Pega membros e seus índices
             jogadores = IOJogador.getMemJogadores(Jogador -> aux.getPais().equals(Jogador.getNomeSelecao()), indices);
@@ -314,10 +315,11 @@ public class CadastroSelecao extends javax.swing.JPanel {
        indicesRefRegisto.sort(null); //Ordena índices no Registro
        
        //Da desvinculação da equipe antiga
-        if(isEditing && tamTime > 0){ //Esse tamTime > 0 não é concebível, mas vai que
-        //Adianta o processo para o Tecnico
+        if(isEditing && tamTime > 0){
+            //Adianta o processo para o Tecnico
             List<Tecnico> tecnicoMod = IOTecnico.getMemTecnicos(Tecnico -> Tecnico.getNome().equalsIgnoreCase(tecAux.getNome()), indiceTecnico);
             tabelaJogs.clearSelection(); //Desfaz seleção do usuário
+            tabelaJogs.setRowSorter(null); //Desfaz filtragem
             tabelaJogs.setRowSelectionInterval(0, tamTime-1); //Seleciona os membros
             
             //Pega índices dos membros do time no registro
@@ -351,7 +353,6 @@ public class CadastroSelecao extends javax.swing.JPanel {
         }
        
        //Da vinculação da nova equipe
-       //Precisa de garantir a atomicidade do procedimento abaixo. Está na gambiarra
        try{
             List<Jogador> selecionados = IOJogador.getMult(indicesRefRegisto); //Resgata jogadores do registro
             

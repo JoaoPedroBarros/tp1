@@ -1,7 +1,5 @@
 package org.example.jogadorselecao;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 public class Tecnico {
     private String nome;
     private String nomeSelecao;

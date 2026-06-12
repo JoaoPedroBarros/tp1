@@ -43,10 +43,10 @@
 {"nome":"Sphephelo Sithole","posicao":"MEIO_CAMPISTA","numero":13,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"África do Sul","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Jayden Adams","posicao":"MEIO_CAMPISTA","numero":23,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"África do Sul","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Oswin Appollis","posicao":"ATACANTE","numero":7,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"África do Sul","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Tshepang Moremi","posicao":"ATACANTE","numero":8,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"África do Sul","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Tshepang Moremi","posicao":"ATACANTE","numero":8,"status":"SUSPENSO","dataNascimento":"01/01/2000","nomeSelecao":"África do Sul","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Lyle Foster","posicao":"ATACANTE","numero":9,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"África do Sul","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Relebohile Mofokeng","posicao":"ATACANTE","numero":10,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"África do Sul","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Thapelo Maseko","posicao":"ATACANTE","numero":12,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"África do Sul","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Thapelo Maseko","posicao":"ATACANTE","numero":12,"status":"LESIONADO","dataNascimento":"01/01/2000","nomeSelecao":"África do Sul","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Iqraam Rayners","posicao":"ATACANTE","numero":15,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"África do Sul","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Evidence Makgopa","posicao":"ATACANTE","numero":17,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"África do Sul","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Kamogelo Sebelebele","posicao":"ATACANTE","numero":25,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"África do Sul","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
@@ -92,7 +92,7 @@
 {"nome":"Nicolas Tagliafico","posicao":"DEFENSOR","numero":5,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Argentina","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Emiliano Martinez","posicao":"GOLEIRO","numero":3,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Argentina","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Manuel Neuer","posicao":"GOLEIRO","numero":1,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Kai Havertz","posicao":"ATACANTE","numero":19,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Kai Havertz","posicao":"ATACANTE","numero":19,"status":"ATIVO","dataNascimento":"11/06/1999","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Declan Rice","posicao":"MEIO_CAMPISTA","numero":23,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Elliot Anderson","posicao":"MEIO_CAMPISTA","numero":20,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Harry Kane","posicao":"ATACANTE","numero":9,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
@@ -200,7 +200,7 @@
 {"nome":"Tomas Soucek","posicao":"MEIO_CAMPISTA","numero":15,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Tchéquia","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Adam Hlozek","posicao":"ATACANTE","numero":16,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Tchéquia","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Patrik Schick","posicao":"ATACANTE","numero":17,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Tchéquia","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Jan Kuchta","posicao":"ATACANTE","numero":20,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Tchéquia","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Jan Kuchta","posicao":"ATACANTE","numero":20,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Tchéquia","amarelos":10,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Mojmir Chytil","posicao":"ATACANTE","numero":21,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Tchéquia","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Pavel Sulc","posicao":"ATACANTE","numero":22,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Tchéquia","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Tomas Chory","posicao":"GOLEIRO","numero":23,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Tchéquia","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
@@ -254,7 +254,7 @@
 {"nome":"Kevin Danso","posicao":"DEFENSOR","numero":3,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Aústria","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Stefan Posch","posicao":"DEFENSOR","numero":5,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Aústria","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"David Alaba","posicao":"DEFENSOR","numero":8,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Aústria","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Philipp Lienhart","posicao":"DEFENSOR","numero":15,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Aústria","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Philipp Lienhart","posicao":"DEFENSOR","numero":15,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Aústria","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":25}
 {"nome":"Phillip Mwene","posicao":"DEFENSOR","numero":16,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Aústria","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Marco Friedl","posicao":"DEFENSOR","numero":23,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Aústria","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Michael Svoboda","posicao":"DEFENSOR","numero":25,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Aústria","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
@@ -276,7 +276,7 @@
 {"nome":"Yazeed Abulaila","posicao":"GOLEIRO","numero":1,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Jordânia","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Nour Baniateyah","posicao":"GOLEIRO","numero":2,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Jordânia","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Abdallah Alfakhori","posicao":"GOLEIRO","numero":3,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Jordânia","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Mohammad Abuhasheesh","posicao":"DEFENSOR","numero":4,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Jordânia","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Mohammad Abuhasheesh","posicao":"DEFENSOR","numero":4,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Jordânia","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":24}
 {"nome":"Abdallah Nasib","posicao":"DEFENSOR","numero":5,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Jordânia","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Husam Abudahab","posicao":"DEFENSOR","numero":6,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Jordânia","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Yazan Alarab","posicao":"DEFENSOR","numero":7,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Jordânia","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
@@ -286,7 +286,7 @@
 {"nome":"Ehsan Haddad","posicao":"DEFENSOR","numero":12,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Jordânia","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Anas Badawi","posicao":"DEFENSOR","numero":13,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Jordânia","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Ames Jamous","posicao":"MEIO_CAMPISTA","numero":16,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Jordânia","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Noor Alrawabdeh","posicao":"MEIO_CAMPISTA","numero":17,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Jordânia","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Noor Alrawabdeh","posicao":"MEIO_CAMPISTA","numero":17,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Jordânia","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":18}
 {"nome":"Rajaei Ayed","posicao":"MEIO_CAMPISTA","numero":19,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Jordânia","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Ibrahim Sadeh","posicao":"MEIO_CAMPISTA","numero":21,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Jordânia","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Mohammad Abughoush","posicao":"MEIO_CAMPISTA","numero":21,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Jordânia","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
@@ -336,7 +336,7 @@
 {"nome":"Luis Diaz","posicao":"ATACANTE","numero":16,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Colômbia","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Jhon Cordoba","posicao":"ATACANTE","numero":17,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Colômbia","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Cucho Hernandez","posicao":"ATACANTE","numero":18,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Colômbia","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Jaminton Campaz","posicao":"ATACANTE","numero":21,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Colômbia","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Jaminton Campaz","posicao":"ATACANTE","numero":21,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Colômbia","amarelos":0,"vermelhos":55,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Luis Suarez","posicao":"ATACANTE","numero":22,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Colômbia","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Andres Gomez","posicao":"ATACANTE","numero":23,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Colômbia","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Lionel Mpasi","posicao":"GOLEIRO","numero":1,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"RD do Congo","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
@@ -353,9 +353,9 @@
 {"nome":"Samuel Moutossamy","posicao":"MEIO_CAMPISTA","numero":13,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"RD do Congo","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Theo Bongonda","posicao":"MEIO_CAMPISTA","numero":14,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"RD do Congo","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Edo Kayembe","posicao":"MEIO_CAMPISTA","numero":15,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"RD do Congo","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Aaron Tshibola","posicao":"MEIO_CAMPISTA","numero":17,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"RD do Congo","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Aaron Tshibola","posicao":"MEIO_CAMPISTA","numero":17,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"RD do Congo","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":30}
 {"nome":"Brian Cipenga","posicao":"ATACANTE","numero":17,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"RD do Congo","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Gael Kakuta","posicao":"ATACANTE","numero":19,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"RD do Congo","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Gael Kakuta","posicao":"ATACANTE","numero":19,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"RD do Congo","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":29}
 {"nome":"Cedric Bakambu","posicao":"ATACANTE","numero":20,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"RD do Congo","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Meschack Elia","posicao":"ATACANTE","numero":21,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"RD do Congo","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Fiston Mayele","posicao":"ATACANTE","numero":22,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"RD do Congo","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
@@ -378,7 +378,7 @@
 {"nome":"Oston Urunov","posicao":"MEIO_CAMPISTA","numero":15,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Uzbequistão","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Dostonbek Khamdamov","posicao":"MEIO_CAMPISTA","numero":17,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Uzbequistão","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Eldor Shomurodov","posicao":"ATACANTE","numero":19,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Uzbequistão","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Azizbek Amonov","posicao":"ATACANTE","numero":20,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Uzbequistão","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Azizbek Amonov","posicao":"ATACANTE","numero":20,"status":"LESIONADO","dataNascimento":"01/01/2000","nomeSelecao":"Uzbequistão","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Igor Sergeev","posicao":"ATACANTE","numero":22,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Uzbequistão","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Ali Abdi","posicao":"DEFENSOR","numero":2,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Montassar Talbi","posicao":"DEFENSOR","numero":3,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}

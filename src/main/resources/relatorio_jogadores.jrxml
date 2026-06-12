@@ -1,0 +1,187 @@
+<!-- Created with Jaspersoft Studio version 7.0.6.final using JasperReports Library version 7.0.6-5d2a603fdc6b3db8f842a83383e594f41891534d  -->
+<jasperReport name="relatorio_jogadores" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3ddc7851-a667-49ad-a1f4-cacb30fa42c6">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="NO_DATA_ADAPTER"/>
+	<parameter name="TOTAL_ATLETAS" class="java.lang.Integer">
+		<description><![CDATA[Total de jogadores registrados]]></description>
+	</parameter>
+	<parameter name="MEDIA_IDADE" class="java.lang.Float">
+		<description><![CDATA[Média de idade dos jogadores]]></description>
+	</parameter>
+	<parameter name="TOTAL_CARTOES_AMARELOS" class="java.lang.Integer"/>
+	<parameter name="LOGO_CAMPEONATO" class="java.lang.String"/>
+	<parameter name="JOGADOR_MAIS_PENALIZADO" class="java.lang.String"/>
+	<parameter name="ARTILHEIRO1_NOME" class="java.lang.String"/>
+	<parameter name="ARTILHEIRO1_SELECAO" class="java.lang.String"/>
+	<parameter name="ARTILHEIRO1_GOLS" class="java.lang.Integer"/>
+	<parameter name="ARTILHEIRO2_NOME" class="java.lang.String"/>
+	<parameter name="ARTILHEIRO2_SELECAO" class="java.lang.String"/>
+	<parameter name="ARTILHEIRO2_GOLS" class="java.lang.Integer"/>
+	<parameter name="ARTILHEIRO3_NOME" class="java.lang.String"/>
+	<parameter name="ARTILHEIRO3_SELECAO" class="java.lang.String"/>
+	<parameter name="ARTILHEIRO3_GOLS" class="java.lang.Integer"/>
+	<parameter name="JOGADOR_MAIS_PENALIZADO_SEL" class="java.lang.String"/>
+	<parameter name="JOGADOR_MAIS_PENALIZADO_CARTOES" class="java.lang.Integer"/>
+	<parameter name="TOTAL_CARTOES_VERMELHOS" class="java.lang.Integer"/>
+	<parameter name="TOTAL_ATLETAS_ATIVOS" class="java.lang.Integer"/>
+	<parameter name="TOTAL_ATLETAS_LESIONADOS" class="java.lang.Integer"/>
+	<parameter name="TOTAL_ATLETAS_SUSPENSOS" class="java.lang.Integer"/>
+	<query language="SQL"><![CDATA[]]></query>
+	<field name="nome" class="java.lang.String">
+		<description><![CDATA[nome]]></description>
+		<property name="net.sf.jasperreports.jsonql.field.expression" value="nome"/>
+	</field>
+	<field name="posicao" class="java.lang.String">
+		<description><![CDATA[posicao]]></description>
+		<property name="net.sf.jasperreports.jsonql.field.expression" value="posicao"/>
+	</field>
+	<field name="numero" class="java.lang.Integer">
+		<description><![CDATA[numero]]></description>
+		<property name="net.sf.jasperreports.jsonql.field.expression" value="numero"/>
+	</field>
+	<field name="status" class="java.lang.String">
+		<description><![CDATA[status]]></description>
+		<property name="net.sf.jasperreports.jsonql.field.expression" value="status"/>
+	</field>
+	<field name="dataNascimento" class="java.sql.Date">
+		<description><![CDATA[dataNascimento]]></description>
+		<property name="net.sf.jasperreports.jsonql.field.expression" value="dataNascimento"/>
+	</field>
+	<field name="nomeSelecao" class="java.lang.String">
+		<description><![CDATA[nomeSelecao]]></description>
+		<property name="net.sf.jasperreports.jsonql.field.expression" value="nomeSelecao"/>
+	</field>
+	<field name="amarelos" class="java.lang.Integer">
+		<description><![CDATA[amarelos]]></description>
+		<property name="net.sf.jasperreports.jsonql.field.expression" value="amarelos"/>
+	</field>
+	<field name="vermelhos" class="java.lang.Integer">
+		<description><![CDATA[vermelhos]]></description>
+		<property name="net.sf.jasperreports.jsonql.field.expression" value="vermelhos"/>
+	</field>
+	<field name="passes" class="java.lang.Integer">
+		<description><![CDATA[passes]]></description>
+		<property name="net.sf.jasperreports.jsonql.field.expression" value="passes"/>
+	</field>
+	<field name="assistencias" class="java.lang.Integer">
+		<description><![CDATA[assistencias]]></description>
+		<property name="net.sf.jasperreports.jsonql.field.expression" value="assistencias"/>
+	</field>
+	<field name="gols" class="java.lang.Integer">
+		<description><![CDATA[gols]]></description>
+		<property name="net.sf.jasperreports.jsonql.field.expression" value="gols"/>
+	</field>
+	<background splitType="Stretch"/>
+	<title height="90" splitType="Stretch">
+		<element kind="staticText" uuid="f1556123-7fc2-414b-acac-ab3bb15ef7e2" x="95" y="0" width="235" height="25" fontSize="19.0" bold="true">
+			<text><![CDATA[JOGADORES]]></text>
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+		<element kind="textField" uuid="d0cbc9f2-8f7d-4fbb-8ac8-487c8efae309" x="420" y="-1" width="100" height="19" pattern="MMMMM dd, yyyy">
+			<expression><![CDATA[new java.util.Date()]]></expression>
+		</element>
+		<element kind="textField" uuid="36701fda-50c3-4bbf-99b0-92e647b36b7e" x="520" y="-1" width="50" height="19" pattern="HH:mm">
+			<expression><![CDATA[new java.util.Date()]]></expression>
+		</element>
+		<element kind="image" uuid="aac7e481-72ba-42a6-a225-56951b68b296" x="0" y="0" width="69" height="70">
+			<expression><![CDATA[new java.io.FileInputStream(new java.io.File($P{LOGO_CAMPEONATO}))]]></expression>
+		</element>
+	</title>
+	<pageFooter height="50">
+		<element kind="staticText" uuid="e113446a-16a8-435d-bc67-5ddb179b5406" positionType="Float" mode="Opaque" x="0" y="20" width="556" height="30" backcolor="#E6E8E9" fontName="Serif" fontSize="9.0" italic="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[VIVA O FUTEBOL]]></text>
+		</element>
+		<property name="com.jaspersoft.studio.unit.height" value="px"/>
+	</pageFooter>
+	<summary height="500" splitType="Stretch">
+		<element kind="textField" uuid="769c5a69-3602-4f6a-9e27-56931c66d552" x="0" y="322" width="459" height="18" forecolor="#000000" backcolor="#F7FAFC" markup="html" bold="false">
+			<expression><![CDATA["<b>Total de cartões aplicados:</b> " + $P{TOTAL_CARTOES_AMARELOS} + " Amarelos   /  " + $P{TOTAL_CARTOES_VERMELHOS} + " Vermelhos"]]></expression>
+			<box>
+				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="textField" uuid="40a23047-3482-4a00-a6c7-80e64b9378ad" x="0" y="300" width="459" height="18" forecolor="#000000" backcolor="#F7FAFC" markup="html" bold="true">
+			<expression><![CDATA["Estatísitcas Disciplinares"]]></expression>
+			<box>
+				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.5" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="textField" uuid="ee444276-c22b-4a11-b368-1c60db3b0397" x="0" y="0" width="555" height="18" forecolor="#000000" backcolor="#F7FAFC" markup="html" bold="false" vTextAlign="Middle">
+			<expression><![CDATA["<b>Total de Jogadores:</b> " + $P{TOTAL_ATLETAS} + "   <b> |     Média de Idade:</b> " + String.format("%.1f", $P{MEDIA_IDADE}) + " anos"]]></expression>
+			<box>
+				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.25" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="39b10412-b0e2-45ab-90c8-88d225e0ae64" x="0" y="92" width="130" height="25" forecolor="#000000" backcolor="#000000" bold="true" hTextAlign="Left" vTextAlign="Middle">
+			<text><![CDATA[Nome]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="82eeb37b-f494-4c7f-ab8c-a510cfa0b51c"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+		<element kind="staticText" uuid="e28c2a4c-4679-4614-b0b3-8cf18bb35bb2" x="220" y="92" width="39" height="25" forecolor="#000000" backcolor="rgba(45, 55, 72, 0.64705884)" bold="true" hTextAlign="Right" vTextAlign="Middle">
+			<text><![CDATA[Gols]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="50bae494-2f03-4766-b2f8-1c087994aeae"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+		<element kind="staticText" uuid="559cb38d-6814-4c62-a8ac-da87bc63bff4" x="130" y="92" width="90" height="25" forecolor="#000000" backcolor="rgba(45, 55, 72, 0.64705884)" bold="true" hTextAlign="Left" vTextAlign="Middle">
+			<text><![CDATA[Seleção]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a8fd7e40-26b5-4b24-b02a-df29f58e31dc"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</element>
+		<element kind="staticText" uuid="b9fffb33-3002-496f-beec-284a0f2270f2" x="0" y="70" width="259" height="22" bold="true" vTextAlign="Middle">
+			<text><![CDATA[Top 3 Artilheiros]]></text>
+			<box>
+				<bottomPen lineWidth="1.5"/>
+			</box>
+		</element>
+		<element kind="textField" uuid="ef81a324-0252-4b28-84aa-ee2983977de1" x="0" y="340" width="458" height="20" markup="html">
+			<expression><![CDATA["<b> Jogador mais faltoso:</b> " + $P{JOGADOR_MAIS_PENALIZADO} + "      (" + $P{JOGADOR_MAIS_PENALIZADO_SEL} + ")    -  " + $P{JOGADOR_MAIS_PENALIZADO_CARTOES} + " cartões vermelhos"]]></expression>
+		</element>
+		<element kind="textField" uuid="35af958b-2214-45f0-a46c-6e6b7970be68" x="0" y="117" width="130" height="30">
+			<expression><![CDATA[$P{ARTILHEIRO1_NOME}]]></expression>
+		</element>
+		<element kind="textField" uuid="5a8bc4b2-2a28-4d61-986c-6b26dc244b58" x="130" y="117" width="90" height="30">
+			<expression><![CDATA[$P{ARTILHEIRO1_SELECAO}]]></expression>
+		</element>
+		<element kind="textField" uuid="31fcd8d1-d020-4c34-88c0-f1d1e06bb70f" x="130" y="147" width="90" height="30">
+			<expression><![CDATA[$P{ARTILHEIRO2_SELECAO}]]></expression>
+		</element>
+		<element kind="textField" uuid="40181414-4c5c-448a-a274-324c8c072303" x="220" y="147" width="39" height="30" hTextAlign="Right">
+			<expression><![CDATA[$P{ARTILHEIRO2_GOLS}]]></expression>
+		</element>
+		<element kind="textField" uuid="0c3da032-085b-4256-8e1c-aa85f5271064" x="0" y="147" width="130" height="30">
+			<expression><![CDATA[$P{ARTILHEIRO2_NOME}]]></expression>
+		</element>
+		<element kind="textField" uuid="f6c2e081-6f67-4be7-8aa7-59f33c0e6040" x="0" y="177" width="130" height="30">
+			<expression><![CDATA[$P{ARTILHEIRO3_NOME}]]></expression>
+		</element>
+		<element kind="textField" uuid="d040f96b-e584-46fa-a2c2-4dedeb6289f0" x="130" y="177" width="90" height="30">
+			<expression><![CDATA[$P{ARTILHEIRO3_SELECAO}]]></expression>
+		</element>
+		<element kind="textField" uuid="b6e89e8c-1ae2-4988-b1bb-02204bdadd9f" x="220" y="177" width="39" height="30" hTextAlign="Right">
+			<expression><![CDATA[$P{ARTILHEIRO3_GOLS}]]></expression>
+		</element>
+		<element kind="textField" uuid="240a6481-63d5-40e9-8b99-a05ebbff95fd" x="220" y="117" width="39" height="30" hTextAlign="Right">
+			<expression><![CDATA[$P{ARTILHEIRO1_GOLS}]]></expression>
+		</element>
+		<element kind="textField" uuid="27a45d60-9c8a-4025-b854-2843ed795886" x="0" y="18" width="554" height="18" forecolor="#000000" backcolor="#F7FAFC" markup="html" bold="false" vTextAlign="Middle">
+			<expression><![CDATA["<b>Total de Jogadores Ativos:</b> " + $P{TOTAL_ATLETAS_ATIVOS} + "   <b> |     Total de Jogadores Lesionados:</b> " + $P{TOTAL_ATLETAS_LESIONADOS} + "<b>     |     Total de Jogadores Suspensos:</b> " + $P{TOTAL_ATLETAS_SUSPENSOS}]]></expression>
+			<box>
+				<pen lineWidth="0.0"/>
+				<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				<bottomPen lineWidth="1.5" lineStyle="Solid" lineColor="#000000"/>
+				<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+			</box>
+		</element>
+		<property name="com.jaspersoft.studio.unit.height" value="px"/>
+	</summary>
+</jasperReport>

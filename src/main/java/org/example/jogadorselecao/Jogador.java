@@ -171,7 +171,6 @@ public final class Jogador{
         System.out.println("Status: " + getStatus());
         System.out.println("Data de Nascimento: " + getDataNascimento());
         System.out.println("Nome da Selecao: " + getNomeSelecao());
-        System.out.println("-------------------------------------------");
         System.out.println("Amarelos: " + amarelos);
         System.out.println("Vermelhos: " + vermelhos);
         System.out.println("Passes: " + passes);

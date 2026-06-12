@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package org.example.jogadorselecao.telas;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,6 +17,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import net.sf.jasperreports.engine.JRException;
 import org.example.jogadorselecao.Jogador;
 import org.example.jogadorselecao.Selecao;
 import org.example.jogadorselecao.persistencia.IOJogador;

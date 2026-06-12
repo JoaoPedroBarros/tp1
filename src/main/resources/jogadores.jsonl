@@ -92,17 +92,17 @@
 {"nome":"Nicolas Tagliafico","posicao":"DEFENSOR","numero":5,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Argentina","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Emiliano Martinez","posicao":"GOLEIRO","numero":3,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Argentina","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Manuel Neuer","posicao":"GOLEIRO","numero":1,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Kai Havertz","posicao":"ATACANTE","numero":19,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Declan Rice","posicao":"MEIO_CAMPISTA","numero":23,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Elliot Anderson","posicao":"MEIO_CAMPISTA","numero":20,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Harry Kane","posicao":"ATACANTE","numero":9,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Marcus Rashford","posicao":"ATACANTE","numero":11,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Anthony Gordon","posicao":"ATACANTE","numero":18,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Bart Verbruggen","posicao":"GOLEIRO","numero":1,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Mark Flekken","posicao":"GOLEIRO","numero":3,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Virgil Van Dijk","posicao":"DEFENSOR","numero":4,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Akam Hashim","posicao":"DEFENSOR","numero":5,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Youssef Amyn","posicao":"GOLEIRO","numero":15,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Kai Havertz","posicao":"ATACANTE","numero":19,"status":"ATIVO","dataNascimento":"11/06/1999","nomeSelecao":"Teste","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Declan Rice","posicao":"MEIO_CAMPISTA","numero":23,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Teste","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Elliot Anderson","posicao":"MEIO_CAMPISTA","numero":20,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Teste","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Harry Kane","posicao":"ATACANTE","numero":9,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Teste","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Marcus Rashford","posicao":"ATACANTE","numero":11,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Teste","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Anthony Gordon","posicao":"ATACANTE","numero":18,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Teste","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Bart Verbruggen","posicao":"GOLEIRO","numero":1,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Teste","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Mark Flekken","posicao":"GOLEIRO","numero":3,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Teste","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Virgil Van Dijk","posicao":"DEFENSOR","numero":4,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Teste","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Akam Hashim","posicao":"DEFENSOR","numero":5,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Teste","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Youssef Amyn","posicao":"GOLEIRO","numero":15,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Teste","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Samu Costa","posicao":"GOLEIRO","numero":13,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Portugal","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Nuno Mendes","posicao":"DEFENSOR","numero":12,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Portugal","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Matheus Nunes","posicao":"MEIO_CAMPISTA","numero":11,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Portugal","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
@@ -380,18 +380,18 @@
 {"nome":"Eldor Shomurodov","posicao":"ATACANTE","numero":19,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Uzbequistão","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Azizbek Amonov","posicao":"ATACANTE","numero":20,"status":"LESIONADO","dataNascimento":"01/01/2000","nomeSelecao":"Uzbequistão","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Igor Sergeev","posicao":"ATACANTE","numero":22,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Uzbequistão","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Ali Abdi","posicao":"DEFENSOR","numero":2,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Montassar Talbi","posicao":"DEFENSOR","numero":3,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Ismalia Sarr","posicao":"ATACANTE","numero":17,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Iliman Ndiaye","posicao":"ATACANTE","numero":19,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Cherif Ndiaye","posicao":"ATACANTE","numero":21,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Ken Sema","posicao":"MEIO_CAMPISTA","numero":13,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Jesper Karlstrom","posicao":"MEIO_CAMPISTA","numero":16,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Ali Abdi","posicao":"DEFENSOR","numero":2,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Teste","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Montassar Talbi","posicao":"DEFENSOR","numero":3,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Teste","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Ismalia Sarr","posicao":"ATACANTE","numero":17,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Teste","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Iliman Ndiaye","posicao":"ATACANTE","numero":19,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Teste","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Cherif Ndiaye","posicao":"ATACANTE","numero":21,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Teste","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Ken Sema","posicao":"MEIO_CAMPISTA","numero":13,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Teste","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Jesper Karlstrom","posicao":"MEIO_CAMPISTA","numero":16,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Teste","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Yasin Ayari","posicao":"MEIO_CAMPISTA","numero":18,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Besfort Zeneli","posicao":"MEIO_CAMPISTA","numero":22,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Besfort Zeneli","posicao":"MEIO_CAMPISTA","numero":22,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Teste","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Sergio Rochet","posicao":"GOLEIRO","numero":1,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Santiago Mele","posicao":"GOLEIRO","numero":2,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
-{"nome":"Fernando Muslera","posicao":"GOLEIRO","numero":3,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Fernando Muslera","posicao":"GOLEIRO","numero":3,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":"Teste","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"José Maria Gimenez","posicao":"DEFENSOR","numero":5,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Ronaldo Araújo","posicao":"DEFENSOR","numero":24,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Sebastian Caceres","posicao":"DEFENSOR","numero":15,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}

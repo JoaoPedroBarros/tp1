@@ -5,10 +5,14 @@
 package org.example.administracao.telas;
 
 import java.util.List;
+import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JRException;
 import org.example.administracao.AdministraUsuario;
 import org.example.administracao.GeraRelatorios;
 import org.example.administracao.PersistenciaUsuario;
 import org.example.administracao.Usuario;
+import org.example.jogadorselecao.persistencia.RelatorioJogador;
+import org.example.jogadorselecao.persistencia.RelatorioSelecao;
 
 /**
  *
@@ -70,6 +74,7 @@ public class Relatorios extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         jTextField14 = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
         jTextField17 = new javax.swing.JTextField();
@@ -262,7 +267,11 @@ public class Relatorios extends javax.swing.JFrame {
         jTextField14.setEditable(false);
         jTextField14.setText("0");
 
-        jButton2.setText("Baixar arquivo detalhado...");
+        jButton2.setText("Baixar arquivo detalhado sobre Jogadores");
+        jButton2.addActionListener(this::jButton2ActionPerformed);
+
+        jButton1.setText("Baixar arquivo detalhado sobre Seleções");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -280,9 +289,6 @@ public class Relatorios extends javax.swing.JFrame {
                             .addComponent(jLabel13)
                             .addComponent(jLabel14)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton2))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(220, 220, 220)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -290,8 +296,13 @@ public class Relatorios extends javax.swing.JFrame {
                             .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(316, Short.MAX_VALUE))
+                            .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton2)
+                        .addGap(23, 23, 23)
+                        .addComponent(jButton1)))
+                .addContainerGap(71, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -320,8 +331,10 @@ public class Relatorios extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
                     .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 165, Short.MAX_VALUE)
-                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 124, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(jButton1))
                 .addGap(51, 51, 51))
         );
 
@@ -577,6 +590,30 @@ public class Relatorios extends javax.swing.JFrame {
         geraRelatorio.geraRelatorioUsuario(listaUsuarios);
     }//GEN-LAST:event_pdfUsuariosActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        RelatorioJogador relatorioJogador = new RelatorioJogador();
+        try{
+            relatorioJogador.createRelatorio();
+            JOptionPane.showMessageDialog(null, "Relatorio gerado com sucesso!");
+        }
+        catch(JRException e){
+            JOptionPane.showMessageDialog(null, "Não foi possível gerar o relatório.", "Erro!", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        RelatorioSelecao relatorioSelecao = new RelatorioSelecao();
+        try{
+            relatorioSelecao.createRelatorio();
+            JOptionPane.showMessageDialog(null, "Relatorio gerado com sucesso!");
+        }
+        catch(JRException e){
+            JOptionPane.showMessageDialog(null, "Não foi possível gerar o relatório.", "Erro!", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -603,6 +640,7 @@ public class Relatorios extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;

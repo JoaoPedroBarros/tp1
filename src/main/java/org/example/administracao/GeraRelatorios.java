@@ -90,18 +90,14 @@ public class GeraRelatorios extends Permissao {
                 InputStream layoutRelatorio = new FileInputStream(file);
                 
             
-                System.out.println(2);
                 JasperReport jasperReport = JasperCompileManager.compileReport(layoutRelatorio);
 
-                System.out.println(3);
                 JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(listaUsuarios);
 
                 Map<String, Object> parametros = new HashMap<>(contaUsuariosTotal(persistencia));
 
-                System.out.println(4);
                 JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, dataSource);
 
-                System.out.println(5);
                 JasperExportManager.exportReportToPdfFile(jasperPrint, "relatorioUsuarios.pdf");     
             }
             
@@ -110,14 +106,9 @@ public class GeraRelatorios extends Permissao {
             }
                    
             } catch (net.sf.jasperreports.engine.JRException e) {
-                System.err.println("--- DETALHES DO ERRO NO FILL REPORT ---");
-                // O getCause() vai direto na ferida e te mostra o erro original do Java
-                if (e.getCause() != null) {
-                    System.err.println("Causa real: " + e.getCause().getMessage());
-                    e.getCause().printStackTrace();
-                } else {
-                    e.printStackTrace();
+                System.out.println("Houve problemas com a geração do PDF");
+                
+               
             }
         }
     }
-}

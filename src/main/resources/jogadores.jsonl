@@ -1,4 +1,4 @@
-{"nome":"Alisson Becker","posicao":"GOLEIRO","numero":1,"status":"ATIVO","dataNascimento":"03/02/1977","nomeSelecao":"Brasil","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Alisson Becker","posicao":"GOLEIRO","numero":1,"status":"ATIVO","dataNascimento":"03/02/1977","nomeSelecao":"Brasil","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":1}
 {"nome":"Ederson","posicao":"GOLEIRO","numero":23,"status":"ATIVO","dataNascimento":"17/08/1993","nomeSelecao":"Brasil","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Weverton","posicao":"GOLEIRO","numero":12,"status":"ATIVO","dataNascimento":"13/12/1987","nomeSelecao":"Brasil","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Alex Sandro","posicao":"DEFENSOR","numero":6,"status":"ATIVO","dataNascimento":"26/01/1991","nomeSelecao":"Brasil","amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
@@ -395,3 +395,5 @@
 {"nome":"José Maria Gimenez","posicao":"DEFENSOR","numero":5,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Ronaldo Araújo","posicao":"DEFENSOR","numero":24,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
 {"nome":"Sebastian Caceres","posicao":"DEFENSOR","numero":15,"status":"ATIVO","dataNascimento":"01/01/2000","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Vozinha","posicao":"GOLEIRO","numero":20,"status":"ATIVO","dataNascimento":"03/07/1986","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}
+{"nome":"Stopira","posicao":"DEFENSOR","numero":2,"status":"ATIVO","dataNascimento":"20/05/1988","nomeSelecao":null,"amarelos":0,"vermelhos":0,"passes":0,"assistencias":0,"gols":0}

@@ -103,7 +103,6 @@ public class CadastroSelecao extends javax.swing.JPanel {
             
             //Configura tabela.
             tamTime = aux.getTime().size(); //Pega tamanho do time
-            System.out.println("Tamaho do time = " + tamTime);
             
             //Pega membros e seus índices
             jogadores = IOJogador.getMemJogadores(Jogador -> aux.getPais().equals(Jogador.getNomeSelecao()), indices);

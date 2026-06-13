@@ -42,6 +42,7 @@ public class TelaInicial extends javax.swing.JFrame {
     public TelaInicial(UsuarioLogado sessao) {
         this.sessao = sessao;
         
+        
         initComponents();
         desabilitaMenu();
         

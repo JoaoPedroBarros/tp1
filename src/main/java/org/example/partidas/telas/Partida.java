@@ -1,19 +1,163 @@
 
 package org.example.partidas.telas;
 
+import java.util.List;
 import javax.swing.JOptionPane;
-import org.example.partidas.*;
+import org.example.administracao.Usuario;
+import org.example.administracao.PersistenciaUsuario;
+import org.example.administracao.AdministraUsuario;
+import org.example.estadioArbitragem.Arbitro;
 import org.example.jogadorselecao.Selecao;
+import org.example.jogadorselecao.persistencia.IOSelecao;
+import org.example.partidas.Fase;
+import org.example.partidas.FaseGrupos;
+import org.example.partidas.Final;
+import org.example.partidas.OitavasFinal;
+import org.example.partidas.PartidaCopa;
+import org.example.partidas.QuartasFinal;
+import org.example.partidas.SemiFinal;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.File;
+import org.example.estadioArbitragem.Estadio;
+
 
 public class Partida extends javax.swing.JFrame {
     
     private Fase faseAtual;
+    private PartidaCopa partidaAtual;
+    private PersistenciaUsuario persistencia;
+    
+    private int gerarNumeroPartida() {
+
+    return (int)
+            (System.currentTimeMillis()
+            % 1000000);
+}
+    
+    private void carregarEstadios() {
+
+    try {
+
+        ObjectMapper mapper =
+                new ObjectMapper();
+
+        File arquivo =
+                new File(
+                        "src/main/resources/estadios.json");
+
+        List<Estadio> estadios =
+                mapper.readValue(
+                        arquivo,
+                        new TypeReference<List<Estadio>>() {});
+
+        cbEstadio.removeAllItems();
+
+        for (Estadio estadio : estadios) {
+
+            cbEstadio.addItem(
+                    estadio.getNome());
+        }
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao carregar estádios:\n"
+                        + e.getMessage());
+    }
+    }
+    
+    private void carregarSelecoes() {
+
+    try {
+
+        cbSelecao1.removeAllItems();
+        cbSelecao2.removeAllItems();
+
+        int i = 0;
+        Selecao selecao;
+
+        while ((selecao = IOSelecao.get(i)) != null) {
+
+            cbSelecao1.addItem(
+                    selecao.getPais());
+
+            cbSelecao2.addItem(
+                    selecao.getPais());
+
+            i++;
+        }
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Erro ao carregar seleções:\n"
+                + e.getMessage());
+    }
+}
+    
+    private Selecao buscarSelecao(String pais)
+        throws Exception {
+
+    int indice =
+            IOSelecao.containsSelecao(
+                    pais);
+
+    if (indice == -1) {
+
+        throw new Exception(
+                "Seleção não encontrada: "
+                + pais);
+    }
+
+    return IOSelecao.get(indice);
+}
+    
+    private void carregarArbitros() {
+
+    try {
+
+        List<Usuario> arbitros =
+                AdministraUsuario.pesquisaUsuario(
+                        "",
+                        "",
+                        "",
+                        "",
+                        new Arbitro(),
+                        persistencia
+                );
+
+        cbArbitro.removeAllItems();
+
+        for (Usuario usuario : arbitros) {
+            cbArbitro.addItem(usuario.getNome());
+        }
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+}
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Partida.class.getName());
     public Partida() {
-        initComponents();
-        faseAtual = new FaseGrupos();
-    }
+
+    initComponents();
+
+    persistencia = new PersistenciaUsuario();
+    carregarSelecoes();
+    carregarArbitros();
+    carregarEstadios();
+
+    carregarArbitros();
+}
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -21,41 +165,46 @@ public class Partida extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtData = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
+        txtHorario = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         Salvar1 = new javax.swing.JButton();
         Fechar1 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
-        cbFase = new javax.swing.JComboBox<>();
+        cbFase1 = new javax.swing.JComboBox<>();
+        cbArbitro = new javax.swing.JComboBox<>();
+        cbSelecao1 = new javax.swing.JComboBox<>();
+        cbSelecao2 = new javax.swing.JComboBox<>();
+        cbEstadio = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtNumeroPartida = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
+        txtGols1 = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        jTextField9 = new javax.swing.JTextField();
+        txtGols2 = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        jTextField10 = new javax.swing.JTextField();
         btnResultado = new javax.swing.JButton();
+        cbFase2 = new javax.swing.JComboBox<>();
+        cbPenaltis = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
+        btnBuscar = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtConsulta = new javax.swing.JTextArea();
         btnConsultar = new javax.swing.JButton();
+        cbFase3 = new javax.swing.JComboBox<>();
+        jScrollBar1 = new javax.swing.JScrollBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Data da Partida :");
 
-        jTextField1.addActionListener(this::jTextField1ActionPerformed);
+        txtData.addActionListener(this::txtDataActionPerformed);
 
         jLabel2.setText("Horário da Partida :");
 
@@ -76,8 +225,14 @@ public class Partida extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
         jLabel9.setText("Partida:");
 
-        cbFase.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "GRUPOS", "OITAVAS", "QUARTAS", "SEMIFINAL", "FINAL" }));
-        cbFase.addActionListener(this::cbFaseActionPerformed);
+        cbFase1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "GRUPOS", "OITAVAS", "QUARTAS", "SEMIS", "FINAL" }));
+        cbFase1.addActionListener(this::cbFase1ActionPerformed);
+
+        cbSelecao1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        cbSelecao2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        cbEstadio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -105,16 +260,19 @@ public class Partida extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField1)
-                                    .addComponent(jTextField3)
-                                    .addComponent(jTextField4)
-                                    .addComponent(jTextField5)
-                                    .addComponent(jTextField6)
-                                    .addComponent(jTextField7, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE))
+                                    .addComponent(txtData, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+                                    .addComponent(txtHorario))
                                 .addGap(63, 63, 63))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addComponent(cbFase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(80, 80, 80))))))
+                                .addComponent(cbFase1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(80, 80, 80))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cbArbitro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cbSelecao1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cbSelecao2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cbEstadio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap())))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,31 +283,31 @@ public class Partida extends javax.swing.JFrame {
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(cbFase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cbFase1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(9, 9, 9)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbEstadio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
+                    .addComponent(jLabel4)
+                    .addComponent(cbSelecao1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
+                    .addComponent(jLabel5)
+                    .addComponent(cbSelecao2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addComponent(cbArbitro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Salvar1)
@@ -170,57 +328,85 @@ public class Partida extends javax.swing.JFrame {
         btnResultado.setText("Salvar");
         btnResultado.addActionListener(this::btnResultadoActionPerformed);
 
+        cbFase2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "GRUPOS", "OITAVAS", "QUARTAS", "SEMIS", "FINAL" }));
+        cbFase2.addActionListener(this::cbFase2ActionPerformed);
+
+        cbPenaltis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel8.setText("Fase:");
+
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(this::btnBuscarActionPerformed);
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField2)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtNumeroPartida)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel12)
+                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
+                                            .addComponent(jLabel11)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(txtGols2))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
+                                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(btnBuscar)
+                                                .addComponent(jLabel10))
+                                            .addGap(18, 18, 18)
+                                            .addComponent(txtGols1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addComponent(jLabel7)
+                                        .addGap(117, 117, 117)
+                                        .addComponent(jLabel8)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(cbFase2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 132, Short.MAX_VALUE))))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel12)
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                                    .addComponent(jLabel11)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jTextField9))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
-                                    .addComponent(jLabel10)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 132, Short.MAX_VALUE))
-                    .addComponent(jTextField10))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(55, 55, 55)
+                                .addComponent(btnResultado))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(cbPenaltis, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(55, 55, 55)
-                .addComponent(btnResultado)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(jLabel7)
-                .addGap(18, 18, 18)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(31, 31, 31)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(cbFase2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtNumeroPartida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnBuscar)
+                .addGap(1, 1, 1)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtGols1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtGols2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(51, 51, 51)
                 .addComponent(jLabel12)
-                .addGap(18, 18, 18)
-                .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cbPenaltis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
                 .addComponent(btnResultado)
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Registro de Resultados", jPanel4);
@@ -232,23 +418,34 @@ public class Partida extends javax.swing.JFrame {
         btnConsultar.setText("Mostrar");
         btnConsultar.addActionListener(this::btnConsultarActionPerformed);
 
+        cbFase3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "GRUPOS", "OITAVAS", "QUARTAS", "SEMIS", "FINAL", " " }));
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 684, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnConsultar)
+                .addGap(146, 146, 146)
+                .addComponent(cbFase3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addGap(0, 12, Short.MAX_VALUE)
-                .addComponent(btnConsultar)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnConsultar)
+                    .addComponent(cbFase3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)))
         );
 
         jTabbedPane1.addTab("Consulta de Jogos", jPanel5);
@@ -273,41 +470,75 @@ public class Partida extends javax.swing.JFrame {
     private void btnResultadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResultadoActionPerformed
         try {
 
-            int numero =
-            Integer.parseInt(
-                jTextField2.getText());
+        if (partidaAtual == null) {
 
-            int gols1 =
-            Integer.parseInt(
-                jTextField8.getText());
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Busque uma partida primeiro.");
 
-            int gols2 =
-            Integer.parseInt(
-                jTextField9.getText());
+            return;
+        }
 
-            String vencedorPenaltis =
-            jTextField10.getText();
+        int gols1 =
+                Integer.parseInt(
+                        txtGols1.getText());
 
-            faseAtual.registrarResultado(
-                numero,
+        int gols2 =
+                Integer.parseInt(
+                        txtGols2.getText());
+
+        String vencedorPenaltis = null;
+
+        String nomeFase =
+                cbFase2
+                .getSelectedItem()
+                .toString();
+
+        boolean eliminatoria =
+                !nomeFase.equals("GRUPOS");
+
+        if (eliminatoria && gols1 == gols2) {
+
+            vencedorPenaltis =
+                    cbPenaltis
+                    .getSelectedItem()
+                    .toString();
+
+            if (vencedorPenaltis == null
+                    || vencedorPenaltis.isBlank()) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Escolha o vencedor dos pênaltis.");
+
+                return;
+            }
+        }
+
+        faseAtual.registrarResultado(
+                partidaAtual.getNumero(),
                 gols1,
                 gols2,
                 vencedorPenaltis);
 
-            JOptionPane.showMessageDialog(
+        JOptionPane.showMessageDialog(
                 this,
-                "Resultado registrado!");
+                "Resultado registrado com sucesso!");
 
-        }
+        partidaAtual = null;
 
-        catch (Exception ex) {
+        txtNumeroPartida.setText("");
+        txtGols1.setText("");
+        txtGols2.setText("");
 
-            JOptionPane.showMessageDialog(
+        cbPenaltis.removeAllItems();
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
                 this,
-                ex.getMessage(),
-                "Erro",
-                JOptionPane.ERROR_MESSAGE);
-        }
+                e.getMessage());
+    }
     }//GEN-LAST:event_btnResultadoActionPerformed
 
     private void Fechar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Fechar1ActionPerformed
@@ -316,75 +547,142 @@ public class Partida extends javax.swing.JFrame {
 
     private void Salvar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Salvar1ActionPerformed
 
-        try {
+    try {
 
-            String data =
-            jTextField1.getText();
+        String faseSelecionada =
+                cbFase1
+                .getSelectedItem()
+                .toString();
 
-            String horario =
-            jTextField3.getText();
+        Fase fase;
 
-            String estadio =
-            jTextField4.getText();
+        switch (faseSelecionada) {
 
-            String pais1 =
-            jTextField5.getText();
+            case "GRUPOS":
+                fase = new FaseGrupos();
+                break;
 
-            String pais2 =
-            jTextField6.getText();
+            case "OITAVAS":
+                fase = new OitavasFinal();
+                break;
 
-            String arbitro =
-            jTextField7.getText();
+            case "QUARTAS":
+                fase = new QuartasFinal();
+                break;
 
-            Selecao selecao1 =
-            new Selecao();
+            case "SEMIS":
+                fase = new SemiFinal();
+                break;
 
-            selecao1.setPais(pais1);
+            case "FINAL":
+                fase = new Final();
+                break;
 
-            Selecao selecao2 =
-            new Selecao();
+            default:
+                throw new Exception(
+                        "Fase inválida.");
+        }
 
-            selecao2.setPais(pais2);
+        String pais1 =
+                cbSelecao1
+                .getSelectedItem()
+                .toString();
 
-            PartidaCopa partida =
-            new PartidaCopa();
+        String pais2 =
+                cbSelecao2
+                .getSelectedItem()
+                .toString();
 
-            partida.setData(data);
-            partida.setHorario(horario);
-            partida.setEstadio(estadio);
-            partida.setArbitro(arbitro);
-
-            partida.setSelecao1(selecao1);
-            partida.setSelecao2(selecao2);
-
-            partida.setNumero(
-                faseAtual.listarPartidas().size() + 1);
-
-            faseAtual.criarPartida(partida);
+        if (pais1.equals(pais2)) {
 
             JOptionPane.showMessageDialog(
+                    this,
+                    "Uma seleção não pode jogar contra ela mesma.");
+
+            return;
+        }
+
+
+        PartidaCopa partida =
+                new PartidaCopa();
+
+        partida.setNumero(
+                gerarNumeroPartida());
+
+        partida.setFase(
+                faseSelecionada);
+
+        partida.setData(
+                txtData.getText());
+
+        partida.setHorario(
+                txtHorario.getText());
+
+        partida.setEstadio(
+                cbEstadio
+                        .getSelectedItem()
+                        .toString());
+
+                String nomeArbitro =
+                cbArbitro.getSelectedItem().toString();
+
+        Usuario arbitro = null;
+
+        List<Usuario> arbitros =
+                AdministraUsuario.pesquisaUsuario(
+                        "",
+                        "",
+                        "",
+                        "",
+                        new Arbitro(),
+                        persistencia);
+
+        for (Usuario u : arbitros) {
+
+            if (u.getNome().equals(nomeArbitro)) {
+
+                arbitro = u;
+                break;
+            }
+        }
+
+        if (arbitro != null &&
+        (arbitro.getPais().equalsIgnoreCase(pais1)
+         ||
+         arbitro.getPais().equalsIgnoreCase(pais2))) {
+
+        throw new Exception(
+                "O árbitro não pode apitar partidas envolvendo seu próprio país.");
+    }
+
+        partida.setSelecao1(
+                pais1);
+
+        partida.setSelecao2(
+                pais2);
+
+        fase.criarPartida(
+                partida);
+
+        JOptionPane.showMessageDialog(
                 this,
                 "Partida cadastrada com sucesso!");
 
-        }
+    } catch (Exception e) {
 
-        catch (Exception ex) {
-
-            JOptionPane.showMessageDialog(
+        JOptionPane.showMessageDialog(
                 this,
-                ex.getMessage(),
-                "Erro",
-                JOptionPane.ERROR_MESSAGE);
-        }
+                e.getMessage());
+    }
     }//GEN-LAST:event_Salvar1ActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txtDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDataActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtDataActionPerformed
 
-    private void cbFaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFaseActionPerformed
+    private void cbFase1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFase1ActionPerformed
         String fase =
-                cbFase.getSelectedItem()
+                cbFase1.getSelectedItem()
                         .toString();
 
         switch (fase) {
@@ -409,25 +707,145 @@ public class Partida extends javax.swing.JFrame {
                 faseAtual =
                         new Final();
         }
-    }//GEN-LAST:event_cbFaseActionPerformed
+    }//GEN-LAST:event_cbFase1ActionPerformed
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
-        try {
 
-            txtConsulta.setText(
-                faseAtual.mostrarPartidas());
+    try {
 
+        String faseSelecionada =
+                cbFase3.getSelectedItem().toString();
+
+        Fase fase;
+
+        switch (faseSelecionada) {
+
+            case "GRUPOS":
+                fase = new FaseGrupos();
+                break;
+
+            case "OITAVAS":
+                fase = new OitavasFinal();
+                break;
+
+            case "QUARTAS":
+                fase = new QuartasFinal();
+                break;
+
+            case "SEMIS":
+                fase = new SemiFinal();
+                break;
+
+            case "FINAL":
+                fase = new Final();
+                break;
+
+            default:
+                throw new Exception(
+                        "Fase inválida.");
         }
 
-        catch (Exception ex) {
+        txtConsulta.setText(
+                fase.mostrarPartidas());
+
+    }
+
+    catch (Exception e) {
 
         JOptionPane.showMessageDialog(
                 this,
-                ex.getMessage(),
-                "Erro",
-                JOptionPane.ERROR_MESSAGE);
-        }
+                e.getMessage());
+    }
     }//GEN-LAST:event_btnConsultarActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+
+    try {
+
+        String nomeFase =
+                cbFase2
+                .getSelectedItem()
+                .toString();
+
+        switch (nomeFase) {
+
+            case "GRUPOS":
+                faseAtual = new FaseGrupos();
+                break;
+
+            case "OITAVAS":
+                faseAtual = new OitavasFinal();
+                break;
+
+            case "QUARTAS":
+                faseAtual = new QuartasFinal();
+                break;
+
+            case "SEMIS":
+                faseAtual = new SemiFinal();
+                break;
+
+            case "FINAL":
+                faseAtual = new Final();
+                break;
+
+            default:
+                throw new Exception(
+                        "Fase inválida.");
+        }
+
+        int numeroPartida =
+                Integer.parseInt(
+                        txtNumeroPartida.getText());
+
+        partidaAtual =
+                faseAtual.buscarPartida(
+                        numeroPartida);
+
+        if (partidaAtual == null) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Partida não encontrada.");
+
+            return;
+        }
+
+        cbPenaltis.removeAllItems();
+
+        cbPenaltis.addItem(
+                partidaAtual.getSelecao1());
+
+        cbPenaltis.addItem(
+                partidaAtual.getSelecao2());
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Partida encontrada:\n"
+                + partidaAtual.getSelecao1()
+                + " x "
+                + partidaAtual.getSelecao2());
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                e.getMessage());
+    }
+
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void cbFase2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFase2ActionPerformed
+
+    String fase =
+            cbFase2
+            .getSelectedItem()
+            .toString();
+
+    cbPenaltis.setVisible(
+            !fase.equals("GRUPOS"));
+
+    }//GEN-LAST:event_cbFase2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -457,9 +875,17 @@ public class Partida extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Fechar1;
     private javax.swing.JButton Salvar1;
+    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnResultado;
-    private javax.swing.JComboBox<String> cbFase;
+    private javax.swing.JComboBox<String> cbArbitro;
+    private javax.swing.JComboBox<String> cbEstadio;
+    private javax.swing.JComboBox<String> cbFase1;
+    private javax.swing.JComboBox<String> cbFase2;
+    private javax.swing.JComboBox<String> cbFase3;
+    private javax.swing.JComboBox<String> cbPenaltis;
+    private javax.swing.JComboBox<String> cbSelecao1;
+    private javax.swing.JComboBox<String> cbSelecao2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -470,22 +896,19 @@ public class Partida extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
     private javax.swing.JTextArea txtConsulta;
+    private javax.swing.JTextField txtData;
+    private javax.swing.JTextField txtGols1;
+    private javax.swing.JTextField txtGols2;
+    private javax.swing.JTextField txtHorario;
+    private javax.swing.JTextField txtNumeroPartida;
     // End of variables declaration//GEN-END:variables
 }

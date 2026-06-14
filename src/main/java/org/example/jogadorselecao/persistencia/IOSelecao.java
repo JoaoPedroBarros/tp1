@@ -144,4 +144,19 @@ public class IOSelecao extends Permissao{
         return null;
     }
     
+
+private Selecao buscarSelecao(String pais) throws Exception {
+
+        int indice =
+                IOSelecao.containsSelecao(pais);
+
+        if (indice == -1) {
+
+            throw new Exception(
+                    "Seleção não encontrada: "
+                            + pais);
+        }
+
+        return IOSelecao.get(indice);
+    }    
 }

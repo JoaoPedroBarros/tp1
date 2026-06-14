@@ -1,5 +1,6 @@
 package org.example.partidas;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.io.File;
@@ -14,10 +15,10 @@ public class FaseGrupos extends Fase {
     public FaseGrupos() {
 
         arquivoPartidas =
-                "partidas_grupos.json";
+                "src/main/resources/partidas_grupos.json";
 
         arquivoClassificados =
-                "classificados_oitavas.json";
+                "src/main/resources/classificados_oitavas.json";
     }
 
     @Override
@@ -58,10 +59,7 @@ public class FaseGrupos extends Fase {
 
     @Override
     public void registrarResultado(
-            int numeroPartida,
-            int gols1,
-            int gols2,
-            String vencedorPenaltis)
+            int numeroPartida, int gols1, int gols2, String vencedorPenaltis)
             throws Exception {
 
         List<PartidaCopa> partidas =
@@ -82,17 +80,13 @@ public class FaseGrupos extends Fase {
                 if (gols1 > gols2) {
 
                     partida.setVencedor(
-                            partida
-                                    .getSelecao1()
-                                    .getPais());
+                            partida.getSelecao1());
                 }
 
                 else if (gols2 > gols1) {
 
                     partida.setVencedor(
-                            partida
-                                    .getSelecao2()
-                                    .getPais());
+                            partida.getSelecao2());
                 }
 
                 else {
@@ -123,12 +117,10 @@ public class FaseGrupos extends Fase {
         for (PartidaCopa p : partidas) {
 
     String pais1 =
-            p.getSelecao1()
-             .getPais();
+            p.getSelecao1();
 
     String pais2 =
-            p.getSelecao2()
-             .getPais();
+            p.getSelecao2();
 
     tabela.putIfAbsent(
             pais1,
@@ -235,8 +227,9 @@ public class FaseGrupos extends Fase {
     
     }
 
-    @Override
+        @Override
+        @JsonIgnore
     public String getNome() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "FASE_GRUPOS";
     }
 }

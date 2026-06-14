@@ -1,5 +1,6 @@
 package org.example.partidas;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 
 public class OitavasFinal extends FaseEliminatoria {
@@ -7,15 +8,16 @@ public class OitavasFinal extends FaseEliminatoria {
     public OitavasFinal() {
 
         arquivoPartidas =
-                "partidas_oitavas.json";
+                "src/main/resources/partidas_oitavas.json";
 
         arquivoClassificados =
-                "classificados_quartas.json";
+                "src/main/resources/classificados_quartas.json";
     }
 
-    @Override
+        @Override
+        @JsonIgnore
     public String getNome() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "OITAVAS_FINAL";
     }
 
 }

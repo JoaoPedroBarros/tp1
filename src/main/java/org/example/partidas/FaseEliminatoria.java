@@ -43,10 +43,7 @@ public abstract class FaseEliminatoria extends Fase {
 
     @Override
     public void registrarResultado(
-            int numeroPartida,
-            int gols1,
-            int gols2,
-            String vencedorPenaltis)
+            int numeroPartida, int gols1, int gols2, String vencedorPenaltis)
             throws Exception {
 
         List<PartidaCopa> partidas =
@@ -63,19 +60,16 @@ public abstract class FaseEliminatoria extends Fase {
                 if (gols1 > gols2) {
 
                     partida.setVencedor(
-                            partida.getSelecao1()
-                                   .getPais());
+                            partida.getSelecao1());
 
                 } else if (gols2 > gols1) {
 
                     partida.setVencedor(
-                            partida.getSelecao2()
-                                   .getPais());
+                            partida.getSelecao2());
 
                 } else {
 
-                    partida.setVencedor(
-                            vencedorPenaltis);
+                    partida.setVencedor(vencedorPenaltis);
                 }
             }
         }

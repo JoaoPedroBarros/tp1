@@ -87,4 +87,9 @@ public class Usuario {
     public void setPapel(Papel papel) {
         this.papel = papel;
     }
+    
+     @Override
+    public String toString() {
+        return nome;
+    }
 }

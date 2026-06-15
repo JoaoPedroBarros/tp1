@@ -75,7 +75,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="menuEstadioArbitragem">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Est&#xe1;dios/Arbitragem"/>
+            <Property name="text" type="java.lang.String" value="Est&#xe1;dios"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="cadastraEstadio">
@@ -86,20 +86,19 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cadastraEstadioActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="cadastraArbitro">
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="menuPublicoIngressos1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Arbitragem"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="relatorioFinanceiro1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Cadastrar &#xe1;rbitro..."/>
+                <Property name="text" type="java.lang.String" value="Ver partidas designadas..."/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cadastraArbitroActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="designaArbitro">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Designar &#xe1;rbitro..."/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="designaArbitroActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="relatorioFinanceiro1ActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -140,6 +139,9 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+      <Dimension value="[1280, 720]"/>
+    </Property>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="jMenuBar1"/>
@@ -161,13 +163,29 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="1920" max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="518" max="-2" attributes="0"/>
+              <Component id="textoBoasVindas" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="1361" max="32767" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="1056" max="32767" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace pref="739" max="32767" attributes="0"/>
+              <Component id="textoBoasVindas" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="300" max="-2" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
   </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JLabel" name="textoBoasVindas">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="jLabel1"/>
+      </Properties>
+    </Component>
+  </SubComponents>
 </Form>

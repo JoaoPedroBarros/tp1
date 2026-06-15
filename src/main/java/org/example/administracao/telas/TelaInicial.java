@@ -21,6 +21,7 @@ import org.example.ingressos.*;
 import org.example.jogadorselecao.persistencia.IOJogador;
 import org.example.jogadorselecao.persistencia.IOSelecao;
 import org.example.partidas.PartidaCopa;
+import org.example.style.FontesTexto;
 
 
 /**
@@ -68,7 +69,10 @@ public class TelaInicial extends javax.swing.JFrame {
         
         if (supplierPermissoes.get().anyMatch(u -> u instanceof GerenciaIngressos)) menuPublicoIngressos.setEnabled(true);
         
+        FontesTexto paletaTexto = new FontesTexto();
         
+        paletaTexto.fonteBoasVindas(textoBoasVindas);
+        textoBoasVindas.setText("Boas-vindas, " + sessao.getUsuario().getNome());
         
         
     }
@@ -90,6 +94,7 @@ public class TelaInicial extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        textoBoasVindas = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuAdministracao = new javax.swing.JMenu();
         gerenciaUsuarios = new javax.swing.JMenuItem();
@@ -102,14 +107,18 @@ public class TelaInicial extends javax.swing.JFrame {
         gerenciaPartidas = new javax.swing.JMenuItem();
         menuEstadioArbitragem = new javax.swing.JMenu();
         cadastraEstadio = new javax.swing.JMenuItem();
-        cadastraArbitro = new javax.swing.JMenuItem();
-        designaArbitro = new javax.swing.JMenuItem();
+        menuPublicoIngressos1 = new javax.swing.JMenu();
+        relatorioFinanceiro1 = new javax.swing.JMenuItem();
         menuPublicoIngressos = new javax.swing.JMenu();
         compraIngresso = new javax.swing.JMenuItem();
         controlePublico = new javax.swing.JMenuItem();
         relatorioFinanceiro = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1280, 720));
+
+        textoBoasVindas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        textoBoasVindas.setText("jLabel1");
 
         menuAdministracao.setText("Administração");
 
@@ -147,21 +156,21 @@ public class TelaInicial extends javax.swing.JFrame {
 
         jMenuBar1.add(menuPartidas);
 
-        menuEstadioArbitragem.setText("Estádios/Arbitragem");
+        menuEstadioArbitragem.setText("Estádios");
 
         cadastraEstadio.setText("Cadastrar estádio...");
         cadastraEstadio.addActionListener(this::cadastraEstadioActionPerformed);
         menuEstadioArbitragem.add(cadastraEstadio);
 
-        cadastraArbitro.setText("Cadastrar árbitro...");
-        cadastraArbitro.addActionListener(this::cadastraArbitroActionPerformed);
-        menuEstadioArbitragem.add(cadastraArbitro);
-
-        designaArbitro.setText("Designar árbitro...");
-        designaArbitro.addActionListener(this::designaArbitroActionPerformed);
-        menuEstadioArbitragem.add(designaArbitro);
-
         jMenuBar1.add(menuEstadioArbitragem);
+
+        menuPublicoIngressos1.setText("Arbitragem");
+
+        relatorioFinanceiro1.setText("Ver partidas designadas...");
+        relatorioFinanceiro1.addActionListener(this::relatorioFinanceiro1ActionPerformed);
+        menuPublicoIngressos1.add(relatorioFinanceiro1);
+
+        jMenuBar1.add(menuPublicoIngressos1);
 
         menuPublicoIngressos.setText("Públicos/Ingressos");
 
@@ -185,11 +194,17 @@ public class TelaInicial extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1920, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(518, 518, 518)
+                .addComponent(textoBoasVindas)
+                .addContainerGap(1361, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1056, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(739, Short.MAX_VALUE)
+                .addComponent(textoBoasVindas)
+                .addGap(300, 300, 300))
         );
 
         pack();
@@ -257,22 +272,6 @@ public class TelaInicial extends javax.swing.JFrame {
         });
     }//GEN-LAST:event_cadastraEstadioActionPerformed
 
-    private void cadastraArbitroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastraArbitroActionPerformed
-        SwingUtilities.invokeLater(() -> {
-            TelaCadastroArbitro janelaCadastroArbitro = new TelaCadastroArbitro();
-            janelaCadastroArbitro.setVisible(true);
-            janelaCadastroArbitro.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        });
-    }//GEN-LAST:event_cadastraArbitroActionPerformed
-
-    private void designaArbitroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_designaArbitroActionPerformed
-        SwingUtilities.invokeLater(() -> {
-            TelaDesignacaoArbitro janelaDesignacaoArbitro = new TelaDesignacaoArbitro();
-            janelaDesignacaoArbitro.setVisible(true);
-            janelaDesignacaoArbitro.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        });
-    }//GEN-LAST:event_designaArbitroActionPerformed
-
     private void compraIngressoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compraIngressoActionPerformed
         SwingUtilities.invokeLater(() -> {
             TelaIngressoGUI janelaIngresso = new TelaIngressoGUI();
@@ -296,6 +295,10 @@ public class TelaInicial extends javax.swing.JFrame {
             janelaRelatorioFinanceiro.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         });
     }//GEN-LAST:event_relatorioFinanceiroActionPerformed
+
+    private void relatorioFinanceiro1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relatorioFinanceiro1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_relatorioFinanceiro1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -325,14 +328,12 @@ public class TelaInicial extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem cadastraArbitro;
     private javax.swing.JMenuItem cadastraEstadio;
     private javax.swing.JMenuItem cadastraJogador;
     private javax.swing.JMenuItem cadastraSelecao;
     private javax.swing.JMenuItem compraIngresso;
     private javax.swing.JMenuItem consultaSelecaoJogador;
     private javax.swing.JMenuItem controlePublico;
-    private javax.swing.JMenuItem designaArbitro;
     private javax.swing.JMenuItem gerenciaPartidas;
     private javax.swing.JMenuItem gerenciaUsuarios;
     private javax.swing.JMenuBar jMenuBar1;
@@ -340,8 +341,11 @@ public class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JMenu menuEstadioArbitragem;
     private javax.swing.JMenu menuPartidas;
     private javax.swing.JMenu menuPublicoIngressos;
+    private javax.swing.JMenu menuPublicoIngressos1;
     private javax.swing.JMenu menuSelecoesJogadores;
     private javax.swing.JMenuItem relatorioFinanceiro;
+    private javax.swing.JMenuItem relatorioFinanceiro1;
     private javax.swing.JMenuItem relatorios;
+    private javax.swing.JLabel textoBoasVindas;
     // End of variables declaration//GEN-END:variables
 }

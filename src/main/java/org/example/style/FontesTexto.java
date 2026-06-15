@@ -17,4 +17,9 @@ public class FontesTexto {
         Font fonteTitulo = new Font(Font.SANS_SERIF, Font.BOLD, 18);
         label.setFont(fonteTitulo);
     }
+    
+    public void fonteBoasVindas(JLabel label) {
+        Font fonteBoasVindas = new Font(Font.SANS_SERIF, Font.BOLD, 40);
+        label.setFont(fonteBoasVindas);
+    }
 }

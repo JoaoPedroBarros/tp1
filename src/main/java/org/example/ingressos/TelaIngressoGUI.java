@@ -19,7 +19,7 @@ public class TelaIngressoGUI extends javax.swing.JFrame {
      */
     public TelaIngressoGUI() {
         initComponents();
-        for (String p : Sistema.partidas) {
+        for (String p : DadosIngressos.partidas) {
             cbPartida.addItem(p);
         }
     }
@@ -125,19 +125,13 @@ public class TelaIngressoGUI extends javax.swing.JFrame {
     double valor = Double.parseDouble(campoValor.getText());
 
     String partida = (String) cbPartida.getSelectedItem();
-
-    Sistema.partidaAtual = partida;
-
-    int atual = Sistema.ingressosPorPartida.getOrDefault(partida, 0);
-    Sistema.ingressosPorPartida.put(partida, atual + qtd);
-
-    double total = Sistema.arrecadadoPorPartida.getOrDefault(partida, 0.0);
-    Sistema.arrecadadoPorPartida.put(partida, total + qtd * valor);
+    
+    GerenciaIngressos.comprarIngresso(partida, qtd, valor);
 
     JOptionPane.showMessageDialog(this, "Compra realizada!");
 
 } catch (Exception ex) {
-    JOptionPane.showMessageDialog(this, "Erro!");
+    JOptionPane.showMessageDialog(this, ex.getMessage());
 }
     }//GEN-LAST:event_btnComprarActionPerformed
 

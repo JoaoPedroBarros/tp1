@@ -21,12 +21,12 @@ public class TelaControlePublicoGUI extends javax.swing.JFrame {
         
         Timer timer = new Timer(1000, e -> {
 
-            String partida = Sistema.partidaAtual;
+            String partida = DadosIngressos.partidaAtual;
 
-            int vendidos = Sistema.ingressosPorPartida.getOrDefault(partida, 0);
+            int vendidos = DadosIngressos.ingressosPorPartida.getOrDefault(partida, 0);
 
             valorPartida.setText(partida);
-            valorCapacidade.setText(String.valueOf(Sistema.capacidade));
+            valorCapacidade.setText(String.valueOf(DadosIngressos.capacidade));
             valorVendidos.setText(String.valueOf(vendidos));
             valorAtual.setText(String.valueOf(vendidos));
 

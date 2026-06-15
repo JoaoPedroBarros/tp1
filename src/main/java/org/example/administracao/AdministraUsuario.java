@@ -81,7 +81,7 @@ public class AdministraUsuario extends Permissao {
                 retornaListaUsuarios = retornaListaUsuarios.stream().filter(u -> u.getEmail().contains(email)).collect(Collectors.toList());
             }
             
-            if (pais.isEmpty() == false) {
+            if (pais != null && pais.isEmpty() == false) {
                 retornaListaUsuarios = retornaListaUsuarios.stream().filter(u -> u.getPais().contains(pais)).collect(Collectors.toList());
             }
             

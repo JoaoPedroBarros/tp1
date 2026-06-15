@@ -9,6 +9,8 @@ package org.example.ingressos;
  * @author ighor
  */
 import javax.swing.Timer;
+import java.text.NumberFormat;
+import java.util.Locale;
 public class TelaRelatorioFinanceiroGUI extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaRelatorioFinanceiroGUI.class.getName());
@@ -20,18 +22,26 @@ public class TelaRelatorioFinanceiroGUI extends javax.swing.JFrame {
         initComponents();
         Timer timer = new Timer(1000, e -> {
 
-            String partida = Sistema.partidaAtual;
+            String partida = DadosIngressos.partidaAtual;
 
-            int vendidos = Sistema.ingressosPorPartida.getOrDefault(partida, 0);
-            double total = Sistema.arrecadadoPorPartida.getOrDefault(partida, 0.0);
-            double totalGeral = Sistema.getTotalGeral();
-            
+            int vendidos = DadosIngressos.ingressosPorPartida.getOrDefault(partida, 0);
+            double total = DadosIngressos.arrecadadoPorPartida.getOrDefault(partida, 0.0);
+
+            double totalGeral = GerenciaIngressos.getTotalGeral();
+            double media = GerenciaIngressos.getMediaPublico();
+            String maiorEvento = GerenciaIngressos.getEventoMaiorArrecadacao();
+
+            NumberFormat moeda = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+
             valorPartida.setText(partida);
             valorIngressos.setText(String.valueOf(vendidos));
-            valorTotal.setText("R$ " + total);
-            valorTotalGeral.setText("R$ " + totalGeral);
+            valorTotal.setText(moeda.format(total));
+            valorTotalGeral.setText(moeda.format(totalGeral));
 
-        });
+            valorMedia.setText(String.format("%.0f pessoas", media));
+            valorMaiorEvento.setText(maiorEvento);
+
+});
 
         timer.start();
     }
@@ -53,6 +63,11 @@ public class TelaRelatorioFinanceiroGUI extends javax.swing.JFrame {
         valorPartida = new javax.swing.JLabel();
         valorIngressos = new javax.swing.JLabel();
         valorTotal = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        valorMedia = new javax.swing.JLabel();
+        valorMaiorEvento = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Relatorio Financeiro");
@@ -63,7 +78,7 @@ public class TelaRelatorioFinanceiroGUI extends javax.swing.JFrame {
 
         jLabel3.setText("Total arrecadado:");
 
-        jLabel4.setText("Total Geral:");
+        jLabel4.setText("TOTAL GERAL:");
 
         valorTotalGeral.setText("0");
 
@@ -73,6 +88,14 @@ public class TelaRelatorioFinanceiroGUI extends javax.swing.JFrame {
 
         valorTotal.setText("0");
 
+        jLabel5.setText("Média de Publico:");
+
+        jLabel7.setText("Maior Arrecadação:");
+
+        valorMedia.setText("0");
+
+        valorMaiorEvento.setText("0");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -80,17 +103,29 @@ public class TelaRelatorioFinanceiroGUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(56, 56, 56)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4))
-                .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(valorTotalGeral)
-                    .addComponent(valorPartida)
-                    .addComponent(valorIngressos)
-                    .addComponent(valorTotal))
-                .addContainerGap(175, Short.MAX_VALUE))
+                    .addComponent(jLabel6)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel4)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(valorTotalGeral))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(jLabel7)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(valorMaiorEvento))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel1)
+                                .addComponent(jLabel2)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel5))
+                            .addGap(69, 69, 69)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(valorPartida)
+                                .addComponent(valorIngressos)
+                                .addComponent(valorTotal)
+                                .addComponent(valorMedia)))))
+                .addContainerGap(232, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -99,19 +134,29 @@ public class TelaRelatorioFinanceiroGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(valorPartida))
-                .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(valorIngressos))
-                .addGap(40, 40, 40)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(valorIngressos)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(valorTotal))
-                .addGap(107, 107, 107)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(valorTotalGeral)
-                    .addComponent(jLabel4))
-                .addContainerGap(54, Short.MAX_VALUE))
+                    .addComponent(jLabel5)
+                    .addComponent(valorMedia))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(valorMaiorEvento))
+                .addGap(71, 71, 71)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(valorTotalGeral))
+                .addContainerGap(77, Short.MAX_VALUE))
         );
 
         pack();
@@ -147,7 +192,12 @@ public class TelaRelatorioFinanceiroGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel valorIngressos;
+    private javax.swing.JLabel valorMaiorEvento;
+    private javax.swing.JLabel valorMedia;
     private javax.swing.JLabel valorPartida;
     private javax.swing.JLabel valorTotal;
     private javax.swing.JLabel valorTotalGeral;

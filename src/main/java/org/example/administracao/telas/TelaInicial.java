@@ -66,6 +66,8 @@ public class TelaInicial extends javax.swing.JFrame {
             menuPartidas.setEnabled(true);
         }
         
+        if (supplierPermissoes.get().anyMatch(u -> u instanceof GerenciaIngressos)) menuPublicoIngressos.setEnabled(true);
+        
         
         
         

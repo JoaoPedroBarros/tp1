@@ -5,6 +5,8 @@
 package org.example.administracao;
 
 import java.util.List;
+import org.example.ingressos.GerenciaIngressos;
+
 
 /**
  *
@@ -12,6 +14,7 @@ import java.util.List;
  */
 public class Operador extends Papel {
     
+    private final static List<? extends Permissao> listaPermissoes = List.of(new GerenciaIngressos());
     
     public Operador() {
         this.nomePapel = "OPERADOR";
@@ -24,7 +27,7 @@ public class Operador extends Papel {
     
     @Override
     public List<? extends Permissao> getPermissoes() {
-        return null;
+        return listaPermissoes;
     }
     
     @Override

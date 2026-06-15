@@ -101,10 +101,38 @@ public class FaseGrupos extends Fase {
                 arquivoPartidas,
                 partidas);
     }
+    
+       public boolean faseFinalizada()
+            throws Exception {
+
+        List<PartidaCopa> partidas =
+                listarPartidas();
+
+        if (partidas.size() < 48) {
+            return false;
+        }
+
+        for (PartidaCopa p : partidas) {
+
+            if (p.getGolsSelecao1() == null
+                    || p.getGolsSelecao2() == null) {
+
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     @Override
     public void gerarClassificados()
             throws Exception {
+        
+        if (!faseFinalizada()) {
+
+        throw new Exception(
+                "A fase de grupos ainda não foi concluída.");
+        }
 
         List<PartidaCopa> partidas =
         listarPartidas();

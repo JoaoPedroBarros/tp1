@@ -553,6 +553,29 @@ public class Partida extends javax.swing.JFrame {
                 cbFase1
                 .getSelectedItem()
                 .toString();
+        
+           if (faseSelecionada.equals("OITAVAS")) {
+
+        FaseGrupos grupos = new FaseGrupos();
+
+        if (!grupos.faseFinalizada()) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "A fase de grupos ainda não terminou.");
+
+            return;
+        }
+
+        java.io.File arquivo =
+                new java.io.File(
+                        "src/main/resources/classificados_oitavas.json");
+
+        if (!arquivo.exists()) {
+
+            grupos.gerarClassificados();
+        }
+    }
 
         Fase fase;
 
@@ -582,6 +605,8 @@ public class Partida extends javax.swing.JFrame {
                 throw new Exception(
                         "Fase inválida.");
         }
+        
+        
 
         String pais1 =
                 cbSelecao1
@@ -654,6 +679,9 @@ public class Partida extends javax.swing.JFrame {
         throw new Exception(
                 "O árbitro não pode apitar partidas envolvendo seu próprio país.");
     }
+        
+        partida.setArbitro(
+        nomeArbitro);
 
         partida.setSelecao1(
                 pais1);

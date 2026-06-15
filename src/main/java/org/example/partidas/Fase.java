@@ -1,5 +1,6 @@
 package org.example.partidas;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.example.administracao.Permissao;
 
@@ -104,6 +105,21 @@ public abstract class Fase extends Permissao {
         }
 
         return null;
+    }
+    
+        public static List<PartidaCopa> listarTodasPartidas()
+            throws Exception {
+
+        List<PartidaCopa> todas =
+                new ArrayList<>();
+
+        todas.addAll(new FaseGrupos().listarPartidas());
+        todas.addAll(new OitavasFinal().listarPartidas());
+        todas.addAll(new QuartasFinal().listarPartidas());
+        todas.addAll(new SemiFinal().listarPartidas());
+        todas.addAll(new Final().listarPartidas());
+
+        return todas;
     }
     
 }

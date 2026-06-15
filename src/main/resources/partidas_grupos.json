@@ -46,4 +46,16 @@
   "golsSelecao1" : null,
   "golsSelecao2" : null,
   "vencedor" : null
+}, {
+  "numero" : 464081,
+  "fase" : "GRUPOS",
+  "data" : "16/03/2027",
+  "horario" : "12:00",
+  "estadio" : "Castelao",
+  "arbitro" : null,
+  "selecao1" : "Brasil",
+  "selecao2" : "México",
+  "golsSelecao1" : 7,
+  "golsSelecao2" : 6,
+  "vencedor" : "Brasil"
 } ]

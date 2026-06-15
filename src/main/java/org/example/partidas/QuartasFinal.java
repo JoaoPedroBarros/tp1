@@ -1,18 +1,21 @@
 package org.example.partidas;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class QuartasFinal extends FaseEliminatoria {
 
     public QuartasFinal() {
 
         arquivoPartidas =
-                "partidas_quartas.json";
+                "src/main/resources/partidas_quartas.json";
 
         arquivoClassificados =
-                "classificados_semifinal.json";
+                "src/main/resources/classificados_semifinal.json";
     }
 
-    @Override
+        @Override
+        @JsonIgnore
     public String getNome() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "QUARTAS_FINAL";
     }
 }

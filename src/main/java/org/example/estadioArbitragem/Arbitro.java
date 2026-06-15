@@ -46,9 +46,4 @@ public class Arbitro extends Papel{
     public List<? extends Permissao> getPermissoes(){
         return listaPermissoes;
     }
-    
-    @Override
-    public String toString(){
-        return "Árbitro";
-    }
 }

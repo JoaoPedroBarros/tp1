@@ -1,0 +1,49 @@
+[ {
+  "numero" : 440249,
+  "fase" : "GRUPOS",
+  "data" : "16/03/2026",
+  "horario" : "12:00",
+  "estadio" : "Castelao",
+  "arbitro" : "João Pedro Barros",
+  "selecao1" : "Brasil",
+  "selecao2" : "Argentina",
+  "golsSelecao1" : null,
+  "golsSelecao2" : null,
+  "vencedor" : null
+}, {
+  "numero" : 447469,
+  "fase" : "GRUPOS",
+  "data" : "16/03/2026",
+  "horario" : "12:00",
+  "estadio" : "Castelao",
+  "arbitro" : "João Pedro Barros",
+  "selecao1" : "Argentina",
+  "selecao2" : "Portugal",
+  "golsSelecao1" : null,
+  "golsSelecao2" : null,
+  "vencedor" : null
+}, {
+  "numero" : 462681,
+  "fase" : "GRUPOS",
+  "data" : "16/03/2026",
+  "horario" : "12:00",
+  "estadio" : "Castelao",
+  "arbitro" : "João Pedro Barros",
+  "selecao1" : "Argélia",
+  "selecao2" : "RD do Congo",
+  "golsSelecao1" : 2,
+  "golsSelecao2" : 4,
+  "vencedor" : "RD do Congo"
+}, {
+  "numero" : 666099,
+  "fase" : "GRUPOS",
+  "data" : "10/03/2026",
+  "horario" : "12:00",
+  "estadio" : "Castelao",
+  "arbitro" : null,
+  "selecao1" : "Brasil",
+  "selecao2" : "Marrocos",
+  "golsSelecao1" : null,
+  "golsSelecao2" : null,
+  "vencedor" : null
+} ]

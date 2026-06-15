@@ -1,5 +1,7 @@
 package org.example.partidas;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.example.administracao.Permissao;
 import org.example.jogadorselecao.Selecao;
 
@@ -17,9 +19,9 @@ public class PartidaCopa extends Permissao {
 
     private String arbitro;
 
-    private Selecao selecao1;
+    private String selecao1;
 
-    private Selecao selecao2;
+    private String selecao2;
 
     private Integer golsSelecao1;
 
@@ -37,8 +39,8 @@ public class PartidaCopa extends Permissao {
             String horario,
             String estadio,
             String arbitro,
-            Selecao selecao1,
-            Selecao selecao2) {
+            String selecao1,
+            String selecao2) {
 
         this.numero = numero;
         this.fase = fase;
@@ -97,21 +99,21 @@ public class PartidaCopa extends Permissao {
     public void setArbitro(String arbitro) {
         this.arbitro = arbitro;
     }
-
-    public Selecao getSelecao1() {
-        return selecao1;
+    
+    public String getSelecao1() {
+    return selecao1;
     }
 
-    public void setSelecao1(Selecao selecao1) {
-        this.selecao1 = selecao1;
+public void setSelecao1(String selecao1) {
+    this.selecao1 = selecao1;
     }
 
-    public Selecao getSelecao2() {
-        return selecao2;
+public String getSelecao2() {
+    return selecao2;
     }
 
-    public void setSelecao2(Selecao selecao2) {
-        this.selecao2 = selecao2;
+public void setSelecao2(String selecao2) {
+    this.selecao2 = selecao2;
     }
 
     public Integer getGolsSelecao1() {
@@ -139,7 +141,8 @@ public class PartidaCopa extends Permissao {
     }
 
     @Override
+    @JsonIgnore
     public String getNome() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "PARTIDA_COPA";
     }
 }

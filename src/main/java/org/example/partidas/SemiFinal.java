@@ -1,18 +1,21 @@
 package org.example.partidas;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class SemiFinal extends FaseEliminatoria {
 
     public SemiFinal() {
 
         arquivoPartidas =
-                "partidas_semifinal.json";
+                "src/main/resources/partidas_semifinal.json";
 
         arquivoClassificados =
-                "classificados_final.json";
+                "src/main/resources/classificados_final.json";
     }
 
-    @Override
+        @Override
+        @JsonIgnore
     public String getNome() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "SEMI_FINAL";
     }
 }

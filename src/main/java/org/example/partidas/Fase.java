@@ -39,10 +39,7 @@ public abstract class Fase extends Permissao {
             throws Exception;
 
     public abstract void registrarResultado(
-            int numeroPartida,
-            int gols1,
-            int gols2,
-            String vencedorPenaltis)
+            int numeroPartida, int gols1, int gols2, String vencedorPenaltis)
             throws Exception;
 
     public abstract void gerarClassificados()
@@ -61,7 +58,7 @@ public abstract class Fase extends Permissao {
               .append(p.getNumero())
               .append("\n");
 
-            sb.append(p.getSelecao1().getPais())
+            sb.append(p.getSelecao1())
               .append(" ");
 
             sb.append(
@@ -78,8 +75,7 @@ public abstract class Fase extends Permissao {
 
             sb.append(" ");
 
-            sb.append(
-                    p.getSelecao2().getPais());
+            sb.append(p.getSelecao2());
 
             sb.append("\n");
 

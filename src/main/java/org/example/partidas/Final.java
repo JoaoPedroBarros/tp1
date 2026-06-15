@@ -1,5 +1,6 @@
 package org.example.partidas;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.type.TypeReference;
 import java.io.File;
 import java.util.List;
@@ -10,10 +11,10 @@ public class Final
     public Final() {
 
         arquivoPartidas =
-                "partidas_final.json";
+                "src/main/resources/partidas_final.json";
 
         arquivoClassificados =
-                "campeao.json";
+                "src/main/resources/campeao.json";
     }
     
     public String obterCampeao()
@@ -33,8 +34,9 @@ public class Final
     return campeao.get(0);
     }
 
-    @Override
+        @Override
+        @JsonIgnore
     public String getNome() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "FINAL";
     }
 }

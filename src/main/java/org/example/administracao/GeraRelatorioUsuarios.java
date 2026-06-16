@@ -24,7 +24,7 @@ import org.example.estadioArbitragem.Arbitro;
  *
  * @author arkham
  */
-public class GeraRelatorios extends Permissao {
+public class GeraRelatorioUsuarios extends Permissao {
     
     @Override
     public String getNome() {
@@ -33,7 +33,7 @@ public class GeraRelatorios extends Permissao {
     
     PersistenciaUsuario persistencia;
     
-    public GeraRelatorios(PersistenciaUsuario persistencia) {
+    public GeraRelatorioUsuarios(PersistenciaUsuario persistencia) {
         this.persistencia = persistencia;
     }
     
@@ -82,8 +82,6 @@ public class GeraRelatorios extends Permissao {
     
     public void geraRelatorioUsuario(List<Usuario> listaUsuarios) {
         try {
-            System.out.println(1);
-            
             File file = new File("src/main/resources/relatorioUsuarios.jrxml");
             
             try{
@@ -110,5 +108,5 @@ public class GeraRelatorios extends Permissao {
                 
                
             }
-        }
-    }
+        } 
+}

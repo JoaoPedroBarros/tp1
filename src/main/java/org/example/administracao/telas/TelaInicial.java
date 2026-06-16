@@ -4,9 +4,7 @@
  */
 package org.example.administracao.telas;
 
-import org.example.estadioArbitragem.telas.TelaDesignacaoArbitro;
 import org.example.estadioArbitragem.telas.TelaCadastroEstadio;
-import org.example.estadioArbitragem.telas.TelaCadastroArbitro;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 import org.example.jogadorselecao.telas.*;
@@ -16,6 +14,7 @@ import javax.swing.SwingUtilities;
 import org.example.administracao.*;
 import org.example.estadioArbitragem.DesignacaoArbitro;
 import org.example.estadioArbitragem.OrganizaEstadio;
+import org.example.estadioArbitragem.telas.TelaPartidasDesignadas;
 import org.example.partidas.telas.*;
 import org.example.ingressos.*;
 import org.example.jogadorselecao.persistencia.IOJogador;
@@ -59,9 +58,11 @@ public class TelaInicial extends javax.swing.JFrame {
             menuSelecoesJogadores.setEnabled(true);
         }
         
-        if (supplierPermissoes.get().anyMatch(u -> u instanceof OrganizaEstadio) && supplierPermissoes.get().anyMatch(u -> u instanceof DesignacaoArbitro)) {
-            menuEstadioArbitragem.setEnabled(true);
+        if (supplierPermissoes.get().anyMatch(u -> u instanceof OrganizaEstadio)) {
+            menuEstadio.setEnabled(true);
         }
+        
+        if (supplierPermissoes.get().anyMatch(u -> u instanceof DesignacaoArbitro)) menuArbitragem.setEnabled(true);
         
         if (supplierPermissoes.get().anyMatch(u -> u instanceof PartidaCopa)) {
             menuPartidas.setEnabled(true);
@@ -72,14 +73,14 @@ public class TelaInicial extends javax.swing.JFrame {
         FontesTexto paletaTexto = new FontesTexto();
         
         paletaTexto.fonteBoasVindas(textoBoasVindas);
-        textoBoasVindas.setText("Boas-vindas, " + sessao.getUsuario().getNome());
+        textoBoasVindas.setText("Boas-vindas, " + sessao.getUsuario().getNome().split("\\s+")[0]);
         
         
     }
     
     private void desabilitaMenu() { // o padrao eh que todos os menus estejam desabilitados, para que, com as permissoes do usuarios, sejam habilitados pouco a pouco
         menuAdministracao.setEnabled(false);
-        menuEstadioArbitragem.setEnabled(false);
+        menuEstadio.setEnabled(false);
         menuPartidas.setEnabled(false);
         menuSelecoesJogadores.setEnabled(false);
         menuPublicoIngressos.setEnabled(false);
@@ -105,10 +106,10 @@ public class TelaInicial extends javax.swing.JFrame {
         consultaSelecaoJogador = new javax.swing.JMenuItem();
         menuPartidas = new javax.swing.JMenu();
         gerenciaPartidas = new javax.swing.JMenuItem();
-        menuEstadioArbitragem = new javax.swing.JMenu();
+        menuEstadio = new javax.swing.JMenu();
         cadastraEstadio = new javax.swing.JMenuItem();
-        menuPublicoIngressos1 = new javax.swing.JMenu();
-        relatorioFinanceiro1 = new javax.swing.JMenuItem();
+        menuArbitragem = new javax.swing.JMenu();
+        botaoPartidaDesignada = new javax.swing.JMenuItem();
         menuPublicoIngressos = new javax.swing.JMenu();
         compraIngresso = new javax.swing.JMenuItem();
         controlePublico = new javax.swing.JMenuItem();
@@ -156,21 +157,22 @@ public class TelaInicial extends javax.swing.JFrame {
 
         jMenuBar1.add(menuPartidas);
 
-        menuEstadioArbitragem.setText("Estádios");
+        menuEstadio.setText("Estádios");
 
         cadastraEstadio.setText("Cadastrar estádio...");
         cadastraEstadio.addActionListener(this::cadastraEstadioActionPerformed);
-        menuEstadioArbitragem.add(cadastraEstadio);
+        menuEstadio.add(cadastraEstadio);
 
-        jMenuBar1.add(menuEstadioArbitragem);
+        jMenuBar1.add(menuEstadio);
 
-        menuPublicoIngressos1.setText("Arbitragem");
+        menuArbitragem.setText("Arbitragem");
+        menuArbitragem.addActionListener(this::menuArbitragemActionPerformed);
 
-        relatorioFinanceiro1.setText("Ver partidas designadas...");
-        relatorioFinanceiro1.addActionListener(this::relatorioFinanceiro1ActionPerformed);
-        menuPublicoIngressos1.add(relatorioFinanceiro1);
+        botaoPartidaDesignada.setText("Ver partidas designadas...");
+        botaoPartidaDesignada.addActionListener(this::botaoPartidaDesignadaActionPerformed);
+        menuArbitragem.add(botaoPartidaDesignada);
 
-        jMenuBar1.add(menuPublicoIngressos1);
+        jMenuBar1.add(menuArbitragem);
 
         menuPublicoIngressos.setText("Públicos/Ingressos");
 
@@ -195,16 +197,16 @@ public class TelaInicial extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(518, 518, 518)
+                .addGap(434, 434, 434)
                 .addComponent(textoBoasVindas)
-                .addContainerGap(1361, Short.MAX_VALUE))
+                .addContainerGap(1445, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(739, Short.MAX_VALUE)
+                .addContainerGap(741, Short.MAX_VALUE)
                 .addComponent(textoBoasVindas)
-                .addGap(300, 300, 300))
+                .addGap(298, 298, 298))
         );
 
         pack();
@@ -296,9 +298,19 @@ public class TelaInicial extends javax.swing.JFrame {
         });
     }//GEN-LAST:event_relatorioFinanceiroActionPerformed
 
-    private void relatorioFinanceiro1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relatorioFinanceiro1ActionPerformed
+    private void botaoPartidaDesignadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPartidaDesignadaActionPerformed
+        SwingUtilities.invokeLater(() -> {
+            TelaPartidasDesignadas janelaPartidasDesignadas = new TelaPartidasDesignadas(sessao);
+            janelaPartidasDesignadas.setVisible(true);
+            janelaPartidasDesignadas.setSize(440, 420);
+            janelaPartidasDesignadas.setLocationRelativeTo(null);
+            janelaPartidasDesignadas.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        });
+    }//GEN-LAST:event_botaoPartidaDesignadaActionPerformed
+
+    private void menuArbitragemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuArbitragemActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_relatorioFinanceiro1ActionPerformed
+    }//GEN-LAST:event_menuArbitragemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -328,6 +340,7 @@ public class TelaInicial extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem botaoPartidaDesignada;
     private javax.swing.JMenuItem cadastraEstadio;
     private javax.swing.JMenuItem cadastraJogador;
     private javax.swing.JMenuItem cadastraSelecao;
@@ -338,13 +351,12 @@ public class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JMenuItem gerenciaUsuarios;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu menuAdministracao;
-    private javax.swing.JMenu menuEstadioArbitragem;
+    private javax.swing.JMenu menuArbitragem;
+    private javax.swing.JMenu menuEstadio;
     private javax.swing.JMenu menuPartidas;
     private javax.swing.JMenu menuPublicoIngressos;
-    private javax.swing.JMenu menuPublicoIngressos1;
     private javax.swing.JMenu menuSelecoesJogadores;
     private javax.swing.JMenuItem relatorioFinanceiro;
-    private javax.swing.JMenuItem relatorioFinanceiro1;
     private javax.swing.JMenuItem relatorios;
     private javax.swing.JLabel textoBoasVindas;
     // End of variables declaration//GEN-END:variables

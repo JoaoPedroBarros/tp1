@@ -220,7 +220,17 @@ public class TelaCadastroEstadio extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtLocalizacaoEstActionPerformed
 
-    private void btnSalvarCadEstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarCadEstActionPerformed
+    private void btnSalvarCadEstActionPerformed(java.awt.event.ActionEvent evt) {                                                
+        GerenciadorEstadioJSON gerenciador = new GerenciadorEstadioJSON();
+        List<Estadio> listaEstadio = gerenciador.carregarEstadio();
+        
+        for(Estadio est : listaEstadio){
+            if(txtNomeEst.getText().equals(est.getNome())){
+                JOptionPane.showMessageDialog(rootPane, "Estadio já cadastrado.");
+                return;
+            }
+        }
+
 
         if(txtNomeEst.getText().equals("")
                 || txtLocalizacaoEst.getText().equals("")
@@ -263,8 +273,8 @@ public class TelaCadastroEstadio extends javax.swing.JFrame {
             
         }
         
-    //GEN-LAST:event_btnSalvarCadEstActionPerformed    
-    }//GEN-LAST:event_btnSalvarCadEstActionPerformed
+                                                       
+    }                                               
 
     private void limparCampos(){
         txtNomeEst.setText("");
@@ -291,6 +301,7 @@ public class TelaCadastroEstadio extends javax.swing.JFrame {
         
         if(tabelaEstadios.getSelectedRow() == -1){
             JOptionPane.showMessageDialog(rootPane, "Nenhuma linha selecionada!");
+            return;
         } else {
             
             int op = JOptionPane.showConfirmDialog(rootPane, "Tem certeza que deseja excluir esse estadio?", "ATENÇÃO", JOptionPane.YES_NO_OPTION);

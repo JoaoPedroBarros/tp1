@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -96,15 +97,18 @@ public class GeraRelatorioUsuarios extends Permissao {
 
                 JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, dataSource);
 
-                JasperExportManager.exportReportToPdfFile(jasperPrint, "relatorioUsuarios.pdf");     
+                JasperExportManager.exportReportToPdfFile(jasperPrint, "relatorioUsuarios.pdf");
+                JOptionPane.showMessageDialog(null, "Relatorio gerado com sucesso!");
             }
             
             catch (FileNotFoundException e) {
                 System.out.println("arquivo nao encontrado");
+                JOptionPane.showMessageDialog(null, "Não foi possível gerar o relatório.", "Erro!", JOptionPane.ERROR_MESSAGE);
             }
                    
             } catch (net.sf.jasperreports.engine.JRException e) {
                 System.out.println("Houve problemas com a geração do PDF");
+                JOptionPane.showMessageDialog(null, "Não foi possível gerar o relatório.", "Erro!", JOptionPane.ERROR_MESSAGE);
                 
                
             }

@@ -345,8 +345,10 @@ public class TelaInicial extends javax.swing.JFrame {
         GeraRelatorioPartidas pdfPartidas = new GeraRelatorioPartidas();
         try {
             pdfPartidas.geraRelatorioPartidas(Fase.listarTodasPartidas());
+            JOptionPane.showMessageDialog(null, "Relatorio gerado com sucesso!");
         } catch (Exception ex) {
             System.getLogger(Relatorios.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            JOptionPane.showMessageDialog(null, "Não foi possível gerar o relatório.", "Erro!", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 

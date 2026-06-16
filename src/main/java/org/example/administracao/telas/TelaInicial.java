@@ -85,6 +85,7 @@ public class TelaInicial extends javax.swing.JFrame {
         menuPartidas.setEnabled(false);
         menuSelecoesJogadores.setEnabled(false);
         menuPublicoIngressos.setEnabled(false);
+        menuArbitragem.setEnabled(false);
     }
 
     /**

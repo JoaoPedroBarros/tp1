@@ -9,6 +9,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.example.jogadorselecao.Selecao;
+import org.example.jogadorselecao.persistencia.IOSelecao;
 
 public class FaseGrupos extends Fase {
 
@@ -102,20 +104,45 @@ public class FaseGrupos extends Fase {
                 partidas);
     }
     
-       public boolean faseFinalizada()
+        private Selecao buscarSelecao(String pais)
             throws Exception {
+
+        int indice =
+                IOSelecao.containsSelecao(pais);
+
+        if (indice == -1) {
+
+            throw new Exception(
+                    "Seleção não encontrada: "
+                    + pais);
+        }
+
+        return IOSelecao.get(indice);
+    }
+        
+        private String buscarGrupoSelecao(String pais)
+        throws Exception {
+
+        return buscarSelecao(pais)
+                .getGrupo();
+    }
+        
+        
+    
+       public boolean faseFinalizada()
+        throws Exception {
 
         List<PartidaCopa> partidas =
                 listarPartidas();
 
-        if (partidas.size() < 48) {
-            return false;
-        }
+        for (PartidaCopa p :
+                partidas) {
 
-        for (PartidaCopa p : partidas) {
-
-            if (p.getGolsSelecao1() == null
-                    || p.getGolsSelecao2() == null) {
+            if (p.getGolsSelecao1()
+                    == null
+                    ||
+                p.getGolsSelecao2()
+                    == null) {
 
                 return false;
             }
@@ -127,132 +154,217 @@ public class FaseGrupos extends Fase {
     @Override
     public void gerarClassificados()
             throws Exception {
-        
+
         if (!faseFinalizada()) {
 
-        throw new Exception(
-                "A fase de grupos ainda não foi concluída.");
+            throw new Exception(
+                    "Ainda existem partidas sem resultado.");
         }
 
         List<PartidaCopa> partidas =
-        listarPartidas();
-        
+                listarPartidas();
+
         Map<String,
-    ClassificacaoGrupo>
-        tabela =
-        new HashMap<>();
-        
+            Map<String,
+            ClassificacaoGrupo>> grupos =
+                new HashMap<>();
+
+        Map<String, Integer> jogosGrupo =
+                new HashMap<>();
+
+
         for (PartidaCopa p : partidas) {
 
-    String pais1 =
-            p.getSelecao1();
+            String pais1 =
+                    p.getSelecao1();
 
-    String pais2 =
-            p.getSelecao2();
+            String pais2 =
+                    p.getSelecao2();
 
-    tabela.putIfAbsent(
-            pais1,
-            new ClassificacaoGrupo(
-                    pais1));
+            String grupo1 =
+                    buscarGrupoSelecao(pais1);
 
-    tabela.putIfAbsent(
-            pais2,
-            new ClassificacaoGrupo(
-                    pais2));
+            String grupo2 =
+                    buscarGrupoSelecao(pais2);
 
-    ClassificacaoGrupo c1 =
-            tabela.get(pais1);
+            if (!grupo1.equals(grupo2)) {
 
-    ClassificacaoGrupo c2 =
-            tabela.get(pais2);
+                throw new Exception(
+                        "Partida inválida entre grupos diferentes: "
+                        + pais1 + " x "
+                        + pais2);
+            }
 
-    int g1 =
-            p.getGolsSelecao1();
+            grupos.putIfAbsent(
+                    grupo1,
+                    new HashMap<>());
 
-    int g2 =
-            p.getGolsSelecao2();
+            jogosGrupo.put(
+                    grupo1,
+                    jogosGrupo.getOrDefault(
+                            grupo1,
+                            0) + 1);
 
-    c1.setGolsPro(
-            c1.getGolsPro() + g1);
+            Map<String,
+                ClassificacaoGrupo>
+                    tabelaGrupo =
+                    grupos.get(grupo1);
 
-    c1.setGolsContra(
-            c1.getGolsContra() + g2);
+            tabelaGrupo.putIfAbsent(
+                    pais1,
+                    new ClassificacaoGrupo(
+                            pais1));
 
-    c2.setGolsPro(
-            c2.getGolsPro() + g2);
+            tabelaGrupo.putIfAbsent(
+                    pais2,
+                    new ClassificacaoGrupo(
+                            pais2));
 
-    c2.setGolsContra(
-            c2.getGolsContra() + g1);
+            ClassificacaoGrupo c1 =
+                    tabelaGrupo.get(
+                            pais1);
 
-    if (g1 > g2) {
+            ClassificacaoGrupo c2 =
+                    tabelaGrupo.get(
+                            pais2);
 
-        c1.setPontos(
-                c1.getPontos() + 3);
+            int g1 =
+                    p.getGolsSelecao1();
 
-    }
+            int g2 =
+                    p.getGolsSelecao2();
 
-    else if (g2 > g1) {
+            c1.setGolsPro(
+                    c1.getGolsPro()
+                    + g1);
 
-        c2.setPontos(
-                c2.getPontos() + 3);
+            c1.setGolsContra(
+                    c1.getGolsContra()
+                    + g2);
 
-    }
+            c2.setGolsPro(
+                    c2.getGolsPro()
+                    + g2);
 
-    else {
+            c2.setGolsContra(
+                    c2.getGolsContra()
+                    + g1);
 
-        c1.setPontos(
-                c1.getPontos() + 1);
+            if (g1 > g2) {
 
-        c2.setPontos(
-                c2.getPontos() + 1);
-    }
-    }
-        
-    for (ClassificacaoGrupo c :
-        tabela.values()) {
+                c1.setPontos(
+                        c1.getPontos()
+                        + 3);
+            }
 
-    c.setSaldoGols(
-            c.getGolsPro()
-            - c.getGolsContra());
-    }
-    
-    List<ClassificacaoGrupo>
-        classificacao =
-        new ArrayList<>(
-                tabela.values());
+            else if (g2 > g1) {
 
-    classificacao.sort(Comparator.comparingInt(ClassificacaoGrupo::getPontos)
+                c2.setPontos(
+                        c2.getPontos()
+                        + 3);
+            }
 
-            .thenComparingInt(
-                    ClassificacaoGrupo
-                            ::getSaldoGols)
+            else {
 
-            .thenComparingInt(
-                    ClassificacaoGrupo
-                            ::getGolsPro)
+                c1.setPontos(
+                        c1.getPontos()
+                        + 1);
 
-            .reversed()
-    );
-    
-    List<String> classificados =
-        new ArrayList<>();
+                c2.setPontos(
+                        c2.getPontos()
+                        + 1);
+            }
+        }
 
-    for (int i = 0;
-         i < 16;
-         i++) {
+        if (grupos.size() != 8) {
 
-        classificados.add(
+            throw new Exception(
+                    "Devem existir exatamente 8 grupos.");
+        }
 
-                classificacao
-                        .get(i)
-                        .getPais()
-        );
-    }
-    
-    JsonUtil.salvar(
-        arquivoClassificados,
-        classificados);
-    
+        List<String> classificados =
+                new ArrayList<>();
+
+
+        for (String grupo :
+                grupos.keySet()) {
+
+            Map<String,
+                ClassificacaoGrupo>
+                    tabelaGrupo =
+                    grupos.get(grupo);
+
+            if (tabelaGrupo.size()
+                    != 4) {
+
+                throw new Exception(
+                        "Grupo "
+                        + grupo
+                        + " não possui 4 seleções.");
+            }
+
+            if (jogosGrupo.get(grupo)
+                    != 6) {
+
+                throw new Exception(
+                        "Grupo "
+                        + grupo
+                        + " não possui 6 partidas.");
+            }
+
+            for (ClassificacaoGrupo c :
+                    tabelaGrupo.values()) {
+
+                c.setSaldoGols(
+                        c.getGolsPro()
+                        - c.getGolsContra());
+            }
+
+            List<ClassificacaoGrupo>
+                    classificacao =
+                    new ArrayList<>(
+                            tabelaGrupo.values());
+
+            classificacao.sort(
+
+                    Comparator
+
+                    .comparingInt(
+                            ClassificacaoGrupo
+                                    ::getPontos)
+
+                    .thenComparingInt(
+                            ClassificacaoGrupo
+                                    ::getSaldoGols)
+
+                    .thenComparingInt(
+                            ClassificacaoGrupo
+                                    ::getGolsPro)
+
+                    .reversed()
+            );
+
+            classificados.add(
+                    classificacao
+                            .get(0)
+                            .getPais());
+
+            classificados.add(
+                    classificacao
+                            .get(1)
+                            .getPais());
+        }
+
+        if (classificados.size()
+                != 16) {
+
+            throw new Exception(
+                    "Erro ao gerar os 16 classificados.");
+        }
+
+        JsonUtil.salvar(
+                arquivoClassificados,
+                classificados);
     }
 
         @Override

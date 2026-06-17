@@ -54,6 +54,9 @@ public class GerenciaIngressos extends Permissao {
             partida,
             total + (qtd * valor)
         );
+        
+        
+    salvarEventosJson();
     }
     
     public static void salvarEventosJson() {
@@ -121,7 +124,7 @@ public class GerenciaIngressos extends Permissao {
 
         List<Evento> eventos = new ArrayList<>();
 
-        for (String partida : DadosIngressos.partidas) {
+        for (String partida : DadosIngressos.ingressosPorPartida.keySet()) {
 
             int ingressos =
                 DadosIngressos.ingressosPorPartida.getOrDefault(partida, 0);
@@ -151,7 +154,6 @@ public class GerenciaIngressos extends Permissao {
     }
     public static void zerarTemporada() {
 
-        DadosIngressos.partidas.clear();
         DadosIngressos.ingressosPorPartida.clear();
         DadosIngressos.arrecadadoPorPartida.clear();
 

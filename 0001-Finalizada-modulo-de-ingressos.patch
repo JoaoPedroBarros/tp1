@@ -1,0 +1,576 @@
+From d5ce4ebb79472a0d88600463932a5c4ba8112cb0 Mon Sep 17 00:00:00 2001
+From: ighor <ighor@unb-H610M-H-DDR4>
+Date: Tue, 16 Jun 2026 14:19:13 -0300
+Subject: [PATCH] Finalizada modulo de ingressos
+
+---
+ relatorioPartidas.pdf                         | Bin 10869 -> 11044 bytes
+ .../org/example/ingressos/DadosIngressos.java |  44 ++++++++++-
+ .../java/org/example/ingressos/Evento.java    |  27 ++++++-
+ .../example/ingressos/GerenciaIngressos.java  |  74 ++++++++++++++++--
+ .../ingressos/TelaControlePublicoGUI.form     |   2 +-
+ .../ingressos/TelaControlePublicoGUI.java     |   2 +-
+ .../example/ingressos/TelaIngressoGUI.java    |  35 +++++++--
+ .../ingressos/TelaRelatorioFinanceiroGUI.form |  17 +++-
+ .../ingressos/TelaRelatorioFinanceiroGUI.java |  34 +++++++-
+ src/main/resources/eventos.json               |   1 +
+ src/main/resources/partidas_grupos.json       |  12 +++
+ 11 files changed, 230 insertions(+), 18 deletions(-)
+ create mode 100644 src/main/resources/eventos.json
+
+diff --git a/relatorioPartidas.pdf b/relatorioPartidas.pdf
+index 8c989f441a5de41bff42c43bec5a59f253281411..351e6c495558338c4f8f0dcd5c74cbfaa8709e03 100644
+GIT binary patch
+delta 2097
+zcmah}c|4SB8y2TImN_}Hz1k>CWa*vVmL-v`gsd}`ml>nR(m09~qb$V?^)WR<PS(O$
+zn&O;^IL4WwFRARLoJ6WgBF-?x8J)hr{P8`1J-_?9ulxR8&wXFd!tpZi`Xo)7DGIc*
+z`Xx4o1Vzfn7uFQCMU7&APM=v;v8=e%xyQ`TgFD=itLOOP&sP&3^Yxc^4yH}pW4DY9
+zDkQv1nLjpR?3~eal5ufI4st6o&3F8_FEyqs<=3q1vIh(!Qz==#LF}Ug)p3TpfeUMf
+z_QJLKHS=R3iB0D5CTS6TaqovmG)3Xqa$@;nXutU33uy43dUa6JLY=x{zq|s+mfCcX
+zBA71dUs|17%{#m3eZINe#^#0NS~jtC(k|++kG0-z**H-F`D;@+-z$EvqQm1irbK-a
+ztBHnlvknNH!5+*v8YLG8^j5y!TcPT&Kw*v@-a!}(Y#5I>eDz!eu8w}8-ELpG{h1lD
+zrs?fj<xzoHO$k4u?ZqDX_2|=<n-49sSQ=k{Crw!gRg0hExo1W{S<k#v`l?ZK%G6FA
+z*=yUr0|C0?P~zzcrEG8qiD=MU6Uinq6D=$fxK`EfVPulIo8SFHw6=b)-+$52yBN~5
+zDhDTr;iX5y+}1U7RStocuh*mH;@^A=t?ig%bixKWMlE_TIMtn$v{o^yc7ur({-8bO
+zlWl<99htq?;z~5#_;khl<h%1LpI6EVxi>IQU9&3H+H$f*(#gt`q7h~B^g*v4=axZD
+z&00mnqXt@8fs>t?gE?W0tUwY*{4OMCQo-fH^?fW@83pnl%#5QkC5_wJwP~prCIei!
+z4u%lpsHsfrE*qcW-x)#YZVSe7Hw2S$!#ESPUzWnuEaE`R&5qw<SB%`d={<})>g1WR
+zq9UKhTCI~GjTn`_x+kQzN|m0>8`p-0OmcPaQp`Jsa^BwR|FOy|!=@X}vK<~G0HoPW
+z0JaqtdgM9Em!^vM9Kk-L4)on?tjYSj6l7txm-0cl4*Y1IHr&UgixgYu^MckmK0V2g
+zGR(#{z5LrHvQu#`wx~HAg3HLI{O7iu9qX~oux9?5xce{8b6YBZTC@d-a&+}}@G1yE
+zk{30B;|BqUq1T^2%zauFM|p1Fe-YIcqgHnb(t>DU_f@byEPacz3K1FT3--@SPYKnC
+zb@UaJ<@n++we)$*maw|L6|=@WTXh0;?2YN_jwS@a^R9D`)DbC0RlQVhbq3PUv)OSZ
+zAvONO#7LUETHR$RoEOYCNPty`P$UQ*ud@H@X#bnA(EC7ov0RGsTiNz&3cqN)6wZ#*
+zHs>s#D_qxNrwr3}Q%*Nw{RlO<KET)epB#sC3i(0^$Oi$kM8+q0c?5cJ@KsctD5wsr
+zS_!}WU4^7s;ch7SiO$ZqcV>RdNQIbGRZ(R}dg;^;w}w-T7px%1YuCUD%NExw(No`q
+zKoTJ?K*}8hDO#Ub4$M(H_;?z|_o<M2gKYrmL>@TE1DHpuX_5ADyYF*S#TRUK7#S%^
+zRZ8WuhXLbs$dUI~su}OpB#+=AN@z|+boQQ|D@jAZodAaA5#Rw~mt(jTaMmj1d@HwB
+z5lBIHdZ_KcBw+<JH$gUOoLUN-$h^6eMyJ;-QqRRT)N}(W*sdP6{Tb^y_t*8Hr^yCq
+zu+S5r_e_5rqO1^=OhlzKJq3T%K6wNTO?S-TxYy3^80(o;KsxyMaTtip`Fm^vbe(KK
+zRjI<Ndilp+GYR^XF5m>76HthNk$S~Jc=voI_GTD)ef3oF+fguDXr#M9mPZ(fV5sGW
+zF?fXQ;9;QFH_yAuogjL!oZv~dH8WnyF<NS9DAQ<Tb<dSc)@@mSj9zxycqNedGt7@S
+z&M(tg-#8gwatt&iMnf8*(c%g5UA-o0YPw(d_=1F}5oTt``y+-NT2i0aOxYB<5TFqI
+zGKnuLpt+WOZu+R4M)k|!b-gK=Up%u*BFJT{y+>ckA*DlE3Ra=}yq&fM%O<;H*xYZf
+z!sup})qD+5z!&IW<WL*POuk_VkPZTr%%Zlcp%JEj&%kw^O!vIU`B~2;!0vyYWEA17
+z;si+we=h%W-kt)jGlKF#S}eB?;jVMq*hS@ku7N`!FB!Z=0Gz|iAjU(<=eyAH!9t}C
+z2-BeZw1W~@AhFEoP~Ki}3Al~sRG$zRt69{EK86-1u@Z}t*&U`zZ)YzgE>gFxOPM?5
+z(Z{ibjQl<c_c_TVO95UG|E6Yw5mUEjo40^gR%7LMe5_Emv4Ygn2&8XHZIkt!pYY=I
+zRNz-WqIjdx{kA+`PUqlt9+(W824sT-t_kaT<F0Ap6)m@^M|3rTBo3U-2V=R-2rr$N
+z#;&S@9M#tErM}JN_0p63_57#NFmm3cQJ`YG)W3eIxYzjJ-)30jd8_!b)7qYf{)fM|
+zWG%La|LHlM7Eo(-Ag^06Ga_faeRNGPO7v{z5=(OnzcPL`DKREiY%Wx%uF1HYE!f=K
+zq}L<88HGV&Fu6ne$JEV`NG)*vXhmtsf4d++1P+^PZD2-5V$mBhG-5*xg}`i#Va+zg
+z(BMWc21MtM8R#9vfmjk6i33B>rXe5+XGX-LL5PSWkxWrY2niyrEdO6d?%{np@>m>N
+LURT%N%|ZSjf=9mv
+
+delta 1921
+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
+W|Nkm@|FlGb@gx!$jdt~R1OFRhEN$HY
+
+diff --git a/src/main/java/org/example/ingressos/DadosIngressos.java b/src/main/java/org/example/ingressos/DadosIngressos.java
+index b1d618a..52be224 100644
+--- a/src/main/java/org/example/ingressos/DadosIngressos.java
++++ b/src/main/java/org/example/ingressos/DadosIngressos.java
+@@ -4,6 +4,8 @@ import java.util.HashMap;
+ import java.util.Map;
+ import java.util.ArrayList;
+ import java.util.List;
++import java.io.File;
++import org.example.partidas.JsonUtil;
+ 
+ public class DadosIngressos {
+ 
+@@ -16,7 +18,45 @@ public class DadosIngressos {
+     public static String partidaAtual = "Selecione uma partida";
+ 
+     static {
+-        partidas.add("Brasil x Argentina");
+-        partidas.add("Real Madrid x Barcelona");
++        DadosIngressos.carregarEventosJson();
++    }
++
++    public static void carregarEventosJson() {
++
++        try {
++
++            File arquivo =
++                new File("src/main/resources/eventos.json");
++
++            if (!arquivo.exists()) {
++                return;
++            }
++
++            Evento[] eventos =
++                JsonUtil.getMapper().readValue(
++                    arquivo,
++                    Evento[].class
++                );
++
++            for (Evento e : eventos) {
++                partidas.add(
++                    e.getEvento()
++                );
++
++                ingressosPorPartida.put(
++                    e.getEvento(),
++                    e.getIngressosVendidos()
++                );
++
++                arrecadadoPorPartida.put(
++                    e.getEvento(),
++                    e.getIngressosVendidos()
++                    * e.getValorMedio()
++                );
++            }
++
++        } catch (Exception e) {
++            e.printStackTrace();
++        }
+     }
+ }
+\ No newline at end of file
+diff --git a/src/main/java/org/example/ingressos/Evento.java b/src/main/java/org/example/ingressos/Evento.java
+index 591b156..f8a476a 100644
+--- a/src/main/java/org/example/ingressos/Evento.java
++++ b/src/main/java/org/example/ingressos/Evento.java
+@@ -8,7 +8,12 @@ public class Evento {
+     private double valorMedio;
+     private String ocupacao;
+ 
+-    public Evento(String evento, String data,
++    // Necessário para o Jackson
++    public Evento() {
++    }
++
++    public Evento(String evento,
++                  String data,
+                   int ingressosVendidos,
+                   double valorMedio,
+                   String ocupacao) {
+@@ -24,19 +29,39 @@ public class Evento {
+         return evento;
+     }
+ 
++    public void setEvento(String evento) {
++        this.evento = evento;
++    }
++
+     public String getData() {
+         return data;
+     }
+ 
++    public void setData(String data) {
++        this.data = data;
++    }
++
+     public int getIngressosVendidos() {
+         return ingressosVendidos;
+     }
+ 
++    public void setIngressosVendidos(int ingressosVendidos) {
++        this.ingressosVendidos = ingressosVendidos;
++    }
++
+     public double getValorMedio() {
+         return valorMedio;
+     }
+ 
++    public void setValorMedio(double valorMedio) {
++        this.valorMedio = valorMedio;
++    }
++
+     public String getOcupacao() {
+         return ocupacao;
+     }
++
++    public void setOcupacao(String ocupacao) {
++        this.ocupacao = ocupacao;
++    }
+ }
+\ No newline at end of file
+diff --git a/src/main/java/org/example/ingressos/GerenciaIngressos.java b/src/main/java/org/example/ingressos/GerenciaIngressos.java
+index ef2e5c0..f8f9d1d 100644
+--- a/src/main/java/org/example/ingressos/GerenciaIngressos.java
++++ b/src/main/java/org/example/ingressos/GerenciaIngressos.java
+@@ -3,6 +3,7 @@ package org.example.ingressos;
+ import org.example.administracao.Permissao;
+ import java.util.ArrayList;
+ import java.util.List;
++import org.example.partidas.JsonUtil;
+ 
+ public class GerenciaIngressos extends Permissao {
+ 
+@@ -13,18 +14,59 @@ public class GerenciaIngressos extends Permissao {
+ 
+     public static void comprarIngresso(String partida, int qtd, double valor) {
+ 
++        if (qtd <= 0) {
++            throw new IllegalArgumentException(
++                "Quantidade deve ser maior que zero."
++            );
++        }
++
++        if (qtd > 20) {
++            throw new IllegalArgumentException(
++                "Máximo de 20 ingressos por compra."
++            );
++        }
++
++        if (valor < 0) {
++            throw new IllegalArgumentException(
++                "Valor não pode ser negativo."
++            );
++        }
++
+         DadosIngressos.partidaAtual = partida;
+ 
+         int atual = DadosIngressos.ingressosPorPartida.getOrDefault(partida, 0);
++
+         if (atual + qtd > DadosIngressos.capacidade) {
+             throw new IllegalArgumentException(
+                 "Capacidade máxima do estádio excedida!"
+             );
+-}
+-        DadosIngressos.ingressosPorPartida.put(partida, atual + qtd);
++        }
++
++        DadosIngressos.ingressosPorPartida.put(
++            partida,
++            atual + qtd
++        );
++
++        double total =
++            DadosIngressos.arrecadadoPorPartida.getOrDefault(partida, 0.0);
+ 
+-        double total = DadosIngressos.arrecadadoPorPartida.getOrDefault(partida, 0.0);
+-        DadosIngressos.arrecadadoPorPartida.put(partida, total + (qtd * valor));
++        DadosIngressos.arrecadadoPorPartida.put(
++            partida,
++            total + (qtd * valor)
++        );
++    }
++    
++    public static void salvarEventosJson() {
++
++        try {
++            JsonUtil.salvar(
++                "src/main/resources/eventos.json",
++                getEventos()
++            );
++
++        } catch (Exception e) {
++            e.printStackTrace();
++        }
+     }
+ 
+     public static double getTotalGeral() {
+@@ -105,6 +147,26 @@ public class GerenciaIngressos extends Permissao {
+             );
+         }
+ 
+-    return eventos;
+-}
++        return eventos;
++    }
++    public static void zerarTemporada() {
++
++        DadosIngressos.partidas.clear();
++        DadosIngressos.ingressosPorPartida.clear();
++        DadosIngressos.arrecadadoPorPartida.clear();
++
++        DadosIngressos.partidaAtual =
++                "Selecione uma partida";
++
++        try {
++
++            JsonUtil.salvar(
++                    "src/main/resources/eventos.json",
++                    new ArrayList<Evento>()
++            );
++
++        } catch (Exception e) {
++            e.printStackTrace();
++        }
++    }
+ }
+\ No newline at end of file
+diff --git a/src/main/java/org/example/ingressos/TelaControlePublicoGUI.form b/src/main/java/org/example/ingressos/TelaControlePublicoGUI.form
+index 5b39a41..d753a7c 100644
+--- a/src/main/java/org/example/ingressos/TelaControlePublicoGUI.form
++++ b/src/main/java/org/example/ingressos/TelaControlePublicoGUI.form
+@@ -3,7 +3,7 @@
+ <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+   <Properties>
+     <Property name="defaultCloseOperation" type="int" value="3"/>
+-    <Property name="title" type="java.lang.String" value="Controle de P&#xfa;blico&#xb4;"/>
++    <Property name="title" type="java.lang.String" value="Controle de P&#xfa;blico"/>
+   </Properties>
+   <SyntheticProperties>
+     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+diff --git a/src/main/java/org/example/ingressos/TelaControlePublicoGUI.java b/src/main/java/org/example/ingressos/TelaControlePublicoGUI.java
+index 0842f35..b377324 100644
+--- a/src/main/java/org/example/ingressos/TelaControlePublicoGUI.java
++++ b/src/main/java/org/example/ingressos/TelaControlePublicoGUI.java
+@@ -54,7 +54,7 @@ public class TelaControlePublicoGUI extends javax.swing.JFrame {
+         valorAtual = new javax.swing.JLabel();
+ 
+         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+-        setTitle("Controle de Público´");
++        setTitle("Controle de Público");
+ 
+         jLabel1.setText("Partida:");
+ 
+diff --git a/src/main/java/org/example/ingressos/TelaIngressoGUI.java b/src/main/java/org/example/ingressos/TelaIngressoGUI.java
+index c249d5e..df84121 100644
+--- a/src/main/java/org/example/ingressos/TelaIngressoGUI.java
++++ b/src/main/java/org/example/ingressos/TelaIngressoGUI.java
+@@ -10,6 +10,8 @@ package org.example.ingressos;
+  * @author ighor
+  */
+ import javax.swing.JOptionPane;
++import org.example.partidas.FaseGrupos;
++import org.example.partidas.PartidaCopa;
+ public class TelaIngressoGUI extends javax.swing.JFrame {
+     
+     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaIngressoGUI.class.getName());
+@@ -17,12 +19,30 @@ public class TelaIngressoGUI extends javax.swing.JFrame {
+     /**
+      * Creates new form TelaIngressoGUI
+      */
+-    public TelaIngressoGUI() {
+-        initComponents();
+-        for (String p : DadosIngressos.partidas) {
+-            cbPartida.addItem(p);
++public TelaIngressoGUI() {
++    initComponents();
++
++    try {
++
++        FaseGrupos fase = new FaseGrupos();
++
++        for (PartidaCopa p : fase.listarPartidas()) {
++
++            if (p.getGolsSelecao1() == null
++                    && p.getGolsSelecao2() == null) {
++
++                cbPartida.addItem(
++                        p.getSelecao1()
++                        + " x "
++                        + p.getSelecao2()
++                );
++            }
+         }
++
++    } catch (Exception e) {
++        e.printStackTrace();
+     }
++}
+     
+ 
+     /**
+@@ -128,7 +148,12 @@ public class TelaIngressoGUI extends javax.swing.JFrame {
+     
+     GerenciaIngressos.comprarIngresso(partida, qtd, valor);
+ 
+-    JOptionPane.showMessageDialog(this, "Compra realizada!");
++    GerenciaIngressos.salvarEventosJson();
++
++    JOptionPane.showMessageDialog(
++        this,
++        "Compra realizada!"
++    );
+ 
+ } catch (Exception ex) {
+     JOptionPane.showMessageDialog(this, ex.getMessage());
+diff --git a/src/main/java/org/example/ingressos/TelaRelatorioFinanceiroGUI.form b/src/main/java/org/example/ingressos/TelaRelatorioFinanceiroGUI.form
+index b8d6c3c..c2e88d5 100644
+--- a/src/main/java/org/example/ingressos/TelaRelatorioFinanceiroGUI.form
++++ b/src/main/java/org/example/ingressos/TelaRelatorioFinanceiroGUI.form
+@@ -58,6 +58,11 @@
+               </Group>
+               <EmptySpace pref="232" max="32767" attributes="0"/>
+           </Group>
++          <Group type="102" alignment="1" attributes="0">
++              <EmptySpace max="32767" attributes="0"/>
++              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
++              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
++          </Group>
+       </Group>
+     </DimensionLayout>
+     <DimensionLayout dim="1">
+@@ -95,7 +100,9 @@
+                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                   <Component id="valorTotalGeral" alignment="3" min="-2" max="-2" attributes="0"/>
+               </Group>
+-              <EmptySpace pref="77" max="32767" attributes="0"/>
++              <EmptySpace type="separate" max="-2" attributes="0"/>
++              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
++              <EmptySpace pref="35" max="32767" attributes="0"/>
+           </Group>
+       </Group>
+     </DimensionLayout>
+@@ -163,5 +170,13 @@
+         <Property name="text" type="java.lang.String" value="0"/>
+       </Properties>
+     </Component>
++    <Component class="javax.swing.JButton" name="jButton1">
++      <Properties>
++        <Property name="text" type="java.lang.String" value="Nova Temporada"/>
++      </Properties>
++      <Events>
++        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
++      </Events>
++    </Component>
+   </SubComponents>
+ </Form>
+diff --git a/src/main/java/org/example/ingressos/TelaRelatorioFinanceiroGUI.java b/src/main/java/org/example/ingressos/TelaRelatorioFinanceiroGUI.java
+index 4b56678..fca2b02 100644
+--- a/src/main/java/org/example/ingressos/TelaRelatorioFinanceiroGUI.java
++++ b/src/main/java/org/example/ingressos/TelaRelatorioFinanceiroGUI.java
+@@ -11,6 +11,7 @@ package org.example.ingressos;
+ import javax.swing.Timer;
+ import java.text.NumberFormat;
+ import java.util.Locale;
++import javax.swing.JOptionPane;
+ public class TelaRelatorioFinanceiroGUI extends javax.swing.JFrame {
+     
+     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaRelatorioFinanceiroGUI.class.getName());
+@@ -68,6 +69,7 @@ public class TelaRelatorioFinanceiroGUI extends javax.swing.JFrame {
+         jLabel7 = new javax.swing.JLabel();
+         valorMedia = new javax.swing.JLabel();
+         valorMaiorEvento = new javax.swing.JLabel();
++        jButton1 = new javax.swing.JButton();
+ 
+         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+         setTitle("Relatorio Financeiro");
+@@ -96,6 +98,9 @@ public class TelaRelatorioFinanceiroGUI extends javax.swing.JFrame {
+ 
+         valorMaiorEvento.setText("0");
+ 
++        jButton1.setText("Nova Temporada");
++        jButton1.addActionListener(this::jButton1ActionPerformed);
++
+         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+         getContentPane().setLayout(layout);
+         layout.setHorizontalGroup(
+@@ -126,6 +131,10 @@ public class TelaRelatorioFinanceiroGUI extends javax.swing.JFrame {
+                                 .addComponent(valorTotal)
+                                 .addComponent(valorMedia)))))
+                 .addContainerGap(232, Short.MAX_VALUE))
++            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
++                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
++                .addComponent(jButton1)
++                .addGap(24, 24, 24))
+         );
+         layout.setVerticalGroup(
+             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+@@ -156,12 +165,34 @@ public class TelaRelatorioFinanceiroGUI extends javax.swing.JFrame {
+                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                     .addComponent(jLabel4)
+                     .addComponent(valorTotalGeral))
+-                .addContainerGap(77, Short.MAX_VALUE))
++                .addGap(18, 18, 18)
++                .addComponent(jButton1)
++                .addContainerGap(35, Short.MAX_VALUE))
+         );
+ 
+         pack();
+     }// </editor-fold>//GEN-END:initComponents
+ 
++    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
++        // TODO add your handling code here:
++        int opcao = JOptionPane.showConfirmDialog(
++                this,
++                "Deseja iniciar uma nova temporada?",
++                "Confirmar",
++                JOptionPane.YES_NO_OPTION
++        );
++
++        if (opcao == JOptionPane.YES_OPTION) {
++
++            GerenciaIngressos.zerarTemporada();
++
++            JOptionPane.showMessageDialog(
++                    this,
++                    "Temporada reiniciada com sucesso!"
++            );
++        }
++    }//GEN-LAST:event_jButton1ActionPerformed
++
+     /**
+      * @param args the command line arguments
+      */
+@@ -188,6 +219,7 @@ public class TelaRelatorioFinanceiroGUI extends javax.swing.JFrame {
+     }
+ 
+     // Variables declaration - do not modify//GEN-BEGIN:variables
++    private javax.swing.JButton jButton1;
+     private javax.swing.JLabel jLabel1;
+     private javax.swing.JLabel jLabel2;
+     private javax.swing.JLabel jLabel3;
+diff --git a/src/main/resources/eventos.json b/src/main/resources/eventos.json
+new file mode 100644
+index 0000000..8878e54
+--- /dev/null
++++ b/src/main/resources/eventos.json
+@@ -0,0 +1 @@
++[ ]
+\ No newline at end of file
+diff --git a/src/main/resources/partidas_grupos.json b/src/main/resources/partidas_grupos.json
+index 1a07592..db6e271 100644
+--- a/src/main/resources/partidas_grupos.json
++++ b/src/main/resources/partidas_grupos.json
+@@ -58,4 +58,16 @@
+   "golsSelecao1" : 7,
+   "golsSelecao2" : 6,
+   "vencedor" : "Brasil"
++}, {
++  "numero" : 416197,
++  "fase" : "GRUPOS",
++  "data" : "16/06",
++  "horario" : "18h",
++  "estadio" : "MorumBIS",
++  "arbitro" : "João Pedro Barros",
++  "selecao1" : "Brasil",
++  "selecao2" : "Argentina",
++  "golsSelecao1" : null,
++  "golsSelecao2" : null,
++  "vencedor" : null
+ } ]
+\ No newline at end of file
+-- 
+2.43.0
+

@@ -54,7 +54,7 @@ public class TelaControlePublicoGUI extends javax.swing.JFrame {
         valorAtual = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Controle de Público´");
+        setTitle("Controle de Público");
 
         jLabel1.setText("Partida:");
 

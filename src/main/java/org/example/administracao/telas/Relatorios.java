@@ -8,11 +8,13 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
 import org.example.administracao.AdministraUsuario;
-import org.example.administracao.GeraRelatorios;
+import org.example.partidas.GeraRelatorioPartidas;
+import org.example.administracao.GeraRelatorioUsuarios;
 import org.example.administracao.PersistenciaUsuario;
 import org.example.administracao.Usuario;
 import org.example.jogadorselecao.persistencia.RelatorioJogador;
 import org.example.jogadorselecao.persistencia.RelatorioSelecao;
+import org.example.partidas.Fase;
 
 /**
  *
@@ -302,7 +304,7 @@ public class Relatorios extends javax.swing.JFrame {
                         .addComponent(jButton2)
                         .addGap(23, 23, 23)
                         .addComponent(jButton1)))
-                .addContainerGap(71, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -351,6 +353,7 @@ public class Relatorios extends javax.swing.JFrame {
         jTextField18.setText("0");
 
         jButton3.setText("Baixar arquivo detalhado...");
+        jButton3.addActionListener(this::jButton3ActionPerformed);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -586,7 +589,7 @@ public class Relatorios extends javax.swing.JFrame {
     private void pdfUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pdfUsuariosActionPerformed
         List<Usuario> listaUsuarios = AdministraUsuario.listaUsuario(persistencia);
         
-        GeraRelatorios geraRelatorio = new GeraRelatorios(persistencia);
+        GeraRelatorioUsuarios geraRelatorio = new GeraRelatorioUsuarios(persistencia);
         geraRelatorio.geraRelatorioUsuario(listaUsuarios);
     }//GEN-LAST:event_pdfUsuariosActionPerformed
 
@@ -613,6 +616,15 @@ public class Relatorios extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Não foi possível gerar o relatório.", "Erro!", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        GeraRelatorioPartidas pdfPartidas = new GeraRelatorioPartidas();
+        try {
+            pdfPartidas.geraRelatorioPartidas(Fase.listarTodasPartidas());
+        } catch (Exception ex) {
+            System.getLogger(Relatorios.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments

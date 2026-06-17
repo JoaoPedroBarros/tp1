@@ -20,6 +20,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import org.example.estadioArbitragem.Estadio;
+import org.example.partidas.JsonUtil;
 
 
 public class Partida extends javax.swing.JFrame {
@@ -68,35 +69,85 @@ public class Partida extends javax.swing.JFrame {
     }
     }
     
-    private void carregarSelecoes() {
+        private void carregarSelecoes() {
 
-    try {
+        try {
 
-        cbSelecao1.removeAllItems();
-        cbSelecao2.removeAllItems();
+            cbSelecao1.removeAllItems();
+            cbSelecao2.removeAllItems();
 
-        int i = 0;
-        Selecao selecao;
+            String fase =
+                    cbFase1.getSelectedItem()
+                            .toString();
 
-        while ((selecao = IOSelecao.get(i)) != null) {
+            if (fase.equals("GRUPOS")) {
 
-            cbSelecao1.addItem(
-                    selecao.getPais());
+                int i = 0;
+                Selecao selecao;
 
-            cbSelecao2.addItem(
-                    selecao.getPais());
+                while ((selecao = IOSelecao.get(i)) != null) {
 
-            i++;
+                    cbSelecao1.addItem(
+                            selecao.getPais());
+
+                    cbSelecao2.addItem(
+                            selecao.getPais());
+
+                    i++;
+                }
+            }
+
+            else {
+
+                String arquivo;
+
+                switch (fase) {
+
+                    case "OITAVAS":
+                        arquivo =
+                                "src/main/resources/classificados_oitavas.json";
+                        break;
+
+                    case "QUARTAS":
+                        arquivo =
+                                "src/main/resources/classificados_quartas.json";
+                        break;
+
+                    case "SEMIS":
+                        arquivo =
+                                "src/main/resources/classificados_semis.json";
+                        break;
+
+                    case "FINAL":
+                        arquivo =
+                                "src/main/resources/classificados_final.json";
+                        break;
+
+                    default:
+                        return;
+                }
+
+                List<String> classificados =
+                        JsonUtil.getMapper()
+                                .readValue(
+                                        new File(arquivo),
+                                        new com.fasterxml.jackson.core.type.TypeReference<List<String>>() {});
+
+                for (String pais : classificados) {
+
+                    cbSelecao1.addItem(pais);
+                    cbSelecao2.addItem(pais);
+                }
+            }
+
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Erro ao carregar seleções:\n"
+                    + e.getMessage());
         }
-
-    } catch (Exception e) {
-
-        JOptionPane.showMessageDialog(
-                this,
-                "Erro ao carregar seleções:\n"
-                + e.getMessage());
     }
-}
     
     private Selecao buscarSelecao(String pais)
         throws Exception {
@@ -180,6 +231,7 @@ public class Partida extends javax.swing.JFrame {
         cbSelecao1 = new javax.swing.JComboBox<>();
         cbSelecao2 = new javax.swing.JComboBox<>();
         cbEstadio = new javax.swing.JComboBox<>();
+        btnGerarClassificados = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         txtNumeroPartida = new javax.swing.JTextField();
@@ -234,6 +286,9 @@ public class Partida extends javax.swing.JFrame {
 
         cbEstadio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        btnGerarClassificados.setText("Gerar Classificados");
+        btnGerarClassificados.addActionListener(this::btnGerarClassificadosActionPerformed);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -264,6 +319,8 @@ public class Partida extends javax.swing.JFrame {
                                     .addComponent(txtHorario))
                                 .addGap(63, 63, 63))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(btnGerarClassificados)
+                                .addGap(39, 39, 39)
                                 .addComponent(cbFase1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(80, 80, 80))
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -283,7 +340,9 @@ public class Partida extends javax.swing.JFrame {
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(cbFase1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cbFase1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnGerarClassificados))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -709,6 +768,7 @@ public class Partida extends javax.swing.JFrame {
     }//GEN-LAST:event_txtDataActionPerformed
 
     private void cbFase1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbFase1ActionPerformed
+        carregarSelecoes();
         String fase =
                 cbFase1.getSelectedItem()
                         .toString();
@@ -875,6 +935,61 @@ public class Partida extends javax.swing.JFrame {
 
     }//GEN-LAST:event_cbFase2ActionPerformed
 
+    private void btnGerarClassificadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarClassificadosActionPerformed
+            try {
+
+            String faseSelecionada =
+                    cbFase1
+                            .getSelectedItem()
+                            .toString();
+
+            Fase fase;
+
+            switch (faseSelecionada) {
+
+                case "GRUPOS":
+                    fase = new FaseGrupos();
+                    break;
+
+                case "OITAVAS":
+                    fase = new OitavasFinal();
+                    break;
+
+                case "QUARTAS":
+                    fase = new QuartasFinal();
+                    break;
+
+                case "SEMIS":
+                    fase = new SemiFinal();
+                    break;
+
+                case "FINAL":
+
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "A fase FINAL não gera classificados.");
+
+                    return;
+
+                default:
+                    throw new Exception(
+                            "Fase inválida.");
+            }
+
+            fase.gerarClassificados();
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Classificados gerados com sucesso!");
+
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    e.getMessage());
+        }
+    }//GEN-LAST:event_btnGerarClassificadosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -905,6 +1020,7 @@ public class Partida extends javax.swing.JFrame {
     private javax.swing.JButton Salvar1;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnConsultar;
+    private javax.swing.JButton btnGerarClassificados;
     private javax.swing.JButton btnResultado;
     private javax.swing.JComboBox<String> cbArbitro;
     private javax.swing.JComboBox<String> cbEstadio;

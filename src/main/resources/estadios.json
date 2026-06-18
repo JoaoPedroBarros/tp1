@@ -1,1 +1,22 @@
-[{"nome":"Castelao","localizacao":"Fortaleza","capacidade":60000},{"nome":"MorumBIS","localizacao":"Belo Horizonte","capacidade":54000},{"nome":"MorumBIS","localizacao":"São Paulo","capacidade":50000}]
+[
+  {"nome": "Maracanã", "localizacao": "Rio de Janeiro", "capacidade": 78838},
+  {"nome": "Mané Garrincha", "localizacao": "Brasília", "capacidade": 72788},
+  {"nome": "MorumBIS", "localizacao": "São Paulo", "capacidade": 66795},
+  {"nome": "Arena Castelão", "localizacao": "Fortaleza", "capacidade": 63903},
+  {"nome": "Mineirão", "localizacao": "Belo Horizonte", "capacidade": 61846},
+  {"nome": "Arena do Grêmio", "localizacao": "Porto Alegre", "capacidade": 55662},
+  {"nome": "Mangueirão", "localizacao": "Belém", "capacidade": 53800},
+  {"nome": "Beira-Rio", "localizacao": "Porto Alegre", "capacidade": 50842},
+  {"nome": "Arena Fonte Nova", "localizacao": "Salvador", "capacidade": 50025},
+  {"nome": "Neo Química Arena", "localizacao": "São Paulo", "capacidade": 49431},
+  {"nome": "Arena MRV", "localizacao": "Belo Horizonte", "capacidade": 44892},
+  {"nome": "Arena de Pernambuco", "localizacao": "São Lourenço da Mata", "capacidade": 44300},
+  {"nome": "Arena Pantanal", "localizacao": "Cuiabá", "capacidade": 44000},
+  {"nome": "Arena da Amazônia", "localizacao": "Manaus", "capacidade": 44000},
+  {"nome": "Allianz Parque", "localizacao": "São Paulo", "capacidade": 43713},
+  {"nome": "Ligga Arena", "localizacao": "Curitiba", "capacidade": 42372},
+  {"nome": "Couto Pereira", "localizacao": "Curitiba", "capacidade": 40502},
+  {"nome": "Barradão", "localizacao": "Salvador", "capacidade": 30541},
+  {"nome": "São Januário", "localizacao": "Rio de Janeiro", "capacidade": 21880},
+  {"nome": "Vila Belmiro", "localizacao": "Santos", "capacidade": 16068}
+]

@@ -23,19 +23,20 @@ public class TelaPartidasDesignadas extends javax.swing.JFrame {
 
     /**
      * Creates new form TelaPartidasDesignadas
+     * @param sessaoAtual - sessao do usuario logado
      */
     
     public TelaPartidasDesignadas(UsuarioLogado sessaoAtual) {
         this.sessaoAtual = sessaoAtual;
         initComponents();
         
-        //DefaultTableModel modelo = (DefaultTableModel) tabelaPartidas.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) tabelaPartidas.getModel();
         
-        /*try{
+        try{
             listarJogosDoArbitroLogado(modelo, this.sessaoAtual);
         } catch(Exception e){
             System.err.println("Erro ao carregar listagem automática: " + e.getMessage());
-        } */
+        }
     }
     
     public void listarJogosDoArbitroLogado(DefaultTableModel modeloTabela, UsuarioLogado sessaoAtual) throws Exception{

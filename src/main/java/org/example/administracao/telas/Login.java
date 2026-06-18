@@ -180,7 +180,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_botaoEntrarActionPerformed
 
     private void botaoEsqueciSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEsqueciSenhaActionPerformed
-        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(rootPane, "Então contate o administrador mais próximo de você!");
     }//GEN-LAST:event_botaoEsqueciSenhaActionPerformed
 
     private void inputSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputSenhaActionPerformed

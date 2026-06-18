@@ -8,7 +8,7 @@ package org.example.administracao;
  *
  * @author arkham
  */
-public abstract class Permissao {
+public abstract class Permissao { // classe abstrata para reunir permissoes
     abstract public String getNome();
     public Permissao() {}
 }

@@ -40,7 +40,7 @@ import org.example.estadioArbitragem.Arbitro;
     @JsonSubTypes.Type(value = Operador.class, name = "OPERADOR"),
     @JsonSubTypes.Type(value = Arbitro.class, name = "ARBITRO")
 })
-public abstract class Papel {
+public abstract class Papel { // classe abstrata para cada papel que o usuario pode ter
     
     protected String nomePapel;
     public abstract String getNomePapel(); // para retonar na serializacao
@@ -51,14 +51,14 @@ public abstract class Papel {
     public Papel() {} // construtor padrao para o Jackson
 
     @Override
-    public int hashCode() {
+    public int hashCode() { // gera um codigo hash baseado do nomePapel. Util para pesquisa.
         int hash = 3;
         hash = 89 * hash + Objects.hashCode(this.nomePapel);
         return hash;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object obj) { // metodo para comparar objetos de papel, muito util para pesquisa de usuarios. Aqui, escolhemos o atributo nomePapel como criterio.
         if (this == obj) {
             return true;
         }

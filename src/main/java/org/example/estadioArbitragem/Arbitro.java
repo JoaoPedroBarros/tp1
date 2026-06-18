@@ -10,11 +10,11 @@ import org.example.administracao.Permissao;
 
 public class Arbitro extends Papel{
     
+    // o arbitro pode apenas ver em quais partidas ele foi designado
     private final static List<? extends Permissao> listaPermissoes = List.of(new DesignacaoArbitro());
     private int experiencia;
 
     public Arbitro(String nome, String nacionalidade, int experiencia) {
-       
         this.experiencia = experiencia;
         this.nomePapel = "ARBITRO";
     }
@@ -33,8 +33,7 @@ public class Arbitro extends Papel{
             throw new IllegalArgumentException("Experiencia inválida.");
         }
         this.experiencia = experiencia;
-        
-        
+           
     }
     
     @Override

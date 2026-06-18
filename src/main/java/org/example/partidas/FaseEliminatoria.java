@@ -89,6 +89,12 @@ public abstract class FaseEliminatoria extends Fase {
         for (PartidaCopa p :
                 listarPartidas()) {
 
+            if (p.getVencedor() == null) {
+
+                throw new Exception(
+                        "Existem partidas sem vencedor registrado.");
+            }
+
             classificados.add(
                     p.getVencedor());
         }

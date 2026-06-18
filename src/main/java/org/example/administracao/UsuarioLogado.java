@@ -9,6 +9,8 @@ package org.example.administracao;
  * @author arkham
  */
 public class UsuarioLogado {
+    // classe que representa o usuario logado atualmente no sistema, essencial para a injecao de dependencia. Optamos por 
+    // nao usar o singleton por ser considerado, hoje em dia, um anti-padrao de projeto.
     private final Usuario usuario;
     
     public UsuarioLogado(Usuario usuario) {

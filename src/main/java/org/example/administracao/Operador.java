@@ -14,6 +14,7 @@ import org.example.ingressos.GerenciaIngressos;
  */
 public class Operador extends Papel {
     
+    // o operador pode apenas gerenciar ingressos
     private final static List<? extends Permissao> listaPermissoes = List.of(new GerenciaIngressos());
     
     public Operador() {

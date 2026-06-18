@@ -16,42 +16,39 @@ import java.util.Map;
  * @author arkham
  */
 
-// essa classe serve para administrar o arquivo de persistencia de usuarios.
-// O .jar nao permite que arquivos internos, como resources, sejam modificados
-// externamente. Dessa maneira, modificacoes diretas sao possiveis apenas na IDE.
-// Essa classe cria um arquivo externo que mantem as mudancas e faz com que a persistencia
-// seja possivel independente da plataforma
-
 public class PersistenciaUsuario {
+    // o objetivo principal desta classe eh tornar o resto do codigo mais limpo. Se ela nao existisse, cada metodo que mexe com a persistencia teria varios try catches
+    // repetitivos. Aqui, tudo eh feito com apenas uma linha.
+    
     private final File arquivoUsuarios; // caminho para o arquivo externo
     private final ObjectMapper mapper; // mapper que serializa o JSON
     private Map<String, Usuario> mapUsuarios; // hash map onde os usuarios serao armazenados
     
     public PersistenciaUsuario() {
-        this.arquivoUsuarios = new File("src/main/resources/usuarios.json"); 
-        this.mapper = new ObjectMapper();
-        this.mapUsuarios = new HashMap<>();
+        this.arquivoUsuarios = new File("src/main/resources/usuarios.json"); // caminnho da persistencia
+        this.mapper = new ObjectMapper(); // instancia o mapper do json
+        this.mapUsuarios = new HashMap<>(); // instancia o map de usuarios
         
-        carregarDados();
+        carregarDados(); // carrega os usuarios no map
     }
     
     private void carregarDados() {
         try {
-            mapUsuarios = mapper.readValue(arquivoUsuarios, new TypeReference<Map<String, Usuario>>(){});
+            mapUsuarios = mapper.readValue(arquivoUsuarios, new TypeReference<Map<String, Usuario>>(){}); // le os usuarios do json
         }
-        catch (IOException e) {
+        catch (IOException e) { // excecao basica de io do json
             System.err.println("Erro ao carregar persistência de usuários");
             System.err.println(e.getMessage());
         }
     }
     
-    public boolean salvarPersistencia() {
+    public boolean salvarPersistencia() { // retorna true se o procedimento for bem sucedido, interessante para algumas excecoes
         try {
-            mapper.writeValue(arquivoUsuarios, mapUsuarios);
+            mapper.writeValue(arquivoUsuarios, mapUsuarios); // escreve o mapa na persistencia, editando-a casa haja alguma mudanca
             return true;
         }
                 
-        catch (IOException e) {
+        catch (IOException e) { // excecao de io do json
             System.err.println("Erro ao salvar dados no arquivo");
             return false;
         }

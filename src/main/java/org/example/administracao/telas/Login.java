@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import org.example.administracao.*;
+import static org.example.administracao.Usuario.StatusUsuario.*;
 import org.example.style.FontesTexto;
 
 
@@ -21,7 +22,7 @@ public class Login extends javax.swing.JFrame {
         
         FontesTexto paletaTexto = new FontesTexto();
         
-        ImageIcon fotoCopa = new ImageIcon("src/main/resources/fotoCopa.png");
+        ImageIcon fotoCopa = new ImageIcon("src/main/resources/fotoCopa.png"); // chama a imagem da copa
         fotoCopaLabel.setIcon(fotoCopa);
         paletaTexto.fonteTitulo(tituloLabel);
         
@@ -150,23 +151,27 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_inputIDActionPerformed
 
     private void botaoEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEntrarActionPerformed
-        String id = inputID.getText();
-        String senha = new String(inputSenha.getPassword());
+        String id = inputID.getText(); // pega o texto do id
+        String senha = new String(inputSenha.getPassword()); // pega a senha
         
-        PersistenciaUsuario persistenciaUsuarios = new PersistenciaUsuario();
+        PersistenciaUsuario persistenciaUsuarios = new PersistenciaUsuario(); // instancia a persistencia
             
-        Map<String, Usuario> mapUsuarios = persistenciaUsuarios.getMapUsuarios();
+        Map<String, Usuario> mapUsuarios = persistenciaUsuarios.getMapUsuarios(); // pega o map de usuarios
         
-        if (mapUsuarios.containsKey(id) == false || mapUsuarios.get(id).getSenha().equals(senha) == false) {
+        if (mapUsuarios.containsKey(id) == false || mapUsuarios.get(id).getSenha().equals(senha) == false) { // verifica se os dados batem com algum usuario
             JOptionPane.showMessageDialog(rootPane, "Identificação e/ou senha incorretos!");
+        }
+        
+        else if (mapUsuarios.get(id).getStatus().equals(AFASTADO) || mapUsuarios.get(id).getStatus().equals(DESLIGADO)) {
+            JOptionPane.showMessageDialog(rootPane, "Usuários desligados ou afastados não podem acessar o sistema");
         }
             
         else {
                 
-            UsuarioLogado sessao = new UsuarioLogado(mapUsuarios.get(id));
+            UsuarioLogado sessao = new UsuarioLogado(mapUsuarios.get(id)); // instancia a sessao
                 
             SwingUtilities.invokeLater(() -> {
-            TelaInicial telaInicial = new TelaInicial(sessao);
+            TelaInicial telaInicial = new TelaInicial(sessao); // chama a tela inicial
             telaInicial.setVisible(true);
 
             this.setVisible(false);

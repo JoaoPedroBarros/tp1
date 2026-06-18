@@ -8,10 +8,11 @@ import org.example.partidas.PartidaCopa;
 
 public class Organizador extends Papel{
     
+    // o organizador pode, pasmem, organizar elementos da competicao. Todas as suas permissoes sao relacionadas a isso
     private final static List<? extends Permissao> listaPermissoes = List.of(new IOJogador(), new IOSelecao(), new OrganizaEstadio(), new PartidaCopa());
     
     public Organizador() {
-        this.nomePapel = "ORGANIZADOR";
+        this.nomePapel = "ORGANIZADOR"; // atributo para o json
     }
     
     @Override
@@ -26,7 +27,7 @@ public class Organizador extends Papel{
     
     @Override
     public String toString() {
-        return "Organizador";
+        return "Organizador"; // toString para as telas
     }
     
 }

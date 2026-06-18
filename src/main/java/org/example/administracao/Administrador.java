@@ -8,14 +8,15 @@ import org.example.jogadorselecao.persistencia.IOJogador;
 import org.example.jogadorselecao.persistencia.IOSelecao;
 import org.example.partidas.PartidaCopa;
 
-public class Administrador extends Papel{
-    // lista de permissoes que o administrador tem.
+public class Administrador extends Papel{ // uma funcao filha da classe abstrata papel
+    
+    // o administrador tem todas as permissoes em sua lista.
     
     private final static List<? extends Permissao> listaPermissoes = List.of(new AdministraUsuario(), new IOJogador(), new IOSelecao(),
                                                                              new OrganizaEstadio(), new DesignacaoArbitro(), new PartidaCopa(), new GerenciaIngressos());
     
     public Administrador() {
-        this.nomePapel = "ADMINISTRADOR";
+        this.nomePapel = "ADMINISTRADOR"; // nomePapel eh importante para a serializacao do json
     }
     
     @Override
@@ -29,7 +30,7 @@ public class Administrador extends Papel{
     }
     
     @Override
-    public String toString() {
+    public String toString() { // o toString eh importante para a visualizacao nas telas
         return "Administrador";
     }
     

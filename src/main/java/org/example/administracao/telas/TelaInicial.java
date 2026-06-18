@@ -4,6 +4,7 @@
  */
 package org.example.administracao.telas;
 
+import java.awt.BorderLayout;
 import org.example.partidas.GeraRelatorioPartidas;
 import java.util.List;
 import org.example.estadioArbitragem.telas.TelaCadastroEstadio;
@@ -12,7 +13,9 @@ import java.util.stream.Stream;
 import org.example.jogadorselecao.telas.*;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import net.sf.jasperreports.engine.JRException;
 import org.example.administracao.*;
@@ -37,23 +40,26 @@ import org.example.style.FontesTexto;
 
 public class TelaInicial extends javax.swing.JFrame {
     
-    UsuarioLogado sessao;
+    UsuarioLogado sessao; // injecao de dependencia para pegar informacoes do usuario
     PersistenciaUsuario persistenciaUsuario; // carrega apenas se a permissao de administrador for aferida
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaInicial.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaInicial.class.getName()); // inicializacao do swing
 
     /**
      * Creates new form TelaInicial
      * @param sessao - o usuario que esta atualmente logado
      */
-    public TelaInicial(UsuarioLogado sessao) {
+    public TelaInicial(UsuarioLogado sessao) { // constructor personalizado para pegar a sessao
         this.sessao = sessao;
         
-        
         initComponents();
-        desabilitaMenu();
+        desabilitaMenu(); // todos os menus comecam desabilitados e, ah medida que as permissoes sao aferidas, sao habilitados
         
-        Supplier<Stream<? extends Permissao>> supplierPermissoes = () -> sessao.getUsuario().getPapel().getPermissoes().stream();
+        Supplier<Stream<? extends Permissao>> supplierPermissoes = () -> sessao.getUsuario().getPapel().getPermissoes().stream(); // API java para gerar streams.
+        // embora streams sejam muito melhores que colecoes para aferir conteudo, soh podem ser usadas uma vez. Por isso, precisamos de um supplier para gerar uma
+        // nova sempre que precisarmos
+        
+        // cada condicional abaixo desbloqueia uma parte do menu a depender das permissoes do papel do usuario
         
         if (supplierPermissoes.get().anyMatch(u -> u instanceof AdministraUsuario)) {
             persistenciaUsuario = new PersistenciaUsuario();
@@ -73,13 +79,12 @@ public class TelaInicial extends javax.swing.JFrame {
         
         FontesTexto paletaTexto = new FontesTexto();
         
-        paletaTexto.fonteBoasVindas(textoBoasVindas);
         textoBoasVindas.setText("Boas-vindas, " + sessao.getUsuario().getNome().split("\\s+")[0]);
-        
-        
+        paletaTexto.fonteBoasVindas(textoBoasVindas);
+          
     }
     
-    private void desabilitaMenu() { // o padrao eh que todos os menus estejam desabilitados, para que, com as permissoes do usuarios, sejam habilitados pouco a pouco
+    private void desabilitaMenu() {
         menuAdministracao.setEnabled(false);
         menuEstadio.setEnabled(false);
         menuPartidas.setEnabled(false);
@@ -113,7 +118,6 @@ public class TelaInicial extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         menuEstadio = new javax.swing.JMenu();
         cadastraEstadio = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
         menuArbitragem = new javax.swing.JMenu();
         botaoPartidaDesignada = new javax.swing.JMenuItem();
         menuPublicoIngressos = new javax.swing.JMenu();
@@ -126,6 +130,7 @@ public class TelaInicial extends javax.swing.JFrame {
 
         textoBoasVindas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         textoBoasVindas.setText("jLabel1");
+        textoBoasVindas.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         menuAdministracao.setText("Administração");
 
@@ -177,12 +182,9 @@ public class TelaInicial extends javax.swing.JFrame {
 
         menuEstadio.setText("Estádios");
 
-        cadastraEstadio.setText("Cadastrar estádio...");
+        cadastraEstadio.setText("Gerenciar estádios...");
         cadastraEstadio.addActionListener(this::cadastraEstadioActionPerformed);
         menuEstadio.add(cadastraEstadio);
-
-        jMenuItem4.setText("Baixar relatório de estádios...");
-        menuEstadio.add(jMenuItem4);
 
         jMenuBar1.add(menuEstadio);
 
@@ -218,24 +220,26 @@ public class TelaInicial extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(434, 434, 434)
+                .addContainerGap(440, Short.MAX_VALUE)
                 .addComponent(textoBoasVindas)
-                .addContainerGap(1445, Short.MAX_VALUE))
+                .addContainerGap(440, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(741, Short.MAX_VALUE)
+                .addContainerGap(320, Short.MAX_VALUE)
                 .addComponent(textoBoasVindas)
-                .addGap(298, 298, 298))
+                .addContainerGap(320, Short.MAX_VALUE))
         );
+
+        textoBoasVindas.getAccessibleContext().setAccessibleName("textoBoasVindas");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void gerenciaUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gerenciaUsuariosActionPerformed
         SwingUtilities.invokeLater(() -> {
-            GestaoUsuarios janelaGestaoUsuarios = new GestaoUsuarios(sessao, persistenciaUsuario);
+            GestaoUsuarios janelaGestaoUsuarios = new GestaoUsuarios(persistenciaUsuario);
             janelaGestaoUsuarios.setVisible(true);
             janelaGestaoUsuarios.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         });
@@ -405,7 +409,6 @@ public class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenu menuAdministracao;
     private javax.swing.JMenu menuArbitragem;
     private javax.swing.JMenu menuEstadio;

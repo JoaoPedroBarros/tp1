@@ -16,7 +16,6 @@ import org.example.administracao.Organizador;
 import org.example.administracao.Papel;
 import org.example.administracao.PersistenciaUsuario;
 import org.example.administracao.Usuario;
-import org.example.administracao.UsuarioLogado;
 import org.example.administracao.excecoes.CamposEmBrancoException;
 import org.example.administracao.excecoes.SenhaInsuficienteException;
 
@@ -28,32 +27,29 @@ public class GestaoUsuarios extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GestaoUsuarios.class.getName());
     
-    UsuarioLogado sessao;
-    PersistenciaUsuario persistenciaUsuario;
+    PersistenciaUsuario persistenciaUsuario; // carrega a classe de persistencia
 
     /**
      * Creates new form GestaoUsuarios
-     * @param sessao instancia de UsuarioLogado para verificar caracteristicas do usuario atual
      * @param persistenciaUsuario instancia de PersistenciaUsuario para armazenar no arquivo a depender do ambiente
      */ 
-    public GestaoUsuarios(UsuarioLogado sessao, PersistenciaUsuario persistenciaUsuario) {
-        this.sessao = sessao;
+    public GestaoUsuarios(PersistenciaUsuario persistenciaUsuario) {
         this.persistenciaUsuario = persistenciaUsuario;
         initComponents();
         
         desabilitaInputPesquisa();
-        caixaExperiencia.setVisible(false);
+        caixaExperiencia.setVisible(false); // quando querer criar um arbitro, seus atributos exclusivos serao carregados
         textoExperiencia.setVisible(false);
     }
     
     private void preencheTabela(List<Usuario> listaUsuario) {
-        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tabelaUsuarios.getModel();
+        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tabelaUsuarios.getModel(); // montando a tabela de pesquisa de usuarios
         
-        modelo.setRowCount(0);
-        modelo.setColumnIdentifiers(new Object[]{"Nome", "ID", "Função", "País"});
+        modelo.setRowCount(0); // seta as linhas para 0
+        modelo.setColumnIdentifiers(new Object[]{"Nome", "ID", "Função", "País"}); // cria os identificadores das colunas
         
         
-        for (Usuario e : listaUsuario) {
+        for (Usuario e : listaUsuario) { // itera a lista de usuarios e adiciona seus atributos a cada coluna
             modelo.addRow(new Object[] {
                 e.getNome(),
                 e.getIdentificacao(),
@@ -63,7 +59,7 @@ public class GestaoUsuarios extends javax.swing.JFrame {
         }
     }
     
-    private void desabilitaInputPesquisa() {
+    private void desabilitaInputPesquisa() { // a pesquisa por um ou varios parametros. O usuario pode escolhe-los a partir de check boxes.
         checkInputNome.setEnabled(false);
         checkInputEmail.setEnabled(false);
         caixaCheckFuncao.setEnabled(false);
@@ -372,33 +368,31 @@ public class GestaoUsuarios extends javax.swing.JFrame {
 
     private void botaoSalvarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSalvarUsuarioActionPerformed
         
+        // este botao chama o metodo para criar usuario. Abaixo, cada atributo eh preenchido com os inputs da tela
         String nome = inputNome.getText();
         String id = String.valueOf(Usuario.idController++);
         String email = inputEmail.getText();
         String senha = new String(inputSenha.getPassword());
         String pais = inputPais.getText();
-        Papel papel = (Papel) caixaTipoUsuario.getSelectedItem();
-        
+        Papel papel = (Papel) caixaTipoUsuario.getSelectedItem();   // como papel e status sao objeto e enum, devem ser selecionados na combo box
         Usuario.StatusUsuario status = (Usuario.StatusUsuario) caixaStatusUsuario.getSelectedItem();
         
         if (papel instanceof Arbitro arbitro) {
-            Integer experiencia = (Integer) caixaExperiencia.getSelectedItem();
-            
+            Integer experiencia = (Integer) caixaExperiencia.getSelectedItem(); // se o papel selecionado foi arbitro, habilita a selecao de experiencia
             arbitro.setExperiencia(experiencia);   
         }
         
-        Usuario usuarioCadastro = new Usuario(nome, id, email, pais, senha, status, papel);
+        Usuario usuarioCadastro = new Usuario(nome, id, email, pais, senha, status, papel); // instancia o usuario com as informacoes obtidas
         
         try {
-            AdministraUsuario.criaUsuario(usuarioCadastro, persistenciaUsuario);
-            JOptionPane.showMessageDialog(rootPane, "Usuário cadastrado com sucesso! Seu ID é: " + usuarioCadastro.getIdentificacao());
+            AdministraUsuario.criaUsuario(usuarioCadastro, persistenciaUsuario); // chama o metodo para salvar na persistencia
+            JOptionPane.showMessageDialog(rootPane, "Usuário cadastrado com sucesso! Seu ID é: " + usuarioCadastro.getIdentificacao()); // retorno para saber qual o ID do usuario
         }
         
-        catch (CamposEmBrancoException | SenhaInsuficienteException e) {
+        catch (CamposEmBrancoException | SenhaInsuficienteException e) { // problemas basicos de input
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
-            Usuario.idController--;
-        }
-             
+            Usuario.idController--; // decrementa o idController para nao contar um cadastro mal-sucedido como um novo usuario
+        }        
     }//GEN-LAST:event_botaoSalvarUsuarioActionPerformed
 
     private void botaoFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoFecharActionPerformed
@@ -406,11 +400,13 @@ public class GestaoUsuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_botaoFecharActionPerformed
 
     private void botaoListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoListaActionPerformed
-        List<Usuario> listaUsuario = AdministraUsuario.listaUsuario(persistenciaUsuario);
+        List<Usuario> listaUsuario = AdministraUsuario.listaUsuario(persistenciaUsuario); // simplemente reune todos os usuarios da persistencia
         preencheTabela(listaUsuario);
     }//GEN-LAST:event_botaoListaActionPerformed
 
     private void botaoPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoPesquisaActionPerformed
+        // abaixo, pegamos os valores de cada input e adicionamos a strings. Depois, passamos para o metodo que pesquisa os usuarios
+        
         String nome = checkInputNome.getText();
         String email = checkInputEmail.getText();
         Papel papel = (Papel) caixaCheckFuncao.getSelectedItem();
@@ -423,7 +419,7 @@ public class GestaoUsuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_botaoPesquisaActionPerformed
 
     private void checkPaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkPaisActionPerformed
-        if (checkPais.isSelected() == false) {
+        if (checkPais.isSelected() == false) { // todos os codigos dessa forma servem para desabilitar o input de texto caso nao seja desejado na pesquisa
             checkInputPais.setText("");
             checkInputPais.setEnabled(false);
         }
@@ -469,7 +465,7 @@ public class GestaoUsuarios extends javax.swing.JFrame {
     private void caixaTipoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_caixaTipoUsuarioActionPerformed
         Papel papel = (Papel) caixaTipoUsuario.getSelectedItem();
         
-        if (papel instanceof Arbitro) {
+        if (papel instanceof Arbitro) { // habilita a selecao de experiencia caso seja um arbitro
             caixaExperiencia.setVisible(true);
             textoExperiencia.setVisible(true);
         }
@@ -489,14 +485,14 @@ public class GestaoUsuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_scrollUsuariosMouseClicked
 
     private void tabelaUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaUsuariosMouseClicked
-        if (evt.getClickCount() == 1) {
+        if (evt.getClickCount() == 1) { // instancia uma tela do usuario de acordo com a linha selecionada com o mouse. Serve para edicao, exclusao, etc
             int linhaSelecionada = tabelaUsuarios.getSelectedRow();
             
-            if (linhaSelecionada != -1) {
-                String id = tabelaUsuarios.getValueAt(linhaSelecionada, 1).toString();
+            if (linhaSelecionada != -1) { // impede que selecione uma linha ou espaco vazio
+                String id = tabelaUsuarios.getValueAt(linhaSelecionada, 1).toString(); // pega a id e passa para uma string.
                 
                 SwingUtilities.invokeLater(() -> {
-                    TelaUsuario janelaUsuario = new TelaUsuario(id, persistenciaUsuario);
+                    TelaUsuario janelaUsuario = new TelaUsuario(id, persistenciaUsuario); // a tela de usuario usa a string e a persistencia para gerar uma tela para cada usuario
                     janelaUsuario.setVisible(true);
                     janelaUsuario.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 });    

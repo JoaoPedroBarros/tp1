@@ -104,16 +104,11 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="cadastraEstadio">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Cadastrar est&#xe1;dio..."/>
+                <Property name="text" type="java.lang.String" value="Gerenciar est&#xe1;dios..."/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cadastraEstadioActionPerformed"/>
               </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem4">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Baixar relat&#xf3;rio de est&#xe1;dios..."/>
-              </Properties>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -196,18 +191,18 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="434" max="-2" attributes="0"/>
+              <EmptySpace pref="440" max="32767" attributes="0"/>
               <Component id="textoBoasVindas" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="1445" max="32767" attributes="0"/>
+              <EmptySpace pref="440" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace pref="741" max="32767" attributes="0"/>
+              <EmptySpace pref="320" max="32767" attributes="0"/>
               <Component id="textoBoasVindas" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="298" max="-2" attributes="0"/>
+              <EmptySpace pref="320" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -217,7 +212,11 @@
       <Properties>
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="jLabel1"/>
+        <Property name="horizontalTextPosition" type="int" value="0"/>
       </Properties>
+      <AccessibilityProperties>
+        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="textoBoasVindas"/>
+      </AccessibilityProperties>
     </Component>
   </SubComponents>
 </Form>

@@ -10,6 +10,8 @@ package org.example.ingressos;
  * @author ighor
  */
 import javax.swing.JOptionPane;
+import org.example.partidas.FaseGrupos;
+import org.example.partidas.PartidaCopa;
 public class TelaIngressoGUI extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaIngressoGUI.class.getName());
@@ -17,12 +19,30 @@ public class TelaIngressoGUI extends javax.swing.JFrame {
     /**
      * Creates new form TelaIngressoGUI
      */
-    public TelaIngressoGUI() {
-        initComponents();
-        for (String p : DadosIngressos.partidas) {
-            cbPartida.addItem(p);
+public TelaIngressoGUI() {
+    initComponents();
+
+    try {
+
+        FaseGrupos fase = new FaseGrupos();
+
+        for (PartidaCopa p : fase.listarPartidas()) {
+
+            if (p.getGolsSelecao1() == null
+                    && p.getGolsSelecao2() == null) {
+
+                cbPartida.addItem(
+                        p.getSelecao1()
+                        + " x "
+                        + p.getSelecao2()
+                );
+            }
         }
+
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+}
     
 
     /**
@@ -128,7 +148,12 @@ public class TelaIngressoGUI extends javax.swing.JFrame {
     
     GerenciaIngressos.comprarIngresso(partida, qtd, valor);
 
-    JOptionPane.showMessageDialog(this, "Compra realizada!");
+    GerenciaIngressos.salvarEventosJson();
+
+    JOptionPane.showMessageDialog(
+        this,
+        "Compra realizada!"
+    );
 
 } catch (Exception ex) {
     JOptionPane.showMessageDialog(this, ex.getMessage());

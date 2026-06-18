@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.File;
+import org.example.partidas.JsonUtil;
 
 public class DadosIngressos {
 
@@ -16,7 +18,45 @@ public class DadosIngressos {
     public static String partidaAtual = "Selecione uma partida";
 
     static {
-        partidas.add("Brasil x Argentina");
-        partidas.add("Real Madrid x Barcelona");
+        DadosIngressos.carregarEventosJson();
+    }
+
+    public static void carregarEventosJson() {
+
+        try {
+
+            File arquivo =
+                new File("src/main/resources/eventos.json");
+
+            if (!arquivo.exists()) {
+                return;
+            }
+
+            Evento[] eventos =
+                JsonUtil.getMapper().readValue(
+                    arquivo,
+                    Evento[].class
+                );
+
+            for (Evento e : eventos) {
+                partidas.add(
+                    e.getEvento()
+                );
+
+                ingressosPorPartida.put(
+                    e.getEvento(),
+                    e.getIngressosVendidos()
+                );
+
+                arrecadadoPorPartida.put(
+                    e.getEvento(),
+                    e.getIngressosVendidos()
+                    * e.getValorMedio()
+                );
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

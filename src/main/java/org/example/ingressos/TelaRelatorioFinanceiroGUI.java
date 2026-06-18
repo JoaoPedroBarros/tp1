@@ -11,6 +11,7 @@ package org.example.ingressos;
 import javax.swing.Timer;
 import java.text.NumberFormat;
 import java.util.Locale;
+import javax.swing.JOptionPane;
 public class TelaRelatorioFinanceiroGUI extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaRelatorioFinanceiroGUI.class.getName());
@@ -68,6 +69,7 @@ public class TelaRelatorioFinanceiroGUI extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         valorMedia = new javax.swing.JLabel();
         valorMaiorEvento = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Relatorio Financeiro");
@@ -95,6 +97,9 @@ public class TelaRelatorioFinanceiroGUI extends javax.swing.JFrame {
         valorMedia.setText("0");
 
         valorMaiorEvento.setText("0");
+
+        jButton1.setText("Nova Temporada");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -126,6 +131,10 @@ public class TelaRelatorioFinanceiroGUI extends javax.swing.JFrame {
                                 .addComponent(valorTotal)
                                 .addComponent(valorMedia)))))
                 .addContainerGap(232, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(24, 24, 24))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -156,11 +165,33 @@ public class TelaRelatorioFinanceiroGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(valorTotalGeral))
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        int opcao = JOptionPane.showConfirmDialog(
+                this,
+                "Deseja iniciar uma nova temporada?",
+                "Confirmar",
+                JOptionPane.YES_NO_OPTION
+        );
+
+        if (opcao == JOptionPane.YES_OPTION) {
+
+            GerenciaIngressos.zerarTemporada();
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Temporada reiniciada com sucesso!"
+            );
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -188,6 +219,7 @@ public class TelaRelatorioFinanceiroGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

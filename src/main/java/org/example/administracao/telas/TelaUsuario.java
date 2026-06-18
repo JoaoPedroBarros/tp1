@@ -24,27 +24,28 @@ public class TelaUsuario extends javax.swing.JFrame {
      * @param persistenciaUsuario - referencia para a persistencia, onde a edicao e exclusao sera feita
      */
     public TelaUsuario(String id, PersistenciaUsuario persistenciaUsuario) {
-        this.usuario = persistenciaUsuario.getMapUsuarios().get(id);
-        this.persistenciaUsuario = persistenciaUsuario;
+        this.usuario = persistenciaUsuario.getMapUsuarios().get(id); // pega o usuario cujo id foi dado no constructor
+        this.persistenciaUsuario = persistenciaUsuario; // carrega referencia para a persistencia
         initComponents();
+        carregaDados(); // carrega os dados do usuario atual nas caixas de input
         
+        Papel papel = usuario.getPapel();
+        
+        if (papel instanceof Arbitro arbitro) { // se for arbitro, tambem seta a caixa de experiencia
+            caixaExperiencia.setSelectedIndex(arbitro.getExperiencia() - 1);
+        }
+        
+    }
+    
+    private void carregaDados() {
         inputNome.setText(usuario.getNome());
-        
         inputID.setText(usuario.getIdentificacao());
         inputID.setEnabled(false);
-        
         inputEmail.setText(usuario.getEmail());
         inputPais.setText(usuario.getPais());
         inputSenha.setText(usuario.getSenha());
         caixaFuncao.setSelectedItem(usuario.getPapel());
-        caixaStatus.setSelectedItem(usuario.getStatus());
-        
-        Papel papel = usuario.getPapel();
-        
-        if (papel instanceof Arbitro arbitro) {
-            caixaExperiencia.setSelectedIndex(arbitro.getExperiencia() - 1);
-        }
-        
+        caixaStatus.setSelectedItem(usuario.getStatus()); 
     }
 
     /**
@@ -245,10 +246,12 @@ public class TelaUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_caixaFuncaoActionPerformed
 
     private void botaoSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSalvarActionPerformed
+        // esse botao salva as modificacoes feitas. Simplesmente pega cada input, salva em uma instancia de usuario e modifica o id correspondente na perssitencia
         Usuario usuarioSalvar = new Usuario(inputNome.getText(), inputID.getText(), inputEmail.getText(), inputPais.getText(), inputSenha.getText(), (Usuario.StatusUsuario) caixaStatus.getSelectedItem(), (Papel) caixaFuncao.getSelectedItem());
         if (usuarioSalvar.getPapel() instanceof Arbitro arbitro) {
             arbitro.setExperiencia((int) caixaExperiencia.getSelectedItem());
         } 
+        
         persistenciaUsuario.getMapUsuarios().put(usuarioSalvar.getIdentificacao(), usuarioSalvar);
         if (persistenciaUsuario.salvarPersistencia()) JOptionPane.showMessageDialog(rootPane, usuarioSalvar.getNome() + " foi editado com sucesso!");
         else JOptionPane.showMessageDialog(rootPane, usuarioSalvar.getNome() + " não pôde ser editado.");
@@ -257,6 +260,7 @@ public class TelaUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_botaoSalvarActionPerformed
 
     private void botaoExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoExcluirActionPerformed
+        // esse botao simplesmente exclui o usuario verificando seu id, tirando do map e salvando na persistencia.
         int op = JOptionPane.showConfirmDialog(rootPane, "Tem certeza que deseja excluir esse usuário?", "ATENÇÃO", JOptionPane.YES_NO_OPTION);
         if (op == JOptionPane.YES_OPTION) {
             String idExcluir = usuario.getIdentificacao();

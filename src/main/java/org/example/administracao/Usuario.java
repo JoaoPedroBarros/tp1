@@ -7,17 +7,17 @@ public class Usuario {
         ATIVO, AFASTADO, DESLIGADO
     }
     
-    public static int idController = 0;
+    public static int idController = 0; // controle para nao ter IDs repetidos.
     
-    protected String nome;
-    protected String identificacao;
-    protected String email;
-    protected String pais;
-    protected String senha;
-    protected StatusUsuario status;
-    protected Papel papel;
+    private String nome;
+    private String identificacao;
+    private String email;
+    private String pais;
+    private String senha;
+    private StatusUsuario status;
+    private Papel papel;
     
-    public Usuario() {}
+    public Usuario() {} // constructor vazio para o json
 
     // Constructor padrao da classe
     public Usuario(String nome, String identificacao, String email, String pais, String senha, StatusUsuario status, Papel papel) {
